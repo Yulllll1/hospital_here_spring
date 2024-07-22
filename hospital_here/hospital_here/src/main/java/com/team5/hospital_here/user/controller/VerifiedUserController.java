@@ -24,7 +24,7 @@ public class VerifiedUserController {
         this.jwtUtil = jwtUtil;
     }
 
-    @GetMapping("/my-page")
+    /*@GetMapping("/my-page")
     public ResponseEntity<UserDTO> getUserInfo(HttpServletRequest request) {
         String token = request.getHeader("Authorization").substring(7);
         String email = jwtUtil.getUsernameFromToken(token);
@@ -86,6 +86,7 @@ public class VerifiedUserController {
         userService.updateUserPhone(email,putPhone);
 
         return ResponseEntity.ok("전화번호 변경 성공");
-    }
+    }*/
+
 
 }

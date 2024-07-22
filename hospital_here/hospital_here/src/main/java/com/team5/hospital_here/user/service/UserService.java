@@ -27,7 +27,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<UserDTO> findAllUsers() {
+    /*public List<UserDTO> findAllUsers() {
 
         List<User> users = userRepository.findAll();
         return users.stream()
@@ -106,5 +106,67 @@ public class UserService {
 
         return passwordEncoder.matches(password, userDTO.getPassword());
 
+    }
+
+     */
+
+    public List<UserDTO> findAll() {
+        return userRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
+    }
+    public UserDTO findByUserEmail(String email) {
+        return UserMapper.toUserDTO(userRepository.findByEmail(email));
+    }
+    public UserDTO save(UserDTO userDTO) {
+        User user = new User();
+        user = UserMapper.toUserEntity(userDTO);
+        userRepository.save(user);
+        return userDTO;
+    }
+    public UserDTO updateUser(String email, UserDTO userDTO) {
+        User user = userRepository.findByEmail(email);
+        user.setUserName(userDTO.getUserName());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setBirthday(userDTO.getBirthDate());
+        user.setAddress(userDTO.getAddress());
+        user.setImage(userDTO.getImage());
+        Login login = new Login();
+        login.setEmail(userDTO.getEmail());
+        login.setPassword(userDTO.getPassword());
+        login.setProvider(userDTO.getProvider());
+        login.setProviderKey(userDTO.getProviderKey());
+        user.setLogin(login);
+        user.setRole(userDTO.getRole());
+
+        return userDTO;
+    }
+    public String updateEmail(String email, UserDTO userDTO) {
+        User user = userRepository.findByEmail(email);
+        user.getLogin().setEmail(userDTO.getEmail());
+
+        return userDTO.getEmail();
+
+
+    }
+    public String updatePhone(String email, UserDTO userDTO)
+    {
+        User user = userRepository.findByEmail(email);
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        return userDTO.getPhoneNumber();
+    }
+    public String updatePassword(String email, UserDTO userDTO)
+    {
+        User user = userRepository.findByEmail(email);
+        user.getLogin().setPassword(userDTO.getPassword());
+        return userDTO.getPassword();
+    }
+    public String updateAddress(String email, UserDTO userDTO)
+    {
+        User user = userRepository.findByEmail(email);
+        user.setAddress(userDTO.getAddress());
+        return userDTO.getAddress();
+    }
+    public void deleteUser(String email) {
+        User user = userRepository.findByEmail(email);
+        userRepository.delete(user);
     }
 }
