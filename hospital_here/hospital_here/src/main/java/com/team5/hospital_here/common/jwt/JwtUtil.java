@@ -16,12 +16,18 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    public String generateToken(String username) {
+    @Value("${jwt.role}")
+    private String role;
+
+    public String generateToken(String username, String roleName) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
+        Claims claims = Jwts.claims();
+        claims.put(role, roleName);
 
         return Jwts.builder()
                 .setSubject(username)
+                .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
