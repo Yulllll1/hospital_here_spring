@@ -14,30 +14,34 @@ import com.team5.hospital_here.user.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final UserRepository userRepository;
 
     // 모든 채팅방 조회
-    public List<ChatRoomResponseDTO> findAllChatRoom(Long userId) {
+    public List<ChatRoomResponseDTO> findAllChatRoom(Long userId) throws CustomException {
+        User foundUser = userRepository.findById(userId)
+            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
         List<ChatRoom> chatRooms = chatRoomRepository.findAllWithUserId(userId);
 
         return chatRooms.stream().map(ChatRoomMapper.INSTANCE::toDto).toList();
     }
 
     // 채팅방 생성
-    public ChatRoomResponseDTO saveChatRoom(Long userId, String chatRoomType) {
+    public ChatRoomResponseDTO saveChatRoom(Long userId, ChatRoomType chatRoomType) {
         User foundUser = userRepository.findById(userId)
             .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         ChatRoom newChatRoom = ChatRoom.builder()
             .user1(foundUser)
-            .type(ChatRoomType.valueOf(chatRoomType))
-//            .status(ChatRoomStatus.WAITING)
+            .type(chatRoomType)
             .build();
 
         ChatRoomType type = newChatRoom.getType();
@@ -46,8 +50,9 @@ public class ChatRoomService {
         } else {
             newChatRoom.updateStatus(ChatRoomStatus.WAITING);
         }
+        ChatRoom updatedChatRoom = chatRoomRepository.save(newChatRoom);
 
-        return ChatRoomMapper.INSTANCE.toDto(chatRoomRepository.save(newChatRoom));
+        return ChatRoomMapper.INSTANCE.toDto(updatedChatRoom);
     }
 
     public ChatRoomResponseDTO acceptChatRoom(Long userId, Long chatRoomId) {
@@ -57,7 +62,7 @@ public class ChatRoomService {
         ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId)
             .orElseThrow(() -> new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));
 
-        if (foundChatRoom.isChatRoomMember(foundUser.getUserId())) {
+        if (foundChatRoom.isChatRoomMember(foundUser.getId())) {
             throw new CustomException(ErrorCode.CHAT_ROOM_ALREADY_BELONG);
         }
 
@@ -80,7 +85,7 @@ public class ChatRoomService {
         ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId)
             .orElseThrow(() -> new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));
 
-        if (!foundChatRoom.isChatRoomMember(foundUser.getUserId())) {
+        if (!foundChatRoom.isChatRoomMember(foundUser.getId())) {
             throw new CustomException(ErrorCode.CHAT_ROOM_NOT_BELONG);
         }
 
