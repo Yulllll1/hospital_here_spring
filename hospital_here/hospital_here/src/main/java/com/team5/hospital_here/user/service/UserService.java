@@ -177,6 +177,13 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    /**
+     * User Role 수정
+     * 관리자 기능
+     * @param id user id
+     * @param updateRole 변경할 role의 string값
+     * @return 수정된 user
+     */
     public User updateUserRole(Long id, String updateRole){
         User user = userRepository.findById(id).orElseThrow(()->
             new CustomException(ErrorCode.USER_NOT_FOUND));
