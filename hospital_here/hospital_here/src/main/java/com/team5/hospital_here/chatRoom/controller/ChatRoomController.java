@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,12 +38,6 @@ public class ChatRoomController {
             chatRoomRequestDTO.getUserId(),
             chatRoomRequestDTO.getChatRoomType());
 
-//        ApiResponse<Object> response = ApiResponse.builder()
-//            .success(true)
-//            .status(201)
-//            .message("채팅방(" + newChatRoom.getId() + ")이 개설되었습니다")
-//            .data(newChatRoom).build();
-
         return ResponseEntity.status(HttpStatus.CREATED).body(newChatRoom);
     }
 
@@ -67,14 +60,6 @@ public class ChatRoomController {
         if (updatedChatRoom == null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-
-        return ResponseEntity.ok().body(updatedChatRoom);
-    }
-
-    @PatchMapping
-    public ResponseEntity<ChatRoomResponseDTO> chatRoomModify(@RequestBody ChatRoomRequestDTO chatRoomRequestDTO) {
-        ChatRoomResponseDTO updatedChatRoom = chatRoomService.modifyChatRoom(
-            chatRoomRequestDTO);
 
         return ResponseEntity.ok().body(updatedChatRoom);
     }

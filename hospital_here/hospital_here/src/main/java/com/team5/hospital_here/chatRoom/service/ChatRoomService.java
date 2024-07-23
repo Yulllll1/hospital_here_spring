@@ -1,6 +1,5 @@
 package com.team5.hospital_here.chatRoom.service;
 
-import com.team5.hospital_here.chatRoom.dto.ChatRoomRequestDTO;
 import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
 import com.team5.hospital_here.chatRoom.enums.ChatRoomStatus;
@@ -9,7 +8,6 @@ import com.team5.hospital_here.chatRoom.mapper.ChatRoomMapper;
 import com.team5.hospital_here.chatRoom.repository.ChatRoomRepository;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
-import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 
@@ -94,30 +92,6 @@ public class ChatRoomService {
             && foundChatRoom.getLeaveUser() != null) { // 채팅이 비활성화인 경우
             chatRoomRepository.delete(foundChatRoom);
             return null;
-        }
-
-        ChatRoom updatedChatRoom = chatRoomRepository.save(foundChatRoom);
-
-        return ChatRoomMapper.INSTANCE.toDto(updatedChatRoom);
-    }
-
-    // 채팅방 수정
-    public ChatRoomResponseDTO modifyChatRoom(ChatRoomRequestDTO chatRoomRequestDTO) {
-        ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomRequestDTO.getId())
-            .orElseThrow(() ->
-                new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));
-
-        Long requestUserId = chatRoomRequestDTO.getUserId();
-        if (requestUserId != null) {
-            if (foundChatRoom.isChatRoomMember(requestUserId)) { // 이미 채팅방에 속한 유저라면
-                throw new CustomException(ErrorCode.CHAT_ROOM_ACCESS_FAILED);
-            }
-
-            User foundUser = userRepository.findById(requestUserId)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-            foundChatRoom.addChatRoomMember(foundUser); // 채팅방에 유저 추가
-            foundChatRoom.updateStatus(ChatRoomStatus.ACTIVE); // 채팅방 활성화(ACTIVE)
         }
 
         ChatRoom updatedChatRoom = chatRoomRepository.save(foundChatRoom);
