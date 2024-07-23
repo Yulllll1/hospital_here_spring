@@ -20,7 +20,5 @@ public interface ChatRoomMapper {
     ChatRoomResponseDTO toDto(ChatRoom chatRoom);
 
     @Named("userToDTO")
-    public static UserDTO userToDTO(User user) {
-        return UserMapper.toUserDTO(user);
-    }
+    UserDTO userToDTO(User user);
 }
