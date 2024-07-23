@@ -11,8 +11,10 @@ public enum ErrorCode {
     USER_NOT_FOUND(404, "USER_NOT_FOUND", "사용자를 찾을 수 없음"),
     NO_PERMISSION(400,"NO_PERMISSION","권한없음"),
     INVALID_USER_CREDENTIALS(401, "INVALID_USER_CREDENTIALS", "비밀번호 틀림"),
-    CHAT_ROOM_NOT_FOUND(404, "NOT_FOUND", "존재하지 않는 채팅방입니다"),
-    CHAT_ROOM_ACCESS_FAILED(404, "BAD_REQUEST", "채팅방에 접근할 수 없습니다");
+    CHAT_ROOM_NOT_FOUND(404, "CHAT_ROOM_NOT_FOUND", "존재하지 않는 채팅방입니다"),
+    CHAT_ROOM_ACCESS_FAILED(404, "CHAT_ROOM_ACCESS_FAILED", "채팅방에 접근할 수 없습니다"),
+    CHAT_ROOM_ALREADY_BELONG(404, "CHAT_ROOM_ALREADY_BELONG", "이미 참여중인 채팅방입니다"),
+    CHAT_ROOM_NOT_BELONG(404, "CHAT_ROOM_NOT_BELONG", "속해있지 않은 채팅방입니다");
 
     //NOTE: HttpStatus code
     public int code;
@@ -20,7 +22,7 @@ public enum ErrorCode {
     //NOTE: code 의미
     public String codeName;
     
-    //NOTE: code 상세 메세지 
+    //NOTE: code 상세 메세지
     public String message;
 
     @Builder
