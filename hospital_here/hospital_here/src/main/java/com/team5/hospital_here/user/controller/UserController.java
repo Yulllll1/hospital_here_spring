@@ -115,7 +115,7 @@ public class UserController {
     //유저 삭제
     @DeleteMapping("/{email}")
     public ResponseEntity<String> deleteUser(@PathVariable String email) {
-        return ResponseEntity.ok("유저 삭제 완료");
+        return ResponseEntity.ok(userService.deleteUser(email));
     }
 
 

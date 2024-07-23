@@ -126,6 +126,14 @@ public class UserService {
 
      */
 
+    public String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findByLoginEmail(email);
+    }
+
     public List<UserDTO> findAll() {
         return userRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
     }
@@ -145,13 +153,15 @@ public class UserService {
     public UserDTO save(UserDTO userDTO) {
         User user = new User();
         user = UserMapper.toUserEntity(userDTO);
+        String encodedPassword = encodePassword(userDTO.getPassword());
+        user.getLogin().setPassword(encodedPassword);
         userRepository.save(user);
 
         return userDTO;
     }
 
     public UserDTO updateUser(String email, UserDTO userDTO) {
-        User user = userRepository.findByLoginEmail(email);
+        User user = findUserByEmail(email);
         user.setName(userDTO.getUserName());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         //user.setBirthday(userDTO.getBirthDate());
@@ -169,38 +179,38 @@ public class UserService {
     }
     public String updateEmail(String email, UserDTO userDTO) {
 
-        User user = userRepository.findByLoginEmail(email);
+        User user = findUserByEmail(email);
         Login login = user.getLogin();
         login.setEmail(userDTO.getEmail());
         loginRepository.save(login);
-        user.setLogin(login);
-
-
         return userDTO.getEmail();
-
-
     }
     public String updatePhone(String email, UserDTO userDTO)
     {
-        User user = userRepository.findByLoginEmail(email);
+        User user = findUserByEmail(email);
         user.setPhoneNumber(userDTO.getPhoneNumber());
+        userRepository.save(user);
         return userDTO.getPhoneNumber();
     }
     public String updatePassword(String email, UserDTO userDTO)
     {
-        User user = userRepository.findByLoginEmail(email);
-        user.getLogin().setPassword(userDTO.getPassword());
+        User user = findUserByEmail(email);
+        Login login = user.getLogin();
+        login.setPassword(encodePassword(userDTO.getPassword()));
+        loginRepository.save(login);
         return userDTO.getPassword();
     }
     public String updateAddress(String email, UserDTO userDTO)
     {
-        User user = userRepository.findByLoginEmail(email);
+        User user = findUserByEmail(email);
         user.setAddress(userDTO.getAddress());
+        userRepository.save(user);
         return userDTO.getAddress();
     }
-    public void deleteUser(String email) {
-        User user = userRepository.findByLoginEmail(email);
+    public String deleteUser(String email) {
+        User user = findUserByEmail(email);
         userRepository.delete(user);
+        return "유저 삭제 완료";
     }
 
     public void deleteDoctorProfile(DoctorProfile doctorProfile){
