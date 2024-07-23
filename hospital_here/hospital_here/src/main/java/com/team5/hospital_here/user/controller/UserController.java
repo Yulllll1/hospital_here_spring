@@ -108,4 +108,11 @@ public class UserController {
         return ResponseEntity.ok("유저 삭제 완료");
     }
 
+
+    //NOTE: #### 관리자 기능 #####
+
+    @PutMapping("/users/{id}/{updateRole}")
+    public ResponseEntity<User> updateUserRole(@PathVariable Long id, @PathVariable String updateRole){
+        return ResponseEntity.ok(userService.updateUserRole(id, updateRole));
+    }
 }
