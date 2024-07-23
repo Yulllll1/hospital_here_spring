@@ -17,15 +17,15 @@ public class UserMapper {
         login.setEmail(userDTO.getEmail());
         login.setPassword(userDTO.getPassword());
         login.setProvider(userDTO.getProvider());
-        login.setProviderKey(userDTO.getProviderKey());
+        login.setProviderId(userDTO.getProviderId());
 
         User user = new User();
-        user.setUserId(userDTO.getUserId());
-        user.setUserName(userDTO.getUserName());
+        user.setId(userDTO.getUserId());
+        user.setName(userDTO.getUserName());
         user.setPhoneNumber(userDTO.getPhoneNumber());
-        user.setBirthday(userDTO.getBirthDate());
+       // user.setBirthday(userDTO.getBirthDate());
         user.setAddress(userDTO.getAddress());
-        user.setImage(userDTO.getImage());
+        user.setImg(userDTO.getImage());
         user.setLogin(login);
         user.setRole(userDTO.getRole());
 
