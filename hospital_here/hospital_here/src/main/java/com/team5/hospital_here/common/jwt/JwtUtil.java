@@ -19,21 +19,21 @@ public class JwtUtil {
     @Value("${jwt.role}")
     private String role;
 
-    public String generateToken(String username, String roleName) {
+    public String generateToken(String email, String roleName) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
         Claims claims = Jwts.claims();
         claims.put(role, roleName);
 
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
-    public String getUsernameFromToken(String token) {
+    public String getEmailFromToken(String token) {
         System.out.println("Generating token with secret: " + secret);
         Claims claims = Jwts.parser()
                 .setSigningKey(secret)
