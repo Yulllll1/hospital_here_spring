@@ -3,6 +3,7 @@ package com.team5.hospital_here.user.service;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.user.entity.Login;
+import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.User;
 import com.team5.hospital_here.user.entity.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
@@ -113,6 +114,12 @@ public class UserService {
     public List<UserDTO> findAll() {
         return userRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
     }
+
+    public User findById(Long id){
+        return userRepository.findById(id).orElseThrow(()->
+            new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
     public UserDTO findByUserEmail(String email) {
         return UserMapper.toUserDTO(userRepository.findByEmail(email));
     }
@@ -168,5 +175,16 @@ public class UserService {
     public void deleteUser(String email) {
         User user = userRepository.findByEmail(email);
         userRepository.delete(user);
+    }
+
+    public User updateUserRole(Long id, String updateRole){
+        User user = userRepository.findById(id).orElseThrow(()->
+            new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        Role role = Role.valueOf(updateRole);
+        user.setRole(role);
+
+        userRepository.save(user);
+        return user;
     }
 }
