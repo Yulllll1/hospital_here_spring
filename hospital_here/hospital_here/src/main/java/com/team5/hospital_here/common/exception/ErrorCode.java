@@ -28,7 +28,6 @@ public enum ErrorCode {
     //NOTE: code 상세 메세지
     public String message;
 
-    @Builder
     ErrorCode(int code, String codeName, String message) {
         this.code = code;
         this.codeName = codeName;
