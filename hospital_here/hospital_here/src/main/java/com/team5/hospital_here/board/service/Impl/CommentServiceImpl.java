@@ -3,6 +3,7 @@ package com.team5.hospital_here.board.service.Impl;
 import com.team5.hospital_here.board.domain.Comment;
 import com.team5.hospital_here.board.dto.comment.CommentRequestDto;
 import com.team5.hospital_here.board.dto.comment.CommentResponseDto;
+import com.team5.hospital_here.board.dto.comment.CommentUpdateDto;
 import com.team5.hospital_here.board.repository.CommentRepository;
 import com.team5.hospital_here.board.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponseDto save(CommentRequestDto commentRequestDto) {
+        return null;
+    }
+
+    @Override
+    public CommentResponseDto update(CommentUpdateDto commentUpdateDto) {
         return null;
     }
 

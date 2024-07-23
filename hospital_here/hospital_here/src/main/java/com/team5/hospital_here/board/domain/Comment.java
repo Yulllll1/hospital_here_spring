@@ -33,12 +33,4 @@ public class Comment extends BaseEntity {
 
 
 }
-/*
 
-public BoardResponseDto toDto() {
-        return BoardResponseDto.builder()
-                .id(this.id)
-                .name(this.name)
-                .build();
-    }
- */

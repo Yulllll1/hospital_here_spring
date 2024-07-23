@@ -49,7 +49,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public BoardResponseDto update(BoardUpdateDto boardUpdateDto) {
         Board board = boardRepository.findById(boardUpdateDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid board ID"));
+                .orElseThrow(() -> new IllegalArgumentException("board id가 존재하지 않습니다."));
         board.update(boardUpdateDto);
         Board updatedBoard = boardRepository.save(board);
         return updatedBoard.toResponseDto();

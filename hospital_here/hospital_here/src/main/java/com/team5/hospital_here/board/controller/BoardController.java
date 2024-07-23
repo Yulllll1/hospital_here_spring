@@ -38,7 +38,7 @@ public class BoardController {
 
     @PutMapping("/{id}")
     public ResponseEntity<BoardResponseDto> updateBoard(@PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
-        boardUpdateDto.setId(id); // ensure the ID is set
+        boardUpdateDto.setId(id);
         BoardResponseDto updatedBoard = boardService.update(boardUpdateDto);
         return ResponseEntity.ok(updatedBoard);
     }

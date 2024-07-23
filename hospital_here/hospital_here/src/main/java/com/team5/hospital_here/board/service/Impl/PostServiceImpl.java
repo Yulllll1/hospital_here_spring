@@ -49,9 +49,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponseDto save(PostRequestDto postRequestDto) {
         Board board = boardRepository.findById(postRequestDto.getBoardId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid board ID"));
+                .orElseThrow(() -> new IllegalArgumentException("board id가 존재하지 않습니다."));
         User user = userRepository.findById(postRequestDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+                .orElseThrow(() -> new IllegalArgumentException("user id가 존재하지 않습니다."));
 
         Post post = postRequestDto.toEntity(board, user);
         Post savedPost = postRepository.save(post);
