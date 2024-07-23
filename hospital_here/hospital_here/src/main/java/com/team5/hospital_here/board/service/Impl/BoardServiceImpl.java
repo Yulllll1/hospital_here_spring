@@ -3,6 +3,7 @@ package com.team5.hospital_here.board.service.Impl;
 import com.team5.hospital_here.board.domain.Board;
 import com.team5.hospital_here.board.dto.board.BoardRequestDto;
 import com.team5.hospital_here.board.dto.board.BoardResponseDto;
+import com.team5.hospital_here.board.dto.board.BoardUpdateDto;
 import com.team5.hospital_here.board.repository.BoardRepository;
 import com.team5.hospital_here.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,15 @@ public class BoardServiceImpl implements BoardService {
         Board board = boardRequestDto.toEntity();
         Board saveBoard = boardRepository.save(board);
         return saveBoard.toResponseDto();
+    }
+
+    @Override
+    public BoardResponseDto update(BoardUpdateDto boardUpdateDto) {
+        Board board = boardRepository.findById(boardUpdateDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid board ID"));
+        board.update(boardUpdateDto);
+        Board updatedBoard = boardRepository.save(board);
+        return updatedBoard.toResponseDto();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.team5.hospital_here.board.dto.comment;
+package com.team5.hospital_here.board.dto.post;
 
 import lombok.*;
 
@@ -7,10 +7,10 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentResponseDto {
+public class PostUpdateDto {
     private Long id;
-    private Long postId;
+    private Long boardId;
     private Long userId;
-    private String parentId;
+    private String title;
     private String content;
 }

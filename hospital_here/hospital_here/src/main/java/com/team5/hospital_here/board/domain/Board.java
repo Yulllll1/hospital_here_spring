@@ -2,6 +2,7 @@ package com.team5.hospital_here.board.domain;
 
 import com.team5.hospital_here.board.dto.board.BoardRequestDto;
 import com.team5.hospital_here.board.dto.board.BoardResponseDto;
+import com.team5.hospital_here.board.dto.board.BoardUpdateDto;
 import com.team5.hospital_here.common.baseEntity.BaseEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -29,16 +30,14 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
+    public void update(BoardUpdateDto boardUpdateDto) {
+        this.name = boardUpdateDto.getName();
+    }
+
     public BoardResponseDto toResponseDto() {
         return BoardResponseDto.builder()
                 .id(this.id)
                 .name(this.name)
                 .build();
     }
-
-//    public BoardRequestDto toRequestDto() {
-//        return BoardRequestDto.builder()
-//                .name(this.name)
-//                .build();
-//    }
 }

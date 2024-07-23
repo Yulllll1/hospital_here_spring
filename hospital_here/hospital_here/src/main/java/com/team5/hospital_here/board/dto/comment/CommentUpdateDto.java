@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentResponseDto {
+public class CommentUpdateDto {
     private Long id;
     private Long postId;
     private Long userId;
