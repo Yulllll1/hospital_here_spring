@@ -13,8 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,12 +32,12 @@ public class ChatRoom extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user1_id")
+    @ManyToOne
+    @JoinColumn(name = "user1_id", unique = false)
     private User user1;
 
-    @OneToOne
-    @JoinColumn(name = "user2_id")
+    @ManyToOne
+    @JoinColumn(name = "user2_id", unique = false)
     private User user2;
 
     @Enumerated(EnumType.STRING)
@@ -46,8 +46,8 @@ public class ChatRoom extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ChatRoomStatus status;
 
-    @OneToOne
-    @JoinColumn(name = "leave_user")
+    @ManyToOne
+    @JoinColumn(name = "leave_user", unique = false)
     private User leaveUser;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.PERSIST, orphanRemoval = true)
@@ -73,7 +73,7 @@ public class ChatRoom extends BaseEntity {
 
     public boolean isChatRoomMember(Long userId) {
         try {
-            return Objects.equals(user1.getUserId(), userId) || Objects.equals(user2.getUserId(),
+            return Objects.equals(user1.getId(), userId) || Objects.equals(user2.getId(),
                 userId);
         } catch (NullPointerException ignored) {
             return false;
