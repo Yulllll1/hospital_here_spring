@@ -1,11 +1,20 @@
 package com.team5.hospital_here.user.service;
 
+
+import com.team5.hospital_here.common.exception.CustomException;
+import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfile;
 import com.team5.hospital_here.user.entity.Login;
+import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.User;
 import com.team5.hospital_here.user.entity.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
 import com.team5.hospital_here.user.repository.LoginRepository;
+import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfileDTO;
+import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,21 +23,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final LoginRepository loginRepository;
     private final PasswordEncoder passwordEncoder;
+    private final DoctorProfileRepository doctorProfileRepository;
+
 
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, LoginRepository loginRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, LoginRepository loginRepository, DoctorProfileRepository doctorProfileRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.loginRepository = loginRepository;
+        this.doctorProfileRepository = doctorProfileRepository;
     }
 
-    /*public List<UserDTO> findAllUsers() {
+
+    /*
+    public List<UserDTO> findAllUsers() {
 
         List<User> users = userRepository.findAll();
         return users.stream()
@@ -114,6 +129,16 @@ public class UserService {
     public List<UserDTO> findAll() {
         return userRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
     }
+
+    public User findById(Long id){
+        return userRepository.findById(id).orElseThrow(()->
+            new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    public List<DoctorProfile> findAllDoctor(){
+        return doctorProfileRepository.findAll();
+    }
+
     public UserDTO findByUserEmail(String email) {
         return UserMapper.toUserDTO(userRepository.findByLoginEmail(email));
     }
@@ -121,20 +146,22 @@ public class UserService {
         User user = new User();
         user = UserMapper.toUserEntity(userDTO);
         userRepository.save(user);
+
         return userDTO;
     }
+
     public UserDTO updateUser(String email, UserDTO userDTO) {
         User user = userRepository.findByLoginEmail(email);
-        user.setUserName(userDTO.getUserName());
+        user.setName(userDTO.getUserName());
         user.setPhoneNumber(userDTO.getPhoneNumber());
-        user.setBirthday(userDTO.getBirthDate());
+        //user.setBirthday(userDTO.getBirthDate());
         user.setAddress(userDTO.getAddress());
-        user.setImage(userDTO.getImage());
+        user.setImg(userDTO.getImage());
         Login login = new Login();
         login.setEmail(userDTO.getEmail());
         login.setPassword(userDTO.getPassword());
         login.setProvider(userDTO.getProvider());
-        login.setProviderKey(userDTO.getProviderKey());
+        login.setProviderId(userDTO.getProviderId());
         user.setLogin(login);
         user.setRole(userDTO.getRole());
 
@@ -174,5 +201,41 @@ public class UserService {
     public void deleteUser(String email) {
         User user = userRepository.findByLoginEmail(email);
         userRepository.delete(user);
+    }
+
+    public void deleteDoctorProfile(DoctorProfile doctorProfile){
+        doctorProfileRepository.delete(doctorProfile);
+    }
+
+    /**
+     * User Role 수정
+     * 관리자 기능
+     * @param id user id
+     * @param updateRole 변경할 role의 string값
+     * @return 수정된 user
+     */
+    public User updateUserRole(Long id, String updateRole){
+        User user = findById(id);
+        Role role = Role.valueOf(updateRole);
+
+        if(role == Role.USER)
+            doctorProfileRepository.findByUser(user).ifPresent(this::deleteDoctorProfile);
+
+        user.setRole(role);
+
+        userRepository.save(user);
+        return user;
+    }
+
+    //TODO: Hospital CRUD 작업 완료 시, 수정 필요
+    @Transactional
+    public DoctorProfile createDoctorProfile(DoctorProfileDTO doctorProfileDTO){
+        User user = updateUserRole(doctorProfileDTO.getUserId(), Role.DOCTOR.name());
+
+        DoctorProfile doctorProfile = new DoctorProfile();
+        doctorProfile.setUser(user);
+        doctorProfile.setMajor(doctorProfileDTO.getMajor());
+
+        return doctorProfileRepository.save(doctorProfile);
     }
 }

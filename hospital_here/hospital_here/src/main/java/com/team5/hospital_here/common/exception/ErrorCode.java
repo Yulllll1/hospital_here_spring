@@ -12,8 +12,13 @@ public enum ErrorCode {
 
     ;
 
+    //NOTE: HttpStatus code
     public int code;
+    
+    //NOTE: code 의미
     public String codeName;
+    
+    //NOTE: code 상세 메세지 
     public String message;
 
     ErrorCode(int code, String codeName, String message) {

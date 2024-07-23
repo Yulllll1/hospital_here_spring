@@ -31,7 +31,7 @@ public class Login {
     private String provider;
 
     @Column(name = "provider_id")
-    private String providerKey;
+    private String providerId;
 
 
 
