@@ -62,6 +62,10 @@ public class ChatRoomService {
         ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId)
             .orElseThrow(() -> new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));
 
+        if (foundChatRoom.getUser2() != null) {
+            throw new CustomException(ErrorCode.CHAT_ROOM_ACCESS_FAILED);
+        }
+
         if (foundChatRoom.isChatRoomMember(foundUser.getId())) {
             throw new CustomException(ErrorCode.CHAT_ROOM_ALREADY_BELONG);
         }
