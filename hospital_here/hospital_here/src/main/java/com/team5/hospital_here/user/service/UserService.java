@@ -1,11 +1,10 @@
 package com.team5.hospital_here.user.service;
 
-import com.team5.hospital_here.common.exception.CustomException;
-import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.user.entity.Login;
 import com.team5.hospital_here.user.entity.User;
 import com.team5.hospital_here.user.entity.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
+import com.team5.hospital_here.user.repository.LoginRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,13 +17,15 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final LoginRepository loginRepository;
     private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, LoginRepository loginRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.loginRepository = loginRepository;
     }
 
     /*public List<UserDTO> findAllUsers() {
@@ -114,7 +115,7 @@ public class UserService {
         return userRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
     }
     public UserDTO findByUserEmail(String email) {
-        return UserMapper.toUserDTO(userRepository.findByEmail(email));
+        return UserMapper.toUserDTO(userRepository.findByLoginEmail(email));
     }
     public UserDTO save(UserDTO userDTO) {
         User user = new User();
@@ -123,7 +124,7 @@ public class UserService {
         return userDTO;
     }
     public UserDTO updateUser(String email, UserDTO userDTO) {
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByLoginEmail(email);
         user.setUserName(userDTO.getUserName());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setBirthday(userDTO.getBirthDate());
@@ -140,8 +141,13 @@ public class UserService {
         return userDTO;
     }
     public String updateEmail(String email, UserDTO userDTO) {
-        User user = userRepository.findByEmail(email);
-        user.getLogin().setEmail(userDTO.getEmail());
+
+        User user = userRepository.findByLoginEmail(email);
+        Login login = user.getLogin();
+        login.setEmail(userDTO.getEmail());
+        loginRepository.save(login);
+        user.setLogin(login);
+
 
         return userDTO.getEmail();
 
@@ -149,24 +155,24 @@ public class UserService {
     }
     public String updatePhone(String email, UserDTO userDTO)
     {
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByLoginEmail(email);
         user.setPhoneNumber(userDTO.getPhoneNumber());
         return userDTO.getPhoneNumber();
     }
     public String updatePassword(String email, UserDTO userDTO)
     {
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByLoginEmail(email);
         user.getLogin().setPassword(userDTO.getPassword());
         return userDTO.getPassword();
     }
     public String updateAddress(String email, UserDTO userDTO)
     {
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByLoginEmail(email);
         user.setAddress(userDTO.getAddress());
         return userDTO.getAddress();
     }
     public void deleteUser(String email) {
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByLoginEmail(email);
         userRepository.delete(user);
     }
 }

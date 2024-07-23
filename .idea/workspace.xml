@@ -56,12 +56,17 @@
       <list>
         <option value="Enum" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="PerforceDirect.Settings">
     <option name="CHARSET" value="없음" />
   </component>
@@ -75,7 +80,13 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Gradle.hospital_here 빌드.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.HospitalHereApplication.executor": "Run",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/user0/Desktop/PJ/shoesmarketPJ/shoesmarket-back",
     "node.js.detected.package.eslint": "true",
@@ -120,7 +131,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1721613608488</updated>
-      <workItem from="1721613609442" duration="32438000" />
+      <workItem from="1721613609442" duration="39838000" />
     </task>
     <servers />
   </component>
