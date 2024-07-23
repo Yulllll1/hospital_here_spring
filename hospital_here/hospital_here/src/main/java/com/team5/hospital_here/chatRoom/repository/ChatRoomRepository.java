@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
     @Query("SELECT cr FROM ChatRoom cr JOIN FETCH cr.chatMessages"
-        + " WHERE (cr.user1 = :id OR cr.user2 = :id)"
-        + " AND cr.leaveUser.userId != :id"
+        + " JOIN FETCH cr.user1"
+        + " JOIN FETCH cr.user2"
+        + " WHERE (cr.user1.id = :id OR cr.user2.id = :id)"
+        + " AND cr.leaveUser.id != :id"
         + " ORDER BY cr.createdAt")
     List<ChatRoom> findAllWithUserId(@Param("id") Long id);
-
-
 }
