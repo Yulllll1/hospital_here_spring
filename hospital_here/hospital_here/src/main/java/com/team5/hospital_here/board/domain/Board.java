@@ -36,9 +36,9 @@ public class Board {
                 .build();
     }
 
-    public BoardRequestDto toRequestDto() {
-        return BoardRequestDto.builder()
-                .name(this.name)
-                .build();
-    }
+//    public BoardRequestDto toRequestDto() {
+//        return BoardRequestDto.builder()
+//                .name(this.name)
+//                .build();
+//    }
 }

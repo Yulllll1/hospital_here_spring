@@ -12,10 +12,10 @@ public class BoardResponseDto {
     private Long id;
     private String name;
 
-    public static BoardResponseDto fromEntity(Board board) {
-        return BoardResponseDto.builder()
-                .id(board.getId())
-                .name(board.getName())
-                .build();
-    }
+//    public static BoardResponseDto fromEntity(Board board) {
+//        return BoardResponseDto.builder()
+//                .id(board.getId())
+//                .name(board.getName())
+//                .build();
+//    }
 }

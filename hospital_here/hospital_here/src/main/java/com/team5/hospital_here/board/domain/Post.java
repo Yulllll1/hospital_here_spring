@@ -1,5 +1,7 @@
 package com.team5.hospital_here.board.domain;
 
+import com.team5.hospital_here.board.dto.comment.CommentResponseDto;
+import com.team5.hospital_here.board.dto.post.PostResponseDto;
 import com.team5.hospital_here.common.baseEntity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,15 +41,14 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostImg> postImgs = new ArrayList<>();
 
-
-}
-
-/*
-public BoardResponseDto toDto() {
-        return BoardResponseDto.builder()
+    public PostResponseDto toResponseDto() {
+        return PostResponseDto.builder()
                 .id(this.id)
-                .name(this.name)
+                .boardId(this.board.getId())
+                .userId(this.user.getId())
+                .title(this.title)
+                .content(this.content)
                 .build();
     }
+}
 
- */
