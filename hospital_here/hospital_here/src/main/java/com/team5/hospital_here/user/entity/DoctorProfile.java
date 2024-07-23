@@ -25,7 +25,8 @@ public class DoctorProfile {
 
     @Column(nullable = false)
     private User user;
-
+    
+    // TODO: Hospital Entity 추가 되면 작업
 //    @Column(nullable = false)
 //    private Hospital hospital;
 
