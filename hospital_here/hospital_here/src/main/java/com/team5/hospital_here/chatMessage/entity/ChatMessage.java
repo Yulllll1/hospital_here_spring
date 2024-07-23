@@ -36,6 +36,15 @@ public class ChatMessage extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    public void updateChatRoom(ChatRoom chatRoom) {
+        this.chatRoom = chatRoom;
+        this.chatRoom.getChatMessages().add(this);
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
     @Builder
     public ChatMessage(ChatRoom chatRoom, User user, String content) {
         this.chatRoom = chatRoom;
