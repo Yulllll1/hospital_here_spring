@@ -14,7 +14,10 @@ public enum ErrorCode {
     CHAT_ROOM_NOT_FOUND(404, "CHAT_ROOM_NOT_FOUND", "존재하지 않는 채팅방입니다"),
     CHAT_ROOM_ACCESS_FAILED(400, "CHAT_ROOM_ACCESS_FAILED", "채팅방에 접근할 수 없습니다"),
     CHAT_ROOM_ALREADY_BELONG(400, "CHAT_ROOM_ALREADY_BELONG", "이미 참여중인 채팅방입니다"),
-    CHAT_ROOM_NOT_BELONG(400, "CHAT_ROOM_NOT_BELONG", "속해있지 않은 채팅방입니다");
+    CHAT_ROOM_NOT_BELONG(400, "CHAT_ROOM_NOT_BELONG", "속해있지 않은 채팅방입니다"),
+    CHAT_MESSAGE_NOT_CONTENT(400, "CHAT_MESSAGE_NOT_CONTENT", "요청된 메시지가 없습니다"),
+    CHAT_MESSAGE_NOT_FOUND(404, "CHAT_MESSAGE_NOT_FOUND", "존재하지 않는 메시지입니다");
+
 
     //NOTE: HttpStatus code
     public int code;
