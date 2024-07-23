@@ -17,7 +17,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,11 +32,11 @@ public class ChatRoom extends BaseEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user1_id", unique = false)
+    @JoinColumn(name = "user1_id")
     private User user1;
 
     @ManyToOne
-    @JoinColumn(name = "user2_id", unique = false)
+    @JoinColumn(name = "user2_id")
     private User user2;
 
     @Enumerated(EnumType.STRING)
@@ -47,7 +46,7 @@ public class ChatRoom extends BaseEntity {
     private ChatRoomStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "leave_user", unique = false)
+    @JoinColumn(name = "leave_user_id")
     private User leaveUser;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.PERSIST, orphanRemoval = true)
@@ -72,12 +71,13 @@ public class ChatRoom extends BaseEntity {
     }
 
     public boolean isChatRoomMember(Long userId) {
-        try {
-            return Objects.equals(user1.getId(), userId) || Objects.equals(user2.getId(),
-                userId);
-        } catch (NullPointerException ignored) {
-            return false;
+        if (leaveUser != null) {
+            if (leaveUser.getId().equals(userId)) {
+                return false;
+            }
         }
+
+        return user1.getId().equals(userId) || user2.getId().equals(userId);
     }
 
     public void addChatRoomMember(User user) {
