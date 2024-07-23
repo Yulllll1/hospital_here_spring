@@ -1,6 +1,7 @@
-package com.team5.hospital_here.user.entity;
+package com.team5.hospital_here.user.entity.doctorEntity;
 
 
+import com.team5.hospital_here.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
