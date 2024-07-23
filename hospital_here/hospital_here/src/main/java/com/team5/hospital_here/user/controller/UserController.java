@@ -7,9 +7,11 @@ import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.User;
 import com.team5.hospital_here.user.entity.UserDTO;
 import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfile;
+import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfileDTO;
 import com.team5.hospital_here.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -123,5 +125,10 @@ public class UserController {
     @PutMapping("/{id}/{updateRole}")
     public ResponseEntity<User> updateUserRole(@PathVariable Long id, @PathVariable String updateRole){
         return ResponseEntity.ok(userService.updateUserRole(id, updateRole));
+    }
+
+    @PostMapping("/doctors")
+    public ResponseEntity<DoctorProfile> createDoctorProfile(@RequestBody @Valid DoctorProfileDTO doctorProfileDTO){
+        return new ResponseEntity<>(userService.createDoctorProfile(doctorProfileDTO), HttpStatus.CREATED);
     }
 }

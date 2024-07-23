@@ -8,8 +8,10 @@ import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.User;
 import com.team5.hospital_here.user.entity.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
+import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfileDTO;
 import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -131,6 +133,7 @@ public class UserService {
         userRepository.save(user);
         return userDTO;
     }
+
     public UserDTO updateUser(String email, UserDTO userDTO) {
         User user = userRepository.findByEmail(email);
         user.setUserName(userDTO.getUserName());
@@ -179,6 +182,10 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    public void deleteDoctorProfile(DoctorProfile doctorProfile){
+        doctorProfileRepository.delete(doctorProfile);
+    }
+
     /**
      * User Role 수정
      * 관리자 기능
@@ -188,11 +195,26 @@ public class UserService {
      */
     public User updateUserRole(Long id, String updateRole){
         User user = findById(id);
-
         Role role = Role.valueOf(updateRole);
+
+        if(role == Role.USER)
+            doctorProfileRepository.findByUser(user).ifPresent(this::deleteDoctorProfile);
+
         user.setRole(role);
 
         userRepository.save(user);
         return user;
+    }
+
+    //TODO: Hospital CRUD 작업 완료 시, 수정 필요
+    @Transactional
+    public DoctorProfile createDoctorProfile(DoctorProfileDTO doctorProfileDTO){
+        User user = updateUserRole(doctorProfileDTO.getUserId(), Role.DOCTOR.name());
+
+        DoctorProfile doctorProfile = new DoctorProfile();
+        doctorProfile.setUser(user);
+        doctorProfile.setMajor(doctorProfileDTO.getMajor());
+
+        return doctorProfileRepository.save(doctorProfile);
     }
 }
