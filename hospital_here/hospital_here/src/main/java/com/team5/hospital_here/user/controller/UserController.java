@@ -6,6 +6,7 @@ import com.team5.hospital_here.common.jwt.JwtUtil;
 import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.User;
 import com.team5.hospital_here.user.entity.UserDTO;
+import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfile;
 import com.team5.hospital_here.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,13 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.findAll());
     }
+    
+    //모든 의사 가져오기
+    @GetMapping("/doctors")
+    public ResponseEntity<List<DoctorProfile>> getAllDoctors(){
+        return ResponseEntity.ok(userService.findAllDoctor());
+    }
+
     //특정 유저 가져오기(이메일로)
     @GetMapping("/{email}")
     public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) {
@@ -111,7 +119,8 @@ public class UserController {
 
     //NOTE: #### 관리자 기능 #####
 
-    @PutMapping("/users/{id}/{updateRole}")
+    //사용자 권한 변경
+    @PutMapping("/{id}/{updateRole}")
     public ResponseEntity<User> updateUserRole(@PathVariable Long id, @PathVariable String updateRole){
         return ResponseEntity.ok(userService.updateUserRole(id, updateRole));
     }

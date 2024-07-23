@@ -2,6 +2,7 @@ package com.team5.hospital_here.user.service;
 
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfile;
 import com.team5.hospital_here.user.entity.Login;
 import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.User;
@@ -10,7 +11,6 @@ import com.team5.hospital_here.user.entity.UserMapper;
 import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -118,6 +118,10 @@ public class UserService {
             new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 
+    public List<DoctorProfile> findAllDoctor(){
+        return doctorProfileRepository.findAll();
+    }
+
     public UserDTO findByUserEmail(String email) {
         return UserMapper.toUserDTO(userRepository.findByEmail(email));
     }
@@ -183,8 +187,7 @@ public class UserService {
      * @return 수정된 user
      */
     public User updateUserRole(Long id, String updateRole){
-        User user = userRepository.findById(id).orElseThrow(()->
-            new CustomException(ErrorCode.USER_NOT_FOUND));
+        User user = findById(id);
 
         Role role = Role.valueOf(updateRole);
         user.setRole(role);
