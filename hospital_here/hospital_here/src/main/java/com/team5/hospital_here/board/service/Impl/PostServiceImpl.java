@@ -11,8 +11,6 @@ import com.team5.hospital_here.board.repository.PostRepository;
 import com.team5.hospital_here.board.repository.UserRepository;
 import com.team5.hospital_here.board.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,9 +47,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponseDto save(PostRequestDto postRequestDto) {
         Board board = boardRepository.findById(postRequestDto.getBoardId())
-                .orElseThrow(() -> new IllegalArgumentException("board id가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("board id를 찾을 수 없습니다."));
         User user = userRepository.findById(postRequestDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("user id가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("user id를 찾을 수 없습니다."));
 
         Post post = postRequestDto.toEntity(board, user);
         Post savedPost = postRepository.save(post);
@@ -61,11 +59,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponseDto update(PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(postUpdateDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid post ID"));
+                .orElseThrow(() -> new IllegalArgumentException("post id를 찾을 수 없습니다."));
         Board board = boardRepository.findById(postUpdateDto.getBoardId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid board ID"));
+                .orElseThrow(() -> new IllegalArgumentException("board id를 찾을 수 없습니다."));
         User user = userRepository.findById(postUpdateDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+                .orElseThrow(() -> new IllegalArgumentException("user id를 찾을 수 없습니다."));
         post.update(postUpdateDto, board, user);
         Post updatedPost = postRepository.save(post);
         return updatedPost.toResponseDto();
@@ -77,10 +75,5 @@ public class PostServiceImpl implements PostService {
         postRepository.deleteById(id);
     }
 
-//    @Override
-//    public Page<PostResponseDto> findAllByBoardId(Long boardId, Pageable pageable) {
-//        Page<Post> postPage = postRepository.findAllByBoardId(boardId, pageable);
-//        return postPage.map(Post::toResponseDto);
-//    }
 }
 

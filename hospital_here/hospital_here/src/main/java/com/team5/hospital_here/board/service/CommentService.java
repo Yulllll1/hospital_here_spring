@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CommentService {
-    List<CommentResponseDto> findAll();
-    Optional<CommentResponseDto> findById(Long id);
+    List<CommentResponseDto> findByPostId(Long postId);
     CommentResponseDto save(CommentRequestDto commentRequestDto);
-    CommentResponseDto update(CommentUpdateDto commentUpdateDto);
     void deleteById(Long id);
+    CommentResponseDto update(Long id, CommentUpdateDto commentUpdateDto);
 }

@@ -17,5 +17,6 @@ public interface PostService {
     PostResponseDto save(PostRequestDto postRequestDto);
     PostResponseDto update(PostUpdateDto postUpdateDto);
     void deleteById(Long id);
+
     //Page<PostResponseDto> findAllByBoardId(Long boardId, Pageable pageable);
 }

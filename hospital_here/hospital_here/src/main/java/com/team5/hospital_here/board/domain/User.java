@@ -1,10 +1,11 @@
 package com.team5.hospital_here.board.domain;
 
-import jakarta.persistence.*;
+import com.team5.hospital_here.board.dto.user.UserResponseDto;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -22,9 +23,11 @@ public class User {
 
     private String pw;
 
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Comment> comments = new ArrayList<>();
+    public UserResponseDto toResponseDto() {
+        return UserResponseDto.builder()
+                .id(this.id)
+                .email(this.email)
+                .pw(this.pw)
+                .build();
+    }
 }

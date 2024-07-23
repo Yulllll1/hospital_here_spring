@@ -1,10 +1,7 @@
 package com.team5.hospital_here.board.service.Impl;
 
-import com.team5.hospital_here.board.domain.Board;
 import com.team5.hospital_here.board.domain.User;
-import com.team5.hospital_here.board.repository.BoardRepository;
 import com.team5.hospital_here.board.repository.UserRepository;
-import com.team5.hospital_here.board.service.BoardService;
 import com.team5.hospital_here.board.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,10 +28,9 @@ public class UserServiceImpl implements UserService {
     public User save(User user) {
         return userRepository.save(user);
     }
-
+    
     @Override
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
 }
-

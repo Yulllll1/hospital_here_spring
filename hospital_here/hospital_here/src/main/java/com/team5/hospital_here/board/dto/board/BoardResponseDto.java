@@ -1,6 +1,5 @@
 package com.team5.hospital_here.board.dto.board;
 
-import com.team5.hospital_here.board.domain.Board;
 import lombok.*;
 
 @Getter
@@ -11,5 +10,4 @@ import lombok.*;
 public class BoardResponseDto {
     private Long id;
     private String name;
-
 }

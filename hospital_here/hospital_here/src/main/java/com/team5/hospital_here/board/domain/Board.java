@@ -1,10 +1,7 @@
 package com.team5.hospital_here.board.domain;
 
-import com.team5.hospital_here.board.dto.board.BoardRequestDto;
 import com.team5.hospital_here.board.dto.board.BoardResponseDto;
 import com.team5.hospital_here.board.dto.board.BoardUpdateDto;
-import com.team5.hospital_here.common.baseEntity.BaseEntity;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,10 +1,8 @@
 package com.team5.hospital_here.board.domain;
 
+import com.team5.hospital_here.board.dto.postImg.PostImgResponseDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
@@ -22,4 +20,12 @@ public class PostImg {
     private Post post;
 
     private String link;
+
+    public PostImgResponseDto toResponseDto() {
+        return PostImgResponseDto.builder()
+                .id(this.id)
+                .postId(this.post.getId())
+                .link(this.link)
+                .build();
+    }
 }

@@ -7,7 +7,6 @@ import com.team5.hospital_here.board.dto.board.BoardUpdateDto;
 import com.team5.hospital_here.board.repository.BoardRepository;
 import com.team5.hospital_here.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public BoardResponseDto update(BoardUpdateDto boardUpdateDto) {
         Board board = boardRepository.findById(boardUpdateDto.getId())
-                .orElseThrow(() -> new IllegalArgumentException("board id가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("board id를 찾을 수 없습니다."));
         board.update(boardUpdateDto);
         Board updatedBoard = boardRepository.save(board);
         return updatedBoard.toResponseDto();
