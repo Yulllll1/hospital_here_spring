@@ -17,8 +17,10 @@ public interface ChatRoomMapper {
 
     @Mapping(source = "user1", target = "user1", qualifiedByName = "userToDTO")
     @Mapping(source = "user2", target = "user2", qualifiedByName = "userToDTO")
+    @Mapping(source = "leaveUser", target = "leaveUser", qualifiedByName = "userToDTO")
     ChatRoomResponseDTO toDto(ChatRoom chatRoom);
 
     @Named("userToDTO")
+    @Mapping(source = "id", target = "userId")
     UserDTO userToDTO(User user);
 }

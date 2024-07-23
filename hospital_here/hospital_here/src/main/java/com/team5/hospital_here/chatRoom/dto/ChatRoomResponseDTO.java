@@ -12,6 +12,7 @@ public class ChatRoomResponseDTO {
     private Long id;
     private UserDTO user1;
     private UserDTO user2;
+    private UserDTO leaveUser;
     private ChatRoomType type;
     private ChatRoomStatus status;
     private String createdAt;
