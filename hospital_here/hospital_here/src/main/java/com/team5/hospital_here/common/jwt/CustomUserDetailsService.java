@@ -20,13 +20,12 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userService.findUserByEmail(email);
-        if(user == null)
-            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        User user = userRepository.findByLoginEmail(email).orElseThrow(()->
+            new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Collection<GrantedAuthority> collection =new ArrayList<>();
         collection.add(()->
@@ -34,12 +33,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         );
 
         return new CustomUser(user, collection);
-
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getLogin().getEmail(),
-//                user.getLogin().getPassword(),
-//                new ArrayList<>()
-//        );
     }
 
 
