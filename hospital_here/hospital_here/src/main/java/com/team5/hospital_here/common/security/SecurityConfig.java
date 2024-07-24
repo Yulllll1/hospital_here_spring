@@ -37,7 +37,7 @@ public class SecurityConfig {
 
 
         http
-            .cors(cors -> corsConfig.corsConfigurationSource()) // NOTE : CORS 허용하는것
+            .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource())) // NOTE : CORS 허용하는것
             .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/users").permitAll()
 
