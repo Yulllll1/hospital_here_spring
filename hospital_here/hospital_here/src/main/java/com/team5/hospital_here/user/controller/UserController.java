@@ -2,12 +2,13 @@ package com.team5.hospital_here.user.controller;
 
 import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.common.jwt.JwtUtil;
+import com.team5.hospital_here.user.entity.user.address.AddressDTO;
 import com.team5.hospital_here.user.entity.commonDTO.PasswordDTO;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.entity.user.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
-import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfile;
-import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfileDTO;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileDTO;
 import com.team5.hospital_here.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,11 +100,6 @@ public class UserController {
     public ResponseEntity<String> updatePhoneNumber(@PathVariable String email, @RequestBody @Valid UserDTO userDTO) {
         return ResponseEntity.ok(userService.updatePhone(email, userDTO));
     }
-    //유저 업데이트 (주소만)
-    @PutMapping("/{email}/address")
-    public ResponseEntity<String> updateAddress(@PathVariable String email, @RequestBody @Valid UserDTO userDTO) {
-        return ResponseEntity.ok(userService.updateAddress(email, userDTO));
-    }
 
     //유저 삭제
     @DeleteMapping("/{email}")
@@ -130,6 +126,13 @@ public class UserController {
     public ResponseEntity<String> updatePassword(@AuthenticationPrincipal CustomUser customUser,
                                                     @RequestBody @Valid PasswordDTO passwordDTO) {
         return ResponseEntity.ok(userService.updatePassword(customUser, passwordDTO));
+    }
+
+    //회원 주소 변경
+    @PutMapping("/my-page/address")
+    public ResponseEntity<AddressDTO> updateAddress(@AuthenticationPrincipal CustomUser customUser,
+                                                    @RequestBody @Valid AddressDTO addressDTO) {
+        return ResponseEntity.ok(userService.updateAddress(customUser, addressDTO));
     }
 
     //NOTE: #### 관리자 기능 #####

@@ -1,4 +1,4 @@
-package com.team5.hospital_here.user.entity.doctorEntity;
+package com.team5.hospital_here.user.entity.user.doctorEntity;
 
 
 import jakarta.validation.constraints.NotEmpty;

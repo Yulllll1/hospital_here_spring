@@ -4,15 +4,16 @@ package com.team5.hospital_here.user.service;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.CustomUser;
+import com.team5.hospital_here.user.entity.user.address.AddressDTO;
 import com.team5.hospital_here.user.entity.commonDTO.PasswordDTO;
-import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfile;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
 import com.team5.hospital_here.user.entity.login.Login;
 import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.entity.user.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
 import com.team5.hospital_here.user.repository.LoginRepository;
-import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfileDTO;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileDTO;
 import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -198,12 +199,13 @@ public class UserService {
         return USER_PASSWORD_ALTER_SUCCESSE;
     }
 
-    public String updateAddress(String email, UserDTO userDTO)
+    public AddressDTO updateAddress(CustomUser customUser, AddressDTO addressDTO)
     {
-        User user = findUserByEmail(email);
-        user.setAddress(userDTO.getAddress());
+        User user = customUser.getUser();
+        user.update(addressDTO);
         userRepository.save(user);
-        return userDTO.getAddress();
+
+        return addressDTO;
     }
     public String deleteUser(String email) {
         User user = findUserByEmail(email);

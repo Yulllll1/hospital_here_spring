@@ -2,6 +2,7 @@ package com.team5.hospital_here.user.entity.user;
 
 
 import com.team5.hospital_here.common.baseEntity.BaseEntity;
+import com.team5.hospital_here.user.entity.user.address.AddressDTO;
 import com.team5.hospital_here.user.entity.login.Login;
 import com.team5.hospital_here.user.entity.Role;
 import jakarta.persistence.*;
@@ -46,12 +47,21 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public void updateUser(UserDTO userDTO){
+    public void update(UserDTO userDTO){
         name = userDTO.getName();
         phoneNumber = userDTO.getPhoneNumber();
         birthday = Date.valueOf(userDTO.getBirthday());
         address = userDTO.getAddress();
         addressDetail = userDTO.getAddressDetail();
         img = userDTO.getImage();
+    }
+
+    public void update(AddressDTO addressDTO){
+        updateAddress(addressDTO.getAddress(), addressDTO.getAddressDetail());
+    }
+
+    public void updateAddress(String address, String addressDetail){
+        this.address = address;
+        this.addressDetail = addressDetail;
     }
 }
