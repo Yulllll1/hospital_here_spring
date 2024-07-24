@@ -1,5 +1,6 @@
 package com.team5.hospital_here.chatRoom.service;
 
+import com.team5.hospital_here.chatMessage.repository.ChatMessageRepository;
 import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
 import com.team5.hospital_here.chatRoom.enums.ChatRoomStatus;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
+    private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
 
     public List<ChatRoomResponseDTO> findAll() {
@@ -119,6 +121,7 @@ public class ChatRoomService {
         ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() ->
             new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));
 
+        chatMessageRepository.deleteByChatRoomId(chatRoomId);
         chatRoomRepository.delete(foundChatRoom);
     }
 }
