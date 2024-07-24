@@ -34,7 +34,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(authorize -> authorize
             .requestMatchers("/role-test", "/logined-info-test").hasRole(Role.USER.name())
-            .requestMatchers("/users/**").hasRole(Role.USER.name())
+            .requestMatchers("/users/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+            .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
             .anyRequest().permitAll()
         );
 
