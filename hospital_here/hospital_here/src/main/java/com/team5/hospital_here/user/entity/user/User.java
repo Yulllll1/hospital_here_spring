@@ -5,6 +5,7 @@ import com.team5.hospital_here.common.baseEntity.BaseEntity;
 import com.team5.hospital_here.user.entity.user.address.AddressDTO;
 import com.team5.hospital_here.user.entity.login.Login;
 import com.team5.hospital_here.user.entity.Role;
+import com.team5.hospital_here.user.entity.user.phoneNumberDTO.PhoneNumberDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import java.sql.Date;
@@ -47,21 +48,52 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    /**
+     * 회원 정보 수정
+     * @param userDTO update 할 회원 정보
+     */
     public void update(UserDTO userDTO){
-        name = userDTO.getName();
-        phoneNumber = userDTO.getPhoneNumber();
-        birthday = Date.valueOf(userDTO.getBirthday());
-        address = userDTO.getAddress();
-        addressDetail = userDTO.getAddressDetail();
-        img = userDTO.getImage();
+        updateName(userDTO.getName());
+        updatePhoneNumber(userDTO.getPhoneNumber());
+        updateBirthday(userDTO.getBirthday());
+        updateAddress(userDTO.getAddress(), userDTO.getAddressDetail());
+        updateImg(userDTO.getImage());
     }
 
+    /**
+     * 회원 주소 수정
+     * @param addressDTO update 할 주소 정보
+     */
     public void update(AddressDTO addressDTO){
         updateAddress(addressDTO.getAddress(), addressDTO.getAddressDetail());
+    }
+
+    /**
+     * 회원 연락처 수정
+     * @param phoneNumberDTO
+     */
+    public void update(PhoneNumberDTO phoneNumberDTO){
+        updatePhoneNumber(phoneNumberDTO.getPhoneNumber());
     }
 
     public void updateAddress(String address, String addressDetail){
         this.address = address;
         this.addressDetail = addressDetail;
+    }
+
+    public void updatePhoneNumber(String phoneNumber){
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void updateName(String name){
+        this.name = name;
+    }
+
+    public void updateBirthday(String birthday){
+        this.birthday = Date.valueOf(birthday);
+    }
+
+    public void updateImg(String img){
+        this.img = img;
     }
 }
