@@ -20,11 +20,11 @@ public class Login {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty(message = "필수 입력값 입니다.")
-    @Email(message = "이메일 형식이 아닙니다.")
+    @NotEmpty(message = "이메일을 입력해 주세요.")
+    @Email(message = "옮바른 이메일 형식이 아닙니다.")
     private String email;
 
-    @NotEmpty(message = "필수 입력값 입니다.")
+    @NotEmpty(message = "비밀번호를 입력해 주세요.")
     private String password;
 
     @Column(name = "provider")

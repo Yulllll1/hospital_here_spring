@@ -14,6 +14,7 @@ import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfileDTO;
 import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import java.sql.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -153,6 +154,7 @@ public class UserService {
     public UserDTO save(UserDTO userDTO) {
         User user = new User();
         user = UserMapper.toUserEntity(userDTO);
+        user.setRole(Role.USER);
         String encodedPassword = encodePassword(userDTO.getPassword());
         user.getLogin().setPassword(encodedPassword);
         userRepository.save(user);
@@ -164,16 +166,16 @@ public class UserService {
         User user = findUserByEmail(email);
         user.setName(userDTO.getName());
         user.setPhoneNumber(userDTO.getPhoneNumber());
-        //user.setBirthday(userDTO.getBirthDate());
+        user.setBirthday(Date.valueOf(userDTO.getBirthday()));
         user.setAddress(userDTO.getAddress());
         user.setImg(userDTO.getImage());
-        Login login = new Login();
-        login.setEmail(userDTO.getEmail());
-        login.setPassword(userDTO.getPassword());
-        login.setProvider(userDTO.getProvider());
-        login.setProviderId(userDTO.getProviderId());
-        user.setLogin(login);
-        user.setRole(Role.valueOf(userDTO.getRole()));
+//        Login login = new Login();
+//        login.setEmail(userDTO.getEmail());
+//        login.setPassword(userDTO.getPassword());
+//        login.setProvider(userDTO.getProvider());
+//        login.setProviderId(userDTO.getProviderId());
+//        user.setLogin(login);
+//        user.setRole(Role.valueOf(userDTO.getRole()));
 
         return userDTO;
     }

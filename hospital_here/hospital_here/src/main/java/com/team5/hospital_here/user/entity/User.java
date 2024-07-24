@@ -47,7 +47,7 @@ public class User extends BaseEntity {
     public void updateUser(UserDTO userDTO){
         name = userDTO.getName();
         phoneNumber = userDTO.getPhoneNumber();
-        birthday = Date.valueOf(userDTO.getBirthDate());
+        birthday = Date.valueOf(userDTO.getBirthday());
         address = userDTO.getAddress();
         addressDetail = userDTO.getAddressDetail();
         img = userDTO.getImage();

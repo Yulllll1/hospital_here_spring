@@ -14,7 +14,7 @@ public class UserDTO {
     private String name;
     private String password;
     private String phoneNumber;
-    private String birthDate;
+    private String birthday;
     private String address;
     private String addressDetail;
     private String image;
@@ -28,7 +28,7 @@ public class UserDTO {
         this.name = user.getName();
         this.password = user.getLogin().getPassword();
         this.phoneNumber = user.getPhoneNumber();
-        this.birthDate = user.getBirthday().toString();
+        this.birthday = user.getBirthday().toString();
         this.address = user.getAddress();
         this.addressDetail = user.getAddressDetail();
         this.image = user.getImg();

@@ -12,22 +12,21 @@ public class UserMapper {
 
     @NotNull
     public static User toUserEntity(UserDTO userDTO) {
-//        Login login = new Login();
-//        login.setEmail(userDTO.getEmail());
-//        login.setPassword(userDTO.getPassword());
-//        login.setProvider(userDTO.getProvider());
-//        login.setProviderId(userDTO.getProviderId());
+        Login login = new Login();
+        login.setEmail(userDTO.getEmail());
+        login.setPassword(userDTO.getPassword());
+        login.setProvider(userDTO.getProvider());
+        login.setProviderId(userDTO.getProviderId());
 
         User user = new User();
         user.setId(userDTO.getId());
         user.setName(userDTO.getName());
         user.setPhoneNumber(userDTO.getPhoneNumber());
-        Date.valueOf(userDTO.getBirthDate());
+        Date.valueOf(userDTO.getBirthday());
         user.setAddress(userDTO.getAddress());
         user.setAddressDetail((userDTO.getAddressDetail()));
         user.setImg(userDTO.getImage());
-//        user.setLogin(login);
-        user.setRole(Role.valueOf(userDTO.getRole()));
+        user.setLogin(login);
 
         return user;
     }

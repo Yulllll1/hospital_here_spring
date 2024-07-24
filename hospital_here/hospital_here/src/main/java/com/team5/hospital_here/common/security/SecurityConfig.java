@@ -33,7 +33,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/test1").hasRole(Role.USER.name())
+            .requestMatchers("/role-test", "/logined-info-test").hasRole(Role.USER.name())
             .anyRequest().permitAll()
         );
 
