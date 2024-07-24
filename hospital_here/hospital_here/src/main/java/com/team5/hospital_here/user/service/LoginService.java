@@ -34,7 +34,8 @@ public class LoginService {
         String token = "Bearer " + jwtUtil.generateToken(loginDTO.getEmail());
         response.setHeader("Authorization", token);
 
-        return LOGIN_SUCCESS;
+        return token; // NOTE : 클라이언트 측에서 로그인 성공이라는 메시지만 받아오고, 토큰 저장이 되질 않아 이렇게 일단 바꾸었습니다
+        //return LOGIN_SUCCESS;
     }
 
     private void matchPassword(LoginDTO loginDTO, Login login){
