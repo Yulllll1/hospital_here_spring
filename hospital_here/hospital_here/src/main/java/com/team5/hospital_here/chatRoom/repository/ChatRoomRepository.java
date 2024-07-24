@@ -13,8 +13,8 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 
     @EntityGraph(attributePaths = {"chatMessages", "user1", "user2", "leaveUser"})
     @Query("SELECT cr FROM ChatRoom cr"
-        + " WHERE ( cr.user1.id = :id AND cr.user2.id = :id )"
-        + " OR ( cr.leaveUser.id != :id OR cr.leaveUser.id IS NULL ) "
+        + " WHERE ( cr.user1.id = :id OR cr.user2.id = :id )"
+        + " AND ( cr.leaveUser.id != :id OR cr.leaveUser IS NULL ) "
         + " ORDER BY cr.createdAt")
-    List<ChatRoom> findAllWithUserId(@Param("id") Long id);
+    List<ChatRoom> findAllWithUserId(Long id);
 }
