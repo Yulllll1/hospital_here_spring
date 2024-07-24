@@ -3,11 +3,13 @@ package com.team5.hospital_here.user.service;
 
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.common.jwt.CustomUser;
+import com.team5.hospital_here.user.entity.commonDTO.PasswordDTO;
 import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfile;
-import com.team5.hospital_here.user.entity.Login;
+import com.team5.hospital_here.user.entity.login.Login;
 import com.team5.hospital_here.user.entity.Role;
-import com.team5.hospital_here.user.entity.User;
-import com.team5.hospital_here.user.entity.UserDTO;
+import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
 import com.team5.hospital_here.user.repository.LoginRepository;
 import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfileDTO;
@@ -16,7 +18,6 @@ import com.team5.hospital_here.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.sql.Date;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,16 +33,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final DoctorProfileRepository doctorProfileRepository;
 
-
-
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, LoginRepository loginRepository, DoctorProfileRepository doctorProfileRepository) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.loginRepository = loginRepository;
-        this.doctorProfileRepository = doctorProfileRepository;
-    }
-
+    private final String USER_PASSWORD_ALTER_SUCCESSE = "비밀번호 변경을 완료했습니다.";
 
     /*
     public List<UserDTO> findAllUsers() {
@@ -194,14 +186,17 @@ public class UserService {
         userRepository.save(user);
         return userDTO.getPhoneNumber();
     }
-    public String updatePassword(String email, UserDTO userDTO)
+    public String updatePassword(CustomUser customUser, PasswordDTO passwordDTO)
     {
-        User user = findUserByEmail(email);
-        Login login = user.getLogin();
-        login.setPassword(encodePassword(userDTO.getPassword()));
-        loginRepository.save(login);
-        return userDTO.getPassword();
+        if(!passwordEncoder.matches(passwordDTO.getAlterPassword(), passwordDTO.getVerifyPassword()))
+            throw new CustomException(ErrorCode.WRONG_PASSWORD);
+
+        customUser.getUser().getLogin().setPassword(encodePassword(passwordDTO.getAlterPassword()));
+        loginRepository.save(customUser.getUser().getLogin());
+
+        return USER_PASSWORD_ALTER_SUCCESSE;
     }
+
     public String updateAddress(String email, UserDTO userDTO)
     {
         User user = findUserByEmail(email);

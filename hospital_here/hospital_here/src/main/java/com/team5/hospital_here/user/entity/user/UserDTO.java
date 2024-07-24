@@ -1,4 +1,4 @@
-package com.team5.hospital_here.user.entity;
+package com.team5.hospital_here.user.entity.user;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

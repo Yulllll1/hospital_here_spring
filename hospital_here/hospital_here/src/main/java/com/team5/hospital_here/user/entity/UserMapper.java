@@ -1,5 +1,8 @@
 package com.team5.hospital_here.user.entity;
 
+import com.team5.hospital_here.user.entity.login.Login;
+import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.UserDTO;
 import jakarta.validation.constraints.NotNull;
 import java.sql.Date;
 

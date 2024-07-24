@@ -1,4 +1,4 @@
-package com.team5.hospital_here.user.entity;
+package com.team5.hospital_here.user.entity.login;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

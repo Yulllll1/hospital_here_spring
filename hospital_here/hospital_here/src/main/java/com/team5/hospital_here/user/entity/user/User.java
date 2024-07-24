@@ -1,7 +1,9 @@
-package com.team5.hospital_here.user.entity;
+package com.team5.hospital_here.user.entity.user;
 
 
 import com.team5.hospital_here.common.baseEntity.BaseEntity;
+import com.team5.hospital_here.user.entity.login.Login;
+import com.team5.hospital_here.user.entity.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import java.sql.Date;

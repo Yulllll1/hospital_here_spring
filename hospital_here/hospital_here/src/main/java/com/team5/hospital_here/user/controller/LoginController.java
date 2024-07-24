@@ -2,10 +2,9 @@ package com.team5.hospital_here.user.controller;
 
 
 import com.team5.hospital_here.common.jwt.CustomUser;
-import com.team5.hospital_here.user.entity.LoginDTO;
-import com.team5.hospital_here.user.entity.User;
+import com.team5.hospital_here.user.entity.login.LoginDTO;
+import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.service.LoginService;
-import com.team5.hospital_here.user.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

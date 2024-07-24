@@ -1,11 +1,11 @@
 package com.team5.hospital_here.user.controller;
 
-import com.team5.hospital_here.common.exception.CustomException;
-import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.common.jwt.JwtUtil;
-import com.team5.hospital_here.user.entity.Role;
-import com.team5.hospital_here.user.entity.User;
-import com.team5.hospital_here.user.entity.UserDTO;
+import com.team5.hospital_here.user.entity.commonDTO.PasswordDTO;
+import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.UserDTO;
+import com.team5.hospital_here.user.entity.UserMapper;
 import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfile;
 import com.team5.hospital_here.user.entity.doctorEntity.DoctorProfileDTO;
 import com.team5.hospital_here.user.service.UserService;
@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -82,11 +83,7 @@ public class UserController {
     public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) {
         return ResponseEntity.ok(userService.findByUserEmail(email));
     }
-    //유저 추가
-    @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO) {
-        return ResponseEntity.ok(userService.save(userDTO));
-    }
+
     //유저 업데이트 (전체)
     @PutMapping("/{email}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable String email, @RequestBody @Valid UserDTO userDTO) {
@@ -107,17 +104,33 @@ public class UserController {
     public ResponseEntity<String> updateAddress(@PathVariable String email, @RequestBody @Valid UserDTO userDTO) {
         return ResponseEntity.ok(userService.updateAddress(email, userDTO));
     }
-    //유저 업데이트 (비밀번호만)
-    @PutMapping("/{email}/password")
-    public ResponseEntity<String> updatePassword(@PathVariable String email, @RequestBody @Valid UserDTO userDTO) {
-        return ResponseEntity.ok(userService.updatePassword(email, userDTO));
-    }
+
     //유저 삭제
     @DeleteMapping("/{email}")
     public ResponseEntity<String> deleteUser(@PathVariable String email) {
         return ResponseEntity.ok(userService.deleteUser(email));
     }
 
+    //NOTE: ### 회원 기능 ####
+
+    //마이페이지 정보 요청
+    @GetMapping("my-page")
+    public ResponseEntity<UserDTO> getMyPage(@AuthenticationPrincipal CustomUser customUser){
+        return ResponseEntity.ok(UserMapper.toUserDTO(customUser.getUser()));
+    }
+
+    //회원 가입
+    @PostMapping
+    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO) {
+        return ResponseEntity.ok(userService.save(userDTO));
+    }
+
+    //회원 비밀번호 변경
+    @PutMapping("/my-page/password")
+    public ResponseEntity<String> updatePassword(@AuthenticationPrincipal CustomUser customUser,
+                                                    @RequestBody @Valid PasswordDTO passwordDTO) {
+        return ResponseEntity.ok(userService.updatePassword(customUser, passwordDTO));
+    }
 
     //NOTE: #### 관리자 기능 #####
 

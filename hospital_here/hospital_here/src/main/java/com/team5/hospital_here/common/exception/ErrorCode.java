@@ -8,6 +8,7 @@ public enum ErrorCode {
     USER_ALREADY_EXISTS(400, "USER_ALREADY_EXISTS", "사용자가 이미 존재함"),
     USER_NOT_FOUND(400, "USER_NOT_FOUND", "사용자를 찾을 수 없음"),
     LOGIN_PASSWORD_WRONG(400, "LOGIN_PASSWORD_WRONG", "잘못된 비밀번호를 입력했습니다."),
+    WRONG_PASSWORD(400, "WRONG_PASSWORD", "잘못된 비밀번호를 입력했습니다."),
     NO_PERMISSION(403,"NO_PERMISSION","권한없음"),
     ;
 

@@ -2,7 +2,7 @@ package com.team5.hospital_here.common.jwt;
 
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
-import com.team5.hospital_here.user.entity.User;
+import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
