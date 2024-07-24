@@ -20,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:3000") // NOTE : 리액트 앱이 실행되는 주소 적는곳
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // NOTE : 허용할 요청 타입
                 .allowedHeaders("*")
+                .exposedHeaders("Authorization")
                 .allowCredentials(true);
     }
 }
