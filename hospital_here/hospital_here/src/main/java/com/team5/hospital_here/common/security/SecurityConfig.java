@@ -24,6 +24,8 @@ public class SecurityConfig {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+    @Autowired
+    private CorsConfig corsConfig;
 
     @Bean
     public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
@@ -35,7 +37,7 @@ public class SecurityConfig {
 
 
         http
-            .cors().and() // NOTE : CORS 허용하는것
+            .cors(cors -> corsConfig.corsConfigurationSource()) // NOTE : CORS 허용하는것
             .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/users").permitAll()
 
