@@ -4,38 +4,36 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @RequiredArgsConstructor
 public class UserDTO {
 
-    private Long userId;
+    private Long id;
     private String email;
-    private String userName;
+    private String name;
     private String password;
     private String phoneNumber;
-    private Date birthDate;
+    private String birthDate;
     private String address;
+    private String addressDetail;
     private String image;
     private String provider;
     private String providerId;
-    private Role role;
+    private String role;
 
     public UserDTO(User user){
-        this.userId = user.getId();
+        this.id = user.getId();
         this.email = user.getLogin().getEmail();
-        this.userName = user.getName();
+        this.name = user.getName();
         this.password = user.getLogin().getPassword();
         this.phoneNumber = user.getPhoneNumber();
-       // this.birthDate = user.getBirthday();
+        this.birthDate = user.getBirthday().toString();
         this.address = user.getAddress();
+        this.addressDetail = user.getAddressDetail();
         this.image = user.getImg();
         this.provider = user.getLogin().getProvider();
         this.providerId = user.getLogin().getProviderId();
-        this.role = user.getRole();
+        this.role = user.getRole().name();
     }
-
-
 }

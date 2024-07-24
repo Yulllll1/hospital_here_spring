@@ -4,6 +4,7 @@ package com.team5.hospital_here.user.entity;
 import com.team5.hospital_here.common.baseEntity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import java.sql.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class User extends BaseEntity {
     @NotEmpty(message = "필수 입력값 입니다.")
     private String phoneNumber;
 
+    private Date birthday;
 
     @NotEmpty(message = "필수 입력값 입니다.")
     private String address;
@@ -42,5 +44,12 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
+    public void updateUser(UserDTO userDTO){
+        name = userDTO.getName();
+        phoneNumber = userDTO.getPhoneNumber();
+        birthday = Date.valueOf(userDTO.getBirthDate());
+        address = userDTO.getAddress();
+        addressDetail = userDTO.getAddressDetail();
+        img = userDTO.getImage();
+    }
 }

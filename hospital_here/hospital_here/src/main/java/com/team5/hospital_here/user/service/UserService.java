@@ -162,7 +162,7 @@ public class UserService {
 
     public UserDTO updateUser(String email, UserDTO userDTO) {
         User user = findUserByEmail(email);
-        user.setName(userDTO.getUserName());
+        user.setName(userDTO.getName());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         //user.setBirthday(userDTO.getBirthDate());
         user.setAddress(userDTO.getAddress());
@@ -173,7 +173,7 @@ public class UserService {
         login.setProvider(userDTO.getProvider());
         login.setProviderId(userDTO.getProviderId());
         user.setLogin(login);
-        user.setRole(userDTO.getRole());
+        user.setRole(Role.valueOf(userDTO.getRole()));
 
         return userDTO;
     }

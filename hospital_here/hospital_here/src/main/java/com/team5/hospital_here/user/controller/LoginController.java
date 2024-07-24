@@ -1,12 +1,15 @@
 package com.team5.hospital_here.user.controller;
 
 
+import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.user.entity.LoginDTO;
+import com.team5.hospital_here.user.entity.User;
 import com.team5.hospital_here.user.service.LoginService;
 import com.team5.hospital_here.user.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +27,12 @@ public class LoginController {
     }
 
     @GetMapping("/role-test")
-    public ResponseEntity<String> test(){
+    public ResponseEntity<String> roleTest(){
         return ResponseEntity.ok("토큰 인가 성공");
+    }
+
+    @GetMapping("/logined-info-test")
+    public ResponseEntity<User> loginedInfoTest(@AuthenticationPrincipal CustomUser customUser){
+        return ResponseEntity.ok(customUser.getUser());
     }
 }
