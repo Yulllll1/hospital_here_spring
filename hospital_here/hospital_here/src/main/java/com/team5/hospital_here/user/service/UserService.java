@@ -188,11 +188,12 @@ public class UserService {
     }
     public String updatePassword(CustomUser customUser, PasswordDTO passwordDTO)
     {
-        if(!passwordEncoder.matches(passwordDTO.getAlterPassword(), passwordDTO.getVerifyPassword()))
+        User user = customUser.getUser();
+        if(!passwordEncoder.matches(passwordDTO.getVerifyPassword(), user.getLogin().getPassword()))
             throw new CustomException(ErrorCode.WRONG_PASSWORD);
 
-        customUser.getUser().getLogin().setPassword(encodePassword(passwordDTO.getAlterPassword()));
-        loginRepository.save(customUser.getUser().getLogin());
+        user.getLogin().setPassword(encodePassword(passwordDTO.getAlterPassword()));
+        loginRepository.save(user.getLogin());
 
         return USER_PASSWORD_ALTER_SUCCESSE;
     }

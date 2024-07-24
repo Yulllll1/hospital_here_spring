@@ -4,6 +4,7 @@ package com.team5.hospital_here.common.exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public enum ErrorCode {
     USER_ALREADY_EXISTS(400, "USER_ALREADY_EXISTS", "사용자가 이미 존재함"),
     USER_NOT_FOUND(400, "USER_NOT_FOUND", "사용자를 찾을 수 없음"),
@@ -13,13 +14,13 @@ public enum ErrorCode {
     ;
 
     //NOTE: HttpStatus code
-    public int code;
+    public final int code;
     
     //NOTE: code 의미
-    public String codeName;
+    public final String codeName;
     
     //NOTE: code 상세 메세지 
-    public String message;
+    public final String message;
 
     ErrorCode(int code, String codeName, String message) {
         this.code = code;
