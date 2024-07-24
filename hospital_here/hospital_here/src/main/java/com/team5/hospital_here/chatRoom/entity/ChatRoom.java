@@ -77,7 +77,19 @@ public class ChatRoom extends BaseEntity {
             }
         }
 
-        return user1.getId().equals(userId) || user2.getId().equals(userId);
+        if (user1 != null) {
+            if (user1.getId().equals(userId)) {
+                return true;
+            }
+        }
+
+        if (user2 != null) {
+            if (user2.getId().equals(userId)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void addChatRoomMember(User user) {
