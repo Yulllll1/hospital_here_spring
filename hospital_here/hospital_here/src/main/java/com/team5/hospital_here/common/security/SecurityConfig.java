@@ -3,6 +3,7 @@ package com.team5.hospital_here.common.security;
 
 import com.team5.hospital_here.common.jwt.CustomUserDetailsService;
 import com.team5.hospital_here.common.jwt.JwtAuthenticationFilter;
+import com.team5.hospital_here.user.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,13 +29,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/users/**").permitAll()
-                        .anyRequest().authenticated()
+        http.httpBasic(AbstractHttpConfigurer::disable);
+        http.csrf(AbstractHttpConfigurer::disable);
 
+        http.authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/role-test", "/logined-info-test").hasRole(Role.USER.name())
+            .requestMatchers("/users/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+            .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
+            .anyRequest().permitAll()
         );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

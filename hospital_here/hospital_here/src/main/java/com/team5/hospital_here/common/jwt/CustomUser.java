@@ -8,9 +8,9 @@ import org.springframework.security.core.userdetails.User;
 @Getter
 public class CustomUser extends User {
 
-    private com.team5.hospital_here.user.entity.User user;
+    private com.team5.hospital_here.user.entity.user.User user;
 
-    public CustomUser(com.team5.hospital_here.user.entity.User user, Collection<? extends GrantedAuthority> authorities) {
+    public CustomUser(com.team5.hospital_here.user.entity.user.User user, Collection<? extends GrantedAuthority> authorities) {
         super(user.getLogin().getEmail(), user.getLogin().getPassword(), authorities);
         this.user = user;
     }
