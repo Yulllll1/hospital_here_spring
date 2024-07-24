@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Comment List</title>
+</head>
+<body>
+<h1>Comment List</h1>
+<a th:href="@{/comments/new}">Create New Comment</a>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Content</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="comment : ${comments}">
+        <td th:text="${comment.id}">1</td>
+        <td th:text="${comment.content}">Comment Content</td>
+        <td>
+            <a th:href="@{/comments/{id}(id=${comment.id})}">Edit</a>
+            <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

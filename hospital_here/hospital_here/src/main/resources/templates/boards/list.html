@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Board List</title>
+</head>
+<body>
+<h1>Board List</h1>
+<a th:href="@{/boards/new}">Create New Board</a>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="board : ${boards}">
+        <td th:text="${board.id}">1</td>
+        <td th:text="${board.name}">Board Name</td>
+        <td>
+            <a th:href="@{/boards/{id}(id=${board.id})}">Edit</a>
+            <form th:action="@{/boards/delete/{id}(id=${board.id})}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

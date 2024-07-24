@@ -10,6 +10,8 @@ import com.team5.hospital_here.board.repository.CommentRepository;
 import com.team5.hospital_here.board.repository.PostRepository;
 import com.team5.hospital_here.board.repository.UserRepository;
 import com.team5.hospital_here.board.service.CommentService;
+import com.team5.hospital_here.common.exception.CustomException;
+import com.team5.hospital_here.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,16 @@ public class CommentServiceImpl implements CommentService {
     private final UserRepository userRepository;
 
     @Override
+    public Optional<CommentResponseDto> findById(Long id) {
+        Optional<Comment> optionalComment = commentRepository.findById(id);
+        if (optionalComment.isPresent()) {
+            Comment comment = optionalComment.get();
+            return Optional.of(comment.toResponseDto());
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public List<CommentResponseDto> findByPostId(Long postId) {
         List<Comment> comments = commentRepository.findByPostId(postId);
         List<CommentResponseDto> dtos = new ArrayList<>();
@@ -37,14 +49,14 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentResponseDto save(CommentRequestDto commentRequestDto) {
         Post post = postRepository.findById(commentRequestDto.getPostId())
-                .orElseThrow(() -> new IllegalArgumentException("post id를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
         User user = userRepository.findById(commentRequestDto.getUserId())
-                .orElseThrow(() ->new IllegalArgumentException("user id를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Comment parent = commentRequestDto.getParentId() != null ?
                 commentRepository.findById(commentRequestDto.getParentId())
-                .orElseThrow(() -> new IllegalArgumentException("comment id를 찾을 수 없습니다.")) : null;
+                        .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND)) : null;
 
         Comment comment = commentRequestDto.toEntity(post, user, parent);
         Comment savedComment = commentRepository.save(comment);
@@ -59,17 +71,17 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentResponseDto update(Long id, CommentUpdateDto commentUpdateDto) {
         Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("comment id를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
 
         Post post = postRepository.findById(commentUpdateDto.getPostId())
-                .orElseThrow(() -> new IllegalArgumentException("post id를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
         User user = userRepository.findById(commentUpdateDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("user id를 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Comment parent = commentUpdateDto.getParentId() != null ?
                 commentRepository.findById(commentUpdateDto.getParentId())
-                        .orElseThrow(() -> new IllegalArgumentException("comment id를 찾을 수 없습니다.")) : null;
+                        .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND)) : null;
 
         comment.update(commentUpdateDto, post, user, parent);
         Comment updatedComment = commentRepository.save(comment);

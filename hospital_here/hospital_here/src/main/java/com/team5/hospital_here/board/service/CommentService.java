@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CommentService {
+    Optional<CommentResponseDto> findById(Long id);
     List<CommentResponseDto> findByPostId(Long postId);
     CommentResponseDto save(CommentRequestDto commentRequestDto);
     void deleteById(Long id);
     CommentResponseDto update(Long id, CommentUpdateDto commentUpdateDto);
 }
+

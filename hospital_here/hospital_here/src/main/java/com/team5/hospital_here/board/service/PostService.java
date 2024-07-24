@@ -16,7 +16,7 @@ public interface PostService {
     Optional<PostResponseDto> findById(Long id);
     PostResponseDto save(PostRequestDto postRequestDto);
     PostResponseDto update(PostUpdateDto postUpdateDto);
+    Page<PostResponseDto> findByBoardId(Long boardId, Pageable pageable);
     void deleteById(Long id);
 
-    //Page<PostResponseDto> findAllByBoardId(Long boardId, Pageable pageable);
 }
