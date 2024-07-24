@@ -7,31 +7,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
-@Controller
+
+@RestController
+@RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:3000") //react port 연결
 public class HospitalController {
 
     @Autowired
     private HospitalService hospitalService;
 
     @GetMapping("/hospitals")
-    public String getAllHospitals(Model model) {
-        List<Hospital> hospitals = hospitalService.getAllHospitals();
-        model.addAttribute("hospitals", hospitals);
-        return "hospital.html";
+    public List<Hospital> getAllHospitals() {
+        return hospitalService.getAllHospitals();
     }
 
     @GetMapping("/search")
-    public String searchHospitals(@RequestParam("name") String name, Model model) {
-        List<Hospital> hospitals = hospitalService.searchHospitalsByName(name);
-        model.addAttribute("hospitals", hospitals);
-        return "hospitals";
+    public List<Hospital> searchHospitals(@RequestParam("name") String name) {
+        return hospitalService.searchHospitalsByName(name);
     }
 }
