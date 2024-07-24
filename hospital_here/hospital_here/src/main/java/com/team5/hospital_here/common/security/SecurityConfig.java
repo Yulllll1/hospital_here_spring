@@ -3,6 +3,7 @@ package com.team5.hospital_here.common.security;
 
 import com.team5.hospital_here.common.jwt.CustomUserDetailsService;
 import com.team5.hospital_here.common.jwt.JwtAuthenticationFilter;
+import com.team5.hospital_here.user.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,16 +32,12 @@ public class SecurityConfig {
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.csrf(AbstractHttpConfigurer::disable);
 
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .formLogin(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/users/**").permitAll()
-//                        .anyRequest().authenticated()
-//
-//        );
-//
-//        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/test1").hasRole(Role.USER.name())
+            .anyRequest().permitAll()
+        );
+
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

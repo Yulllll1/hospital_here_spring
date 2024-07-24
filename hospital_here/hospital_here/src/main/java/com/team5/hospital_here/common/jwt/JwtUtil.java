@@ -31,7 +31,6 @@ public class JwtUtil {
                 .compact();
     }
     public String getEmailFromToken(String token) {
-        System.out.println("Generating token with secret: " + secret);
         Claims claims = Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)

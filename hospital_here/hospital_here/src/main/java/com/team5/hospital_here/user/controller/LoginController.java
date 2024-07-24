@@ -23,8 +23,8 @@ public class LoginController {
         return ResponseEntity.ok(loginService.login(loginDTO, response));
     }
 
-    @GetMapping("/test1")
+    @GetMapping("/role-test")
     public ResponseEntity<String> test(){
-        return ResponseEntity.ok("TEST");
+        return ResponseEntity.ok("토큰 인가 성공");
     }
 }

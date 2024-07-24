@@ -240,7 +240,7 @@ public class UserService {
     //TODO: Hospital CRUD 작업 완료 시, 수정 필요
     @Transactional
     public DoctorProfile createDoctorProfile(DoctorProfileDTO doctorProfileDTO){
-        User user = updateUserRole(doctorProfileDTO.getUserId(), Role.DOCTOR.name());
+        User user = updateUserRole(doctorProfileDTO.getUserId(), Role.DOCTOR.getName());
 
         DoctorProfile doctorProfile = new DoctorProfile();
         doctorProfile.setUser(user);
