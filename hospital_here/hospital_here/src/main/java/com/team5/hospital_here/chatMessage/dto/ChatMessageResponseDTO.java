@@ -1,6 +1,6 @@
 package com.team5.hospital_here.chatMessage.dto;
 
-import com.team5.hospital_here.user.entity.UserDTO;
+import com.team5.hospital_here.user.entity.user.UserDTO;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;

@@ -2,9 +2,9 @@ package com.team5.hospital_here.chatRoom.mapper;
 
 import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
-import com.team5.hospital_here.user.entity.User;
-import com.team5.hospital_here.user.entity.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
+import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.UserDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -21,6 +21,6 @@ public interface ChatRoomMapper {
     ChatRoomResponseDTO toDto(ChatRoom chatRoom);
 
     @Named("userToDTO")
-    @Mapping(source = "id", target = "userId")
+    @Mapping(source = "id", target = "id")
     UserDTO userToDTO(User user);
 }

@@ -2,7 +2,7 @@ package com.team5.hospital_here.chatMessage.entity;
 
 import com.team5.hospital_here.common.baseEntity.BaseEntity;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
-import com.team5.hospital_here.user.entity.User;
+import com.team5.hospital_here.user.entity.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

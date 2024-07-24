@@ -4,7 +4,7 @@ import com.team5.hospital_here.chatMessage.entity.ChatMessage;
 import com.team5.hospital_here.chatRoom.enums.ChatRoomStatus;
 import com.team5.hospital_here.chatRoom.enums.ChatRoomType;
 import com.team5.hospital_here.common.baseEntity.BaseEntity;
-import com.team5.hospital_here.user.entity.User;
+import com.team5.hospital_here.user.entity.user.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

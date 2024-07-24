@@ -2,9 +2,9 @@ package com.team5.hospital_here.chatMessage.mapper;
 
 import com.team5.hospital_here.chatMessage.dto.ChatMessageResponseDTO;
 import com.team5.hospital_here.chatMessage.entity.ChatMessage;
-import com.team5.hospital_here.user.entity.User;
-import com.team5.hospital_here.user.entity.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
+import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.UserDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
