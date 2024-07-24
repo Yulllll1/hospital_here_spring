@@ -34,11 +34,9 @@ public class SecurityConfig {
 
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.csrf(AbstractHttpConfigurer::disable);
+        http.cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource())); // NOTE : CORS 허용하는것
 
-
-        http
-            .cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource())) // NOTE : CORS 허용하는것
-            .authorizeHttpRequests(authorize -> authorize
+        http.authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/users").permitAll()
 
             .requestMatchers("/role-test", "/logined-info-test").hasRole(Role.USER.name())
