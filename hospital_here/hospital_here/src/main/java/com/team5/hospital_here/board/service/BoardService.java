@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BoardService {
-    List<BoardResponseDto> findAll();
-    Optional<BoardResponseDto> findById(Long id);
-    BoardResponseDto save(BoardRequestDto boardRequestDto);
-    BoardResponseDto update(BoardUpdateDto boardUpdateDto);
-    void deleteById(Long id);
+    BoardResponseDto createBoard(BoardRequestDto boardRequestDto);
+    BoardResponseDto updateBoard(BoardUpdateDto boardUpdateDto);
+    void deleteBoard(Long id);
+    List<BoardResponseDto> findAllBoards();
+    Optional<BoardResponseDto> findBoardById(Long id);
+
 }

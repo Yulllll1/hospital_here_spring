@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostService {
-    List<PostResponseDto> findAll();
-    Optional<PostResponseDto> findById(Long id);
-    PostResponseDto save(PostRequestDto postRequestDto);
-    PostResponseDto update(PostUpdateDto postUpdateDto);
-    Page<PostResponseDto> findByBoardId(Long boardId, Pageable pageable);
-    void deleteById(Long id);
+    PostResponseDto createPost(PostRequestDto postRequestDto);
+    PostResponseDto updatePost(PostUpdateDto postUpdateDto);
+    void deletePost(Long id);
+    List<PostResponseDto> findAllPosts();
+    Optional<PostResponseDto> findPostById(Long id);
+    List<PostResponseDto> findPostsByBoardId(Long boardId);
 
 }

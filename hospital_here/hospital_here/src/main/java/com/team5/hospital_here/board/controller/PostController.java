@@ -10,58 +10,49 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/posts")
 @RequiredArgsConstructor
 public class PostController {
+
     private final PostService postService;
-
-    @GetMapping
-    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
-        List<PostResponseDto> posts = postService.findAll();
-        return ResponseEntity.ok(posts);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id) {
-        Optional<PostResponseDto> postOptional = postService.findById(id);
-        if (postOptional.isPresent()) {
-            return ResponseEntity.ok(postOptional.get());
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-    }
 
     @PostMapping
     public ResponseEntity<PostResponseDto> createPost(@RequestBody PostRequestDto postRequestDto) {
-        PostResponseDto savedPost = postService.save(postRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedPost);
+        PostResponseDto postResponseDto = postService.createPost(postRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(postResponseDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long id, @RequestBody PostUpdateDto postUpdateDto) {
         postUpdateDto.setId(id);
-        PostResponseDto updatedPost = postService.update(postUpdateDto);
-        return ResponseEntity.ok(updatedPost);
+        PostResponseDto postResponseDto = postService.updatePost(postUpdateDto);
+        return ResponseEntity.ok(postResponseDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-        Optional<PostResponseDto> postOptional = postService.findById(id);
-        if (postOptional.isPresent()) {
-            postService.deleteById(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        postService.deletePost(id);
+        return ResponseEntity.noContent().build();
     }
 
-//    @GetMapping("/board/{boardId}")
-//    public ResponseEntity<Page<PostResponseDto>> getPostsByBoardId(@PathVariable Long boardId, Pageable pageable) {
-//        Page<PostResponseDto> postPage = postService.findAllByBoardId(boardId, pageable);
-//        return ResponseEntity.ok(postPage);
-//    }
+    @GetMapping
+    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
+        List<PostResponseDto> posts = postService.findAllPosts();
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id) {
+        return postService.findPostById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/board/{boardId}")
+    public ResponseEntity<List<PostResponseDto>> getPostsByBoardId(@PathVariable Long boardId) {
+        List<PostResponseDto> posts = postService.findPostsByBoardId(boardId);
+        return ResponseEntity.ok(posts);
+    }
 }
-
-
-

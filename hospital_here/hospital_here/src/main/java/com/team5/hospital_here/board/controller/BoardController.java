@@ -5,11 +5,11 @@ import com.team5.hospital_here.board.dto.board.BoardResponseDto;
 import com.team5.hospital_here.board.dto.board.BoardUpdateDto;
 import com.team5.hospital_here.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/boards")
@@ -18,34 +18,35 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping
-    public ResponseEntity<List<BoardResponseDto>> getAllBoards() {
-        List<BoardResponseDto> boards = boardService.findAll();
-        return ResponseEntity.ok(boards);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<BoardResponseDto> getBoardById(@PathVariable Long id) {
-        Optional<BoardResponseDto> board = boardService.findById(id);
-        return board.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @PostMapping
     public ResponseEntity<BoardResponseDto> createBoard(@RequestBody BoardRequestDto boardRequestDto) {
-        BoardResponseDto createdBoard = boardService.save(boardRequestDto);
-        return ResponseEntity.ok(createdBoard);
+        BoardResponseDto boardResponseDto = boardService.createBoard(boardRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(boardResponseDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<BoardResponseDto> updateBoard(@PathVariable Long id, @RequestBody BoardUpdateDto boardUpdateDto) {
         boardUpdateDto.setId(id);
-        BoardResponseDto updatedBoard = boardService.update(boardUpdateDto);
-        return ResponseEntity.ok(updatedBoard);
+        BoardResponseDto boardResponseDto = boardService.updateBoard(boardUpdateDto);
+        return ResponseEntity.ok(boardResponseDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBoard(@PathVariable Long id) {
-        boardService.deleteById(id);
+        boardService.deleteBoard(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BoardResponseDto>> getAllBoards() {
+        List<BoardResponseDto> boards = boardService.findAllBoards();
+        return ResponseEntity.ok(boards);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BoardResponseDto> getBoardById(@PathVariable Long id) {
+        return boardService.findBoardById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

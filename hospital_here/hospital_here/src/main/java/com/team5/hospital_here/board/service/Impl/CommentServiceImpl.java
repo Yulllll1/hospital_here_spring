@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,33 +28,11 @@ public class CommentServiceImpl implements CommentService {
     private final UserRepository userRepository;
 
     @Override
-    public Optional<CommentResponseDto> findById(Long id) {
-        Optional<Comment> optionalComment = commentRepository.findById(id);
-        if (optionalComment.isPresent()) {
-            Comment comment = optionalComment.get();
-            return Optional.of(comment.toResponseDto());
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public List<CommentResponseDto> findByPostId(Long postId) {
-        List<Comment> comments = commentRepository.findByPostId(postId);
-        List<CommentResponseDto> dtos = new ArrayList<>();
-        for (Comment comment : comments) {
-            dtos.add(comment.toResponseDto());
-        }
-        return dtos;
-    }
-
-    @Override
-    public CommentResponseDto save(CommentRequestDto commentRequestDto) {
+    public CommentResponseDto createComment(CommentRequestDto commentRequestDto) {
         Post post = postRepository.findById(commentRequestDto.getPostId())
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-
         User user = userRepository.findById(commentRequestDto.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
         Comment parent = commentRequestDto.getParentId() != null ?
                 commentRepository.findById(commentRequestDto.getParentId())
                         .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND)) : null;
@@ -64,27 +43,48 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        commentRepository.deleteById(id);
-    }
-
-    @Override
-    public CommentResponseDto update(Long id, CommentUpdateDto commentUpdateDto) {
+    public CommentResponseDto updateComment(Long id, CommentUpdateDto commentUpdateDto) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
-
         Post post = postRepository.findById(commentUpdateDto.getPostId())
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-
         User user = userRepository.findById(commentUpdateDto.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
         Comment parent = commentUpdateDto.getParentId() != null ?
                 commentRepository.findById(commentUpdateDto.getParentId())
-                        .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND)) : null;
+                        .orElseThrow(() -> new CustomException(ErrorCode.NESTED_COMMENT_NOT_FOUND)) : null;
 
         comment.update(commentUpdateDto, post, user, parent);
         Comment updatedComment = commentRepository.save(comment);
         return updatedComment.toResponseDto();
+    }
+
+    @Override
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CommentResponseDto> findAllComments() {
+        List<Comment> comments= commentRepository.findAll();
+        return comments.stream().map(Comment::toResponseDto).toList();
+    }
+
+    @Override
+    public Optional<CommentResponseDto> findCommentById(Long id) {
+        Optional<Comment> optionalComment = commentRepository.findById(id);
+        if (optionalComment.isPresent()) {
+            Comment comment = optionalComment.get();
+            return Optional.ofNullable(comment.toResponseDto());
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<CommentResponseDto> findCommentsByPostId(Long postId) {
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        return comments.stream()
+                .map(Comment::toResponseDto)
+                .collect(Collectors.toList());
     }
 }

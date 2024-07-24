@@ -11,7 +11,6 @@ import com.team5.hospital_here.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,33 +21,14 @@ public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
 
     @Override
-    public List<BoardResponseDto> findAll() {
-        List<Board> boards = boardRepository.findAll();
-        List<BoardResponseDto> dtos = new ArrayList<>();
-        for (Board board : boards) {
-            dtos.add(board.toResponseDto());
-        }
-        return dtos;
-    }
-
-    @Override
-    public Optional<BoardResponseDto> findById(Long id) {
-        Optional<Board> optionalBoard = boardRepository.findById(id);
-        if (optionalBoard.isPresent()) {
-            Board board = optionalBoard.get();
-            return Optional.of(board.toResponseDto());
-        }
-        return Optional.empty();
-    }
-    @Override
-    public BoardResponseDto save(BoardRequestDto boardRequestDto) {
+    public BoardResponseDto createBoard(BoardRequestDto boardRequestDto) {
         Board board = boardRequestDto.toEntity();
-        Board saveBoard = boardRepository.save(board);
-        return saveBoard.toResponseDto();
+        Board createdBoard = boardRepository.save(board);
+        return createdBoard.toResponseDto();
     }
 
     @Override
-    public BoardResponseDto update(BoardUpdateDto boardUpdateDto) {
+    public BoardResponseDto updateBoard(BoardUpdateDto boardUpdateDto) {
         Board board = boardRepository.findById(boardUpdateDto.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
         board.update(boardUpdateDto);
@@ -57,7 +37,24 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteBoard(Long id) {
         boardRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BoardResponseDto> findAllBoards() {
+        List<Board> boards = boardRepository.findAll();
+        return boards.stream()
+                .map(Board::toResponseDto).toList();
+    }
+
+    @Override
+    public Optional<BoardResponseDto> findBoardById(Long id) {
+        Optional<Board> optionalBoard = boardRepository.findById(id);
+        if (optionalBoard.isPresent()) {
+            Board board = optionalBoard.get();
+            return Optional.ofNullable(board.toResponseDto());
+        }
+        return Optional.empty();
     }
 }

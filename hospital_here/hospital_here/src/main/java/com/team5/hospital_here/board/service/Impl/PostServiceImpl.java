@@ -13,13 +13,11 @@ import com.team5.hospital_here.board.service.PostService;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,59 +27,59 @@ public class PostServiceImpl implements PostService {
     private final UserRepository userRepository;
 
     @Override
-    public List<PostResponseDto> findAll() {
-        List<Post> posts = postRepository.findAll();
-        List<PostResponseDto> dtos = new ArrayList<>();
-        for (Post post : posts) {
-            dtos.add(post.toResponseDto());
-        }
-        return dtos;
-    }
-
-    @Override
-    public Optional<PostResponseDto> findById(Long id) {
-        Optional<Post> optionalPost = postRepository.findById(id);
-        if (optionalPost.isPresent()) {
-            Post post = optionalPost.get();
-            return Optional.of(post.toResponseDto());
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public PostResponseDto save(PostRequestDto postRequestDto) {
+    public PostResponseDto createPost(PostRequestDto postRequestDto) {
         Board board = boardRepository.findById(postRequestDto.getBoardId())
                 .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
         User user = userRepository.findById(postRequestDto.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         Post post = postRequestDto.toEntity(board, user);
-        Post savedPost = postRepository.save(post);
-        return savedPost.toResponseDto();
+        Post createdPost = postRepository.save(post);
+        return createdPost.toResponseDto();
     }
 
     @Override
-    public PostResponseDto update(PostUpdateDto postUpdateDto) {
+    public PostResponseDto updatePost(PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(postUpdateDto.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         Board board = boardRepository.findById(postUpdateDto.getBoardId())
                 .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
         User user = userRepository.findById(postUpdateDto.getUserId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
         post.update(postUpdateDto, board, user);
         Post updatedPost = postRepository.save(post);
         return updatedPost.toResponseDto();
     }
 
     @Override
-    public Page<PostResponseDto> findByBoardId(Long boardId, Pageable pageable) {
-        return postRepository.findByBoardId(boardId, pageable).map(Post::toResponseDto);
-    }
-
-    @Override
-    public void deleteById(Long id) {
+    public void deletePost(Long id) {
         postRepository.deleteById(id);
     }
 
+    @Override
+    public List<PostResponseDto> findAllPosts() {
+        List<Post> posts = postRepository.findAll();
+        return posts.stream().map(Post::toResponseDto).toList();
+    }
+
+    @Override
+    public Optional<PostResponseDto> findPostById(Long id) {
+        Optional<Post> optionalPost = postRepository.findById(id);
+        if (optionalPost.isPresent()) {
+            Post post = optionalPost.get();
+            return Optional.ofNullable(post.toResponseDto());
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<PostResponseDto> findPostsByBoardId(Long boardId) {
+        List<Post> posts = postRepository.findByBoardId(boardId);
+        return posts.stream()
+                .map(Post::toResponseDto)
+                .collect(Collectors.toList());
+
+    }
 }
 
