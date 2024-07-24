@@ -40,12 +40,8 @@ public class LoginService {
     }
 
     private void matchPassword(LoginDTO loginDTO, Login login){
-
-
         if(!passwordEncoder.matches(loginDTO.getPassword(), login.getPassword())) {
             throw new CustomException(ErrorCode.LOGIN_PASSWORD_WRONG);
         }
-
-
     }
 }

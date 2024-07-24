@@ -121,12 +121,13 @@ public class UserController {
 
     //NOTE: #### 관리자 기능 #####
 
-    //사용자 권한 변경
+    //사용자 권한 변경 요청
     @PutMapping("/{id}/{updateRole}")
     public ResponseEntity<User> updateUserRole(@PathVariable Long id, @PathVariable String updateRole){
         return ResponseEntity.ok(userService.updateUserRole(id, updateRole));
     }
 
+    //의사 사용자 모든 정보 요청
     @PostMapping("/doctors")
     public ResponseEntity<DoctorProfile> createDoctorProfile(@RequestBody @Valid DoctorProfileDTO doctorProfileDTO){
         return new ResponseEntity<>(userService.createDoctorProfile(doctorProfileDTO), HttpStatus.CREATED);
