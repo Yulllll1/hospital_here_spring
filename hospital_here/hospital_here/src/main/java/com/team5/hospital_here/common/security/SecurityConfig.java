@@ -38,6 +38,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/users").permitAll()
+            .requestMatchers("/refresh-token").permitAll()
 
             .requestMatchers("/role-test", "/logined-info-test").hasRole(Role.USER.name())
             .requestMatchers("/users/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())

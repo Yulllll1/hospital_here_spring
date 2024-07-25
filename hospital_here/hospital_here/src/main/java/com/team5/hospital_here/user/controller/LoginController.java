@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,5 +36,10 @@ public class LoginController {
     @GetMapping("/logined-info-test")
     public ResponseEntity<User> loginedInfoTest(@AuthenticationPrincipal CustomUser customUser){
         return ResponseEntity.ok(customUser.getUser());
+    }
+
+    @GetMapping("/refresh-token")
+    public ResponseEntity<String> refreshToken(@CookieValue String refreshToken, HttpServletResponse response){
+        return ResponseEntity.ok(loginService.createNewAccessToken(response, refreshToken));
     }
 }
