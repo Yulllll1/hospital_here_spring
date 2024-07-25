@@ -28,6 +28,7 @@ public class UserMapper {
         Date.valueOf(userDTO.getBirthday());
         user.setAddress(userDTO.getAddress());
         user.setAddressDetail((userDTO.getAddressDetail()));
+        user.setBirthday(Date.valueOf(userDTO.getBirthday()));
         user.setImg(userDTO.getImage());
         user.setLogin(login);
 
