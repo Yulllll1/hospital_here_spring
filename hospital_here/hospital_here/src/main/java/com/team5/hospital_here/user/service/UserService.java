@@ -164,7 +164,7 @@ public class UserService {
         user.setRole(Role.USER);
         String encodedPassword = encodePassword(userDTO.getPassword());
         user.getLogin().setPassword(encodedPassword);
-        userRepository.save(user);
+        userDTO = UserMapper.toUserDTO(userRepository.save(user));
 
         return userDTO;
     }
