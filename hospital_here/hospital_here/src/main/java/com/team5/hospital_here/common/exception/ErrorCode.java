@@ -20,7 +20,8 @@ public enum ErrorCode {
     LOGIN_PASSWORD_WRONG(400, "LOGIN_PASSWORD_WRONG", "잘못된 비밀번호를 입력했습니다."),
     WRONG_PASSWORD(400, "WRONG_PASSWORD", "잘못된 비밀번호를 입력했습니다."),
     NO_PERMISSION(403,"NO_PERMISSION","접근 권한이 없습니다."),
-    ALREADY_DOCTOR_USER(400, "ALREADY_DOCTOR_USER", "이미 의사로 등록된 회원입니다.")
+    ALREADY_DOCTOR_USER(400, "ALREADY_DOCTOR_USER", "이미 의사로 등록된 회원입니다."),
+    CHAT_ROOM_NOT_EXIST(404, "CHAT_ROOM_NOT_EXIST", "채팅방 목록이 없습니다"),
     ;
 
     //NOTE: HttpStatus code
