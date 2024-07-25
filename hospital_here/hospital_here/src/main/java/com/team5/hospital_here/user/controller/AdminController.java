@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -50,14 +51,15 @@ public class AdminController {
         return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 
+    //특정 회원 삭제
     @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
     //회원 권한 변경 요청
-    @PutMapping("/{id}/{updateRole}")
-    public ResponseEntity<UserDTO> updateUserRole(@PathVariable Long id, @PathVariable String updateRole){
+    @PutMapping("/users/{id}")
+    public ResponseEntity<UserDTO> updateUserRole(@PathVariable Long id, @RequestParam String updateRole){
         return ResponseEntity.ok(userService.updateUserRole(id, updateRole));
     }
 

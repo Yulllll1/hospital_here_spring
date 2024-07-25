@@ -9,8 +9,13 @@ import com.team5.hospital_here.user.entity.login.LoginDTO;
 import com.team5.hospital_here.user.repository.LoginRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -41,15 +46,18 @@ public class LoginService {
      * @return 로그인 성공
      * @exception CustomException 존재하지 않는 로그인 정보 또는 비밀번호 매칭 실패
      */
-    public String login(LoginDTO loginDTO, HttpServletResponse response){
+    public ResponseEntity<Map<String, Object>> login(LoginDTO loginDTO, HttpServletResponse response){
         Login login = findByEmail(loginDTO.getEmail());
         matchPassword(loginDTO, login);
 
         String token = "Bearer " + jwtUtil.generateToken(loginDTO.getEmail());
         response.setHeader("Authorization", token);
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("userId", login.getId());//유저 id랑 로그인 id 랑 같아서
+        responseBody.put("message", LOGIN_SUCCESS);
 
 
-        return LOGIN_SUCCESS;
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
     /**
