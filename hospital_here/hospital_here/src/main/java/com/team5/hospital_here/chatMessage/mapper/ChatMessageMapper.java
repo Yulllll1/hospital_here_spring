@@ -16,11 +16,15 @@ public interface ChatMessageMapper {
     ChatMessageMapper INSTANCE = Mappers.getMapper(ChatMessageMapper.class);
 
     @Mapping(source = "user", target = "user", qualifiedByName = "userToDTO")
-    @Mapping(source = "chatRoom.id", target = "roomId")
+    @Mapping(source = "chatRoom.id", target = "chatRoomId")
     ChatMessageResponseDTO toDTO(ChatMessage chatMessage);
 
     @Named("userToDTO")
-    public static UserDTO userToDTO(User user) {
-        return UserMapper.toUserDTO(user);
-    }
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "login.email", target = "email")
+    @Mapping(source = "login.password", target = "password")
+    @Mapping(source = "login.provider", target = "provider")
+    @Mapping(source = "login.providerId", target = "providerId")
+    @Mapping(source = "img", target = "image")
+    UserDTO userToDTO(User user);
 }

@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ChatMessageResponseDTO {
-    private Long roomId;
+    private Long chatRoomId;
     private String content;
     private UserDTO user;
     private LocalDateTime createdAt;
