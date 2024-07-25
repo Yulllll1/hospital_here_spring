@@ -4,9 +4,12 @@ package com.team5.hospital_here.user.service;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.JwtUtil;
+import com.team5.hospital_here.common.jwt.entity.RefreshToken;
+import com.team5.hospital_here.common.jwt.repository.RefreshTokenRepository;
 import com.team5.hospital_here.user.entity.login.Login;
 import com.team5.hospital_here.user.entity.login.LoginDTO;
 import com.team5.hospital_here.user.repository.LoginRepository;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,9 +26,11 @@ public class LoginService {
 
     private final LoginRepository loginRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
 
-    private final String LOGIN_SUCCESS = "로그인 성공";
+    private final String LOGIN_SUCCESS = "로그인 인증되었습니다.";
+    private final String TOKEN_REFRESH_SUCCESS = "토큰이 재발급 되었습니다.";
 
     /**
      * 이메일로 로그인 정보를 검색합니다.
@@ -50,14 +55,31 @@ public class LoginService {
         Login login = findByEmail(loginDTO.getEmail());
         matchPassword(loginDTO, login);
 
-        String token = "Bearer " + jwtUtil.generateToken(loginDTO.getEmail());
-        response.setHeader("Authorization", token);
+        RefreshToken dbToken = refreshTokenRepository.findByLogin(login).orElse(new RefreshToken());
+        dbToken.setLogin(login);
+
+        createToken(dbToken, login.getEmail(), response);
+
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("userId", login.getId());//유저 id랑 로그인 id 랑 같아서
         responseBody.put("message", LOGIN_SUCCESS);
 
-
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    private void createToken(RefreshToken dbToken, String email, HttpServletResponse response){
+        String accessToken = "Bearer " + jwtUtil.generateAccessToken(email);
+        response.setHeader("Authorization", accessToken);
+
+        String refreshToken = jwtUtil.generateRefreshToken(email);
+        Cookie cookie = new Cookie(jwtUtil.REFRESH_TOKEN_COOKIE_NAME, refreshToken);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(jwtUtil.REFRESH_TOKEN_COOKIE_MAX_AGE);
+        response.addCookie(cookie);
+
+        dbToken.setToken(refreshToken);
+        refreshTokenRepository.save(dbToken);
     }
 
     /**
@@ -68,7 +90,22 @@ public class LoginService {
      */
     private void matchPassword(LoginDTO loginDTO, Login login){
         if(!passwordEncoder.matches(loginDTO.getPassword(), login.getPassword())) {
-            throw new CustomException(ErrorCode.LOGIN_PASSWORD_WRONG);
+            throw new CustomException(ErrorCode.INVALID_USER_CREDENTIALS);
         }
+    }
+
+    public String createNewAccessToken(HttpServletResponse response, String refreshToken){
+        String email = jwtUtil.getEmailFromRefreshToken(refreshToken);
+
+        RefreshToken dbToken = refreshTokenRepository.findByLoginEmail(email).orElseThrow(()->
+            new CustomException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
+
+        if(!dbToken.getToken().equals(refreshToken))
+            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
+
+
+        createToken(dbToken, email, response);
+
+        return TOKEN_REFRESH_SUCCESS;
     }
 }

@@ -218,7 +218,7 @@ public class UserService {
     {
         User user = customUser.getUser();
         if(!passwordEncoder.matches(passwordDTO.getVerifyPassword(), user.getLogin().getPassword()))
-            throw new CustomException(ErrorCode.WRONG_PASSWORD);
+            throw new CustomException(ErrorCode.INVALID_USER_CREDENTIALS);
 
         user.getLogin().setPassword(encodePassword(passwordDTO.getAlterPassword()));
         loginRepository.save(user.getLogin());
