@@ -1,5 +1,7 @@
 package com.team5.hospital_here.chatRoom.service;
 
+import com.team5.hospital_here.chatMessage.entity.ChatMessage;
+import com.team5.hospital_here.chatMessage.mapper.ChatMessageMapper;
 import com.team5.hospital_here.chatMessage.repository.ChatMessageRepository;
 import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
@@ -13,6 +15,7 @@ import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,12 +38,28 @@ public class ChatRoomService {
 
     // 모든 채팅방 조회
     public List<ChatRoomResponseDTO> findAllChatRoom(Long userId) throws CustomException {
-        User foundUser = userRepository.findById(userId)
+        userRepository.findById(userId)
             .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         List<ChatRoom> chatRooms = chatRoomRepository.findAllWithUserId(userId);
+        if (chatRooms.isEmpty()) {
+            throw new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST);
+        }
 
-        return chatRooms.stream().map(ChatRoomMapper.INSTANCE::toDto).toList();
+        List<ChatRoomResponseDTO> list = chatRooms.stream().map(ChatRoomMapper.INSTANCE::toDto)
+            .toList();
+        for (int i = 0; i < list.size(); i++) {
+            try {
+                List<ChatMessage> chatRoomsMessages = chatRooms.get(i).getChatMessages();
+                list.get(i).setLastMessage(ChatMessageMapper.INSTANCE.toDTO(
+                    chatRoomsMessages.get(chatRoomsMessages.size() - 1)));
+            } catch (IndexOutOfBoundsException e) {
+                list.get(i).setLastMessage(null);
+            }
+
+        }
+
+        return list;
     }
 
     // 채팅방 생성
