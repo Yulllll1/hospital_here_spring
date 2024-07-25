@@ -25,7 +25,7 @@ public class Hospital {
     @Column(nullable = false)
     private String district;
 
-    @Column(name = "sub_district", length = 500, nullable = false)
+    @Column(name = "sub_district", length = 500)
     private String subDistrict;
 
     @Column(nullable = false)
