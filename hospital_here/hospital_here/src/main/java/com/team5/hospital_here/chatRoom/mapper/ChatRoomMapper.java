@@ -22,5 +22,10 @@ public interface ChatRoomMapper {
 
     @Named("userToDTO")
     @Mapping(source = "id", target = "id")
+    @Mapping(source = "login.email", target = "email")
+    @Mapping(source = "login.password", target = "password")
+    @Mapping(source = "login.provider", target = "provider")
+    @Mapping(source = "login.providerId", target = "providerId")
+    @Mapping(source = "img", target = "image")
     UserDTO userToDTO(User user);
 }
