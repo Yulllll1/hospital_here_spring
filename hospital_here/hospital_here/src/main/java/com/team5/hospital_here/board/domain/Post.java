@@ -3,6 +3,7 @@ package com.team5.hospital_here.board.domain;
 import com.team5.hospital_here.board.dto.post.PostResponseDto;
 import com.team5.hospital_here.board.dto.post.PostUpdateDto;
 import com.team5.hospital_here.common.baseEntity.BaseEntity;
+import com.team5.hospital_here.user.entity.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

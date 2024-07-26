@@ -2,20 +2,19 @@ package com.team5.hospital_here.board.service.Impl;
 
 import com.team5.hospital_here.board.domain.Comment;
 import com.team5.hospital_here.board.domain.Post;
-import com.team5.hospital_here.board.domain.User;
 import com.team5.hospital_here.board.dto.comment.CommentRequestDto;
 import com.team5.hospital_here.board.dto.comment.CommentResponseDto;
 import com.team5.hospital_here.board.dto.comment.CommentUpdateDto;
 import com.team5.hospital_here.board.repository.CommentRepository;
 import com.team5.hospital_here.board.repository.PostRepository;
-import com.team5.hospital_here.board.repository.UserRepository;
 import com.team5.hospital_here.board.service.CommentService;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

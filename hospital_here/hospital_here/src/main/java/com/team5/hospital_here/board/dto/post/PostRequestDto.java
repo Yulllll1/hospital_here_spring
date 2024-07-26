@@ -2,7 +2,7 @@ package com.team5.hospital_here.board.dto.post;
 
 import com.team5.hospital_here.board.domain.Board;
 import com.team5.hospital_here.board.domain.Post;
-import com.team5.hospital_here.board.domain.User;
+import com.team5.hospital_here.user.entity.user.User;
 import lombok.*;
 
 @Getter

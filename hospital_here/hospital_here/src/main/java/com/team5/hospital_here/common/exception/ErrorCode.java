@@ -25,8 +25,12 @@ public enum ErrorCode {
     INVALID_REFRESH_TOKEN(401, "INVALID_REFRESH_TOKEN", "토큰 정보가 일치하지 않습니다."),
 
     INVALID_SOCIAL_TOKEN(401,"INVALID_SOCIAL_TOKEN","토큰 정보가 일치하지 않습니다."),
-    SOCIAL_USER(400,"SOCIAL_USER","소셜 가입 유저입니다.")
+    SOCIAL_USER(400,"SOCIAL_USER","소셜 가입 유저입니다."),
 
+    BOARD_NOT_FOUND(400,"BOARD_NOT_FOUND","게시판을 찾을 수 없습니다."),
+    POST_NOT_FOUND(400,"POST_NOT_FOUND","게시글을 찾을 수 없습니다."),
+    COMMENT_NOT_FOUND(400,"COMMENT_NOT_FOUND","댓글을 찾을 수 없습니다."),
+    NESTED_COMMENT_NOT_FOUND(400,"NESTED_COMMENT_NOT_FOUND","대댓글을 찾을 수 없습니다.")
     ;
 
     //NOTE: HttpStatus code
