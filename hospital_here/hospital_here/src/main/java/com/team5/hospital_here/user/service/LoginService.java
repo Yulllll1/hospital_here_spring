@@ -31,6 +31,7 @@ public class LoginService {
 
     private final String LOGIN_SUCCESS = "로그인 인증되었습니다.";
     private final String TOKEN_REFRESH_SUCCESS = "토큰이 재발급 되었습니다.";
+    private final String LOGOUT_SUCCESS = "로그아웃 되었습니다.";
 
     /**
      * 이메일로 로그인 정보를 검색합니다.
@@ -67,6 +68,26 @@ public class LoginService {
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
+    /**
+     * 리프레시 토큰을 파기합니다.
+     * @param refreshToken 파기할 토큰
+     * @param response HttpServletResponse
+     */
+    public void logout(String refreshToken, HttpServletResponse response){
+        String email = jwtUtil.getEmailFromRefreshToken(refreshToken);
+        refreshTokenRepository.findByLoginEmail(email).ifPresentOrElse(
+            refreshTokenRepository::delete
+        , () -> {});
+
+        destroyRefreshTokenCookie(response);
+    }
+
+    /**
+     * JWT 토큰을 생성합니다.
+     * @param dbToken 새로운 리프레시 토큰 또는 기존에 있던 리프레시 토큰
+     * @param email 회원 이메일
+     * @param response HttpServletResponse
+     */
     private void createToken(RefreshToken dbToken, String email, HttpServletResponse response){
         String accessToken = "Bearer " + jwtUtil.generateAccessToken(email);
         response.setHeader("Authorization", accessToken);
@@ -83,6 +104,17 @@ public class LoginService {
     }
 
     /**
+     * 리프레시 토큰을 파기합니다.
+     * @param response HttpServletResponse
+     */
+    private void destroyRefreshTokenCookie(HttpServletResponse response){
+        Cookie cookie = new Cookie(jwtUtil.REFRESH_TOKEN_COOKIE_NAME, null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
+
+    /**
      * 패스워드가 일치하는지 검증합니다.
      * @param loginDTO 요청한 로그인 정보
      * @param login 데이터베이스 로그인 정보
@@ -94,7 +126,14 @@ public class LoginService {
         }
     }
 
-    public String createNewAccessToken(HttpServletResponse response, String refreshToken){
+    /**
+     * 리프레시 토큰을 검증하고 
+     * 새로운 엑세스 토큰 및 리프레시 토큰을 발급합니다.
+     * @param refreshToken 검증할 리프레시 토큰
+     * @param response HttpServletResponse
+     * @return 발급 완료
+     */
+    public String createNewAccessToken(String refreshToken, HttpServletResponse response){
         String email = jwtUtil.getEmailFromRefreshToken(refreshToken);
 
         RefreshToken dbToken = refreshTokenRepository.findByLoginEmail(email).orElseThrow(()->

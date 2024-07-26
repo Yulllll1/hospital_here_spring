@@ -22,7 +22,8 @@ public enum ErrorCode {
     ACCESS_TOKEN_EXPIRED(401, "ACCESS_TOKEN_EXPIRED", "엑세스 토큰이 만료되었습니다."),
     REFRESH_TOKEN_EXPIRED(401, "REFRESH_TOKEN_EXPIRED", "리프레시 토큰이 만료되었습니다."),
     REFRESH_TOKEN_NOT_FOUND(401, "REFRESH_TOKEN_NOT_FOUND", "발급된 리프레시 토큰이 없습니다."),
-    INVALID_REFRESH_TOKEN(401, "INVALID_REFRESH_TOKEN", "토큰 정보가 일치하지 않습니다.")
+    INVALID_REFRESH_TOKEN(401, "INVALID_REFRESH_TOKEN", "토큰 정보가 일치하지 않습니다."),
+
     ;
 
     //NOTE: HttpStatus code
