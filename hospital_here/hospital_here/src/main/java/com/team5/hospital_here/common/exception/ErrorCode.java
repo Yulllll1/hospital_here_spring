@@ -24,6 +24,9 @@ public enum ErrorCode {
     REFRESH_TOKEN_NOT_FOUND(401, "REFRESH_TOKEN_NOT_FOUND", "발급된 리프레시 토큰이 없습니다."),
     INVALID_REFRESH_TOKEN(401, "INVALID_REFRESH_TOKEN", "토큰 정보가 일치하지 않습니다."),
 
+    INVALID_SOCIAL_TOKEN(401,"INVALID_SOCIAL_TOKEN","토큰 정보가 일치하지 않습니다."),
+    SOCIAL_USER(400,"SOCIAL_USER","소셜 가입 유저입니다.")
+
     ;
 
     //NOTE: HttpStatus code

@@ -4,6 +4,7 @@ package com.team5.hospital_here.common.security;
 import com.team5.hospital_here.common.jwt.CustomUserDetailsService;
 import com.team5.hospital_here.common.jwt.JwtAuthenticationFilter;
 import com.team5.hospital_here.user.entity.Role;
+import com.team5.hospital_here.user.service.OAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,9 +44,16 @@ public class SecurityConfig {
             .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
             .anyRequest().permitAll()
         );
+        http.oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService());
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+    @Bean
+    public OAuth2UserService customOAuth2UserService() {
+        return new OAuth2UserService();
     }
 }

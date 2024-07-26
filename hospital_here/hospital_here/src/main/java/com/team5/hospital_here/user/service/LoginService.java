@@ -1,29 +1,43 @@
 package com.team5.hospital_here.user.service;
 
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.JwtUtil;
 import com.team5.hospital_here.common.jwt.entity.RefreshToken;
 import com.team5.hospital_here.common.jwt.repository.RefreshTokenRepository;
+import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.login.Login;
 import com.team5.hospital_here.user.entity.login.LoginDTO;
+import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.LoginRepository;
+import com.team5.hospital_here.user.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LoginService {
 
+
+    private final UserRepository userRepository;
     private final LoginRepository loginRepository;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -31,7 +45,9 @@ public class LoginService {
 
     private final String LOGIN_SUCCESS = "로그인 인증되었습니다.";
     private final String TOKEN_REFRESH_SUCCESS = "토큰이 재발급 되었습니다.";
+
     private final String LOGOUT_SUCCESS = "로그아웃 되었습니다.";
+
 
     /**
      * 이메일로 로그인 정보를 검색합니다.
@@ -54,6 +70,10 @@ public class LoginService {
      */
     public ResponseEntity<Map<String, Object>> login(LoginDTO loginDTO, HttpServletResponse response){
         Login login = findByEmail(loginDTO.getEmail());
+        if(login.getProvider() != null)
+        {
+            throw new CustomException(ErrorCode.SOCIAL_USER);
+        }
         matchPassword(loginDTO, login);
 
         RefreshToken dbToken = refreshTokenRepository.findByLogin(login).orElse(new RefreshToken());
@@ -147,4 +167,96 @@ public class LoginService {
 
         return TOKEN_REFRESH_SUCCESS;
     }
+
+    public ResponseEntity<Map<String, Object>> socialLogin(String token/*, String provider, HttpServletResponse response*/) {
+
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
+                .setAudience(Collections.singletonList("684949675399-gp5gpm0q92vrng7ulm93hk5jt5htgu6v.apps.googleusercontent.com"))
+                .build();
+
+        GoogleIdToken idToken;
+        try {
+            idToken = verifier.verify(token);
+            if (idToken != null) {
+                GoogleIdToken.Payload payload = idToken.getPayload();
+                String email = payload.getEmail();
+                String name = (String) payload.get("name");
+                String picture = (String) payload.get("picture");
+                log.info("이메일 : {}",email);
+                User user = userRepository.findByLoginEmail(email).orElseGet(() -> createUser(email, name, picture));
+                String jwtToken = jwtUtil.generateAccessToken(user.getLogin().getEmail());
+
+                Map<String, Object> response = new HashMap<>();
+                response.put("userId", user.getId());
+                response.put("token", jwtToken);
+
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            } else {
+                throw new CustomException(ErrorCode.INVALID_SOCIAL_TOKEN);
+            }
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.INVALID_SOCIAL_TOKEN);
+        }
+
+
+        /*String email;
+        switch (provider) {
+            case "google":
+                email = verifyGoogleToken(token);
+                break;
+            default:
+                throw new CustomException(ErrorCode.INVALID_SOCIAL_TOKEN);
+        }
+
+        Login login = findByEmail(email);
+
+
+        RefreshToken dbToken = refreshTokenRepository.findByLogin(login).orElse(new RefreshToken());
+        dbToken.setLogin(login);
+
+        createToken(dbToken, login.getEmail(), response);
+
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("userId", login.getId());
+        responseBody.put("message", LOGIN_SUCCESS);
+
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);*/
+    }
+    private User createUser(String email, String name, String picture) {
+        log.info("유저 생성");
+        User user = new User();
+        user.setName(name);
+        user.setImg(picture);
+        user.setPhoneNumber("010-0000-0000");
+        user.setAddress("xxxx");
+        Login login = new Login();
+        login.setEmail(email);
+        login.setPassword(passwordEncoder.encode("12345"));
+        login.setProvider("google");
+        login.setProviderId(UUID.randomUUID().toString());
+        user.setLogin(login);
+        user.setRole(Role.USER);
+        return userRepository.save(user);
+    }
+    private String verifyGoogleToken(String token) {
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
+                .setAudience(Collections.singletonList("684949675399-gp5gpm0q92vrng7ulm93hk5jt5htgu6v.apps.googleusercontent.com"))
+                .build();
+
+        GoogleIdToken idToken;
+        try {
+            idToken = verifier.verify(token);
+            if (idToken != null) {
+                GoogleIdToken.Payload payload = idToken.getPayload();
+                String email = payload.getEmail();
+                return email;
+            } else {
+                throw new CustomException(ErrorCode.INVALID_SOCIAL_TOKEN);
+            }
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.INVALID_SOCIAL_TOKEN);
+        }
+    }
+
+
 }
