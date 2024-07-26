@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class ChatMessage extends BaseEntity {
 
     @Id
@@ -41,13 +44,6 @@ public class ChatMessage extends BaseEntity {
     }
 
     public void updateContent(String content) {
-        this.content = content;
-    }
-
-    @Builder
-    public ChatMessage(ChatRoom chatRoom, User user, String content) {
-        this.chatRoom = chatRoom;
-        this.user = user;
         this.content = content;
     }
 }

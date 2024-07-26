@@ -19,6 +19,7 @@ public enum ErrorCode {
     USER_NAME_ALREADY_EXISTS(400, "USER_NAME_ALREADY_EXISTS", "이미 사용중인 이름 입니다."),
     NO_PERMISSION(403,"NO_PERMISSION","접근 권한이 없습니다."),
     ALREADY_DOCTOR_USER(400, "ALREADY_DOCTOR_USER", "이미 의사로 등록된 회원입니다."),
+    CHAT_ROOM_NOT_EXIST(404, "CHAT_ROOM_NOT_EXIST", "채팅방 목록이 없습니다"),
     ACCESS_TOKEN_EXPIRED(401, "ACCESS_TOKEN_EXPIRED", "엑세스 토큰이 만료되었습니다."),
     REFRESH_TOKEN_EXPIRED(401, "REFRESH_TOKEN_EXPIRED", "리프레시 토큰이 만료되었습니다."),
     REFRESH_TOKEN_NOT_FOUND(401, "REFRESH_TOKEN_NOT_FOUND", "발급된 리프레시 토큰이 없습니다."),

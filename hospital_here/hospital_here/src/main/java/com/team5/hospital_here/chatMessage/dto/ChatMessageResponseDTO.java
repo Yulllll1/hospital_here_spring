@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ChatMessageResponseDTO {
+    private Long id;
     private Long chatRoomId;
     private String content;
     private UserDTO user;
