@@ -31,6 +31,15 @@ public class ChatRoomController {
         return ResponseEntity.ok().body(chatRoomList);
     }
 
+    @GetMapping("/wait")
+    public ResponseEntity<List<ChatRoomResponseDTO>> waitingChatRoomList(
+        @RequestParam Long userId) {
+        List<ChatRoomResponseDTO> waitingChatRoomList = chatRoomService.findAllWaitingChatRoom(
+            userId);
+
+        return ResponseEntity.ok().body(waitingChatRoomList);
+    }
+
     // 채팅방 생성
     @PostMapping
     public ResponseEntity<ChatRoomResponseDTO> chatRoomAdd(@RequestBody ChatRoomRequestDTO chatRoomRequestDTO) {

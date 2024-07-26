@@ -26,6 +26,9 @@ public class ChatMessageService {
     private final UserRepository userRepository;
 
     public List<ChatMessageResponseDTO> findAllChatMessage(Long chatRoomId) {
+        chatRoomRepository.findById(chatRoomId)
+            .orElseThrow(() -> new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));
+
         List<ChatMessage> chatMessageList = chatMessageRepository.findByChatRoomIdOrderByCreatedAt(
             chatRoomId);
 

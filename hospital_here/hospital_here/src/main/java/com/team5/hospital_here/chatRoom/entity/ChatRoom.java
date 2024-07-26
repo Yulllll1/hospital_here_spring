@@ -19,6 +19,7 @@ import jakarta.persistence.OrderBy;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class ChatRoom extends BaseEntity {
 
     @Id
@@ -53,16 +56,6 @@ public class ChatRoom extends BaseEntity {
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.PERSIST, orphanRemoval = true)
     @OrderBy("createdAt")
     private List<ChatMessage> chatMessages = new ArrayList<>();
-
-    @Builder
-    public ChatRoom(User user1, User user2, ChatRoomType type, ChatRoomStatus status,
-        List<ChatMessage> chatMessages) {
-        this.user1 = user1;
-        this.user2 = user2;
-        this.type = type;
-        this.status = status;
-        this.chatMessages = chatMessages;
-    }
 
     public void addLeaveUser(User user) {
         leaveUser = user;
