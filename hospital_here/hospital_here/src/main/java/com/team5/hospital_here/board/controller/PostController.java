@@ -24,6 +24,7 @@ public class PostController {
         PostResponseDto postResponseDto = postService.createPost(postRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(postResponseDto);
     }
+    //
 
     @PostMapping("/{postId}/images")
     public ResponseEntity<Void> addPostImage(@PathVariable Long postId, @RequestBody PostImgRequestDto postImgRequestDto) {
