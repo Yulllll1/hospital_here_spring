@@ -24,4 +24,8 @@ public class HospitalService {
         Pageable pageable = PageRequest.of(page, size);
         return hospitalRepository.findByNameContaining(name, pageable);
     }
+
+    public List<Hospital> getAllHospitalsForMap() {
+        return hospitalRepository.findAll();
+    }
 }
