@@ -32,7 +32,7 @@ public class User extends BaseEntity {
     @NotEmpty(message = "필수 입력값 입니다.")
     private String phoneNumber;
 
-    private Date birthday;
+    private String birthday;
 
     @NotEmpty(message = "필수 입력값 입니다.")
     private String address;
@@ -90,7 +90,7 @@ public class User extends BaseEntity {
     }
 
     public void updateBirthday(String birthday){
-        this.birthday = Date.valueOf(birthday);
+        this.birthday = birthday;
     }
 
     public void updateImg(String img){

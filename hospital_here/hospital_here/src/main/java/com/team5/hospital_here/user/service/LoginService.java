@@ -69,7 +69,11 @@ public class LoginService {
      * @exception CustomException 존재하지 않는 로그인 정보 또는 비밀번호 매칭 실패
      */
     public ResponseEntity<Map<String, Object>> login(LoginDTO loginDTO, HttpServletResponse response){
+        log.info("이메일 : {}",loginDTO.getEmail());
+
         Login login = findByEmail(loginDTO.getEmail());
+
+
         if(login.getProvider() != null)
         {
             throw new CustomException(ErrorCode.SOCIAL_USER);
@@ -101,6 +105,7 @@ public class LoginService {
 
         destroyRefreshTokenCookie(response);
     }
+
 
     /**
      * JWT 토큰을 생성합니다.
@@ -168,95 +173,7 @@ public class LoginService {
         return TOKEN_REFRESH_SUCCESS;
     }
 
-    public ResponseEntity<Map<String, Object>> socialLogin(String token/*, String provider, HttpServletResponse response*/) {
 
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-                .setAudience(Collections.singletonList("684949675399-gp5gpm0q92vrng7ulm93hk5jt5htgu6v.apps.googleusercontent.com"))
-                .build();
-
-        GoogleIdToken idToken;
-        try {
-            idToken = verifier.verify(token);
-            if (idToken != null) {
-                GoogleIdToken.Payload payload = idToken.getPayload();
-                String email = payload.getEmail();
-                String name = (String) payload.get("name");
-                String picture = (String) payload.get("picture");
-                log.info("이메일 : {}",email);
-                User user = userRepository.findByLoginEmail(email).orElseGet(() -> createUser(email, name, picture));
-                String jwtToken = jwtUtil.generateAccessToken(user.getLogin().getEmail());
-
-                Map<String, Object> response = new HashMap<>();
-                response.put("userId", user.getId());
-                response.put("token", jwtToken);
-
-                return new ResponseEntity<>(response, HttpStatus.OK);
-            } else {
-                throw new CustomException(ErrorCode.INVALID_SOCIAL_TOKEN);
-            }
-        } catch (Exception e) {
-            throw new CustomException(ErrorCode.INVALID_SOCIAL_TOKEN);
-        }
-
-
-        /*String email;
-        switch (provider) {
-            case "google":
-                email = verifyGoogleToken(token);
-                break;
-            default:
-                throw new CustomException(ErrorCode.INVALID_SOCIAL_TOKEN);
-        }
-
-        Login login = findByEmail(email);
-
-
-        RefreshToken dbToken = refreshTokenRepository.findByLogin(login).orElse(new RefreshToken());
-        dbToken.setLogin(login);
-
-        createToken(dbToken, login.getEmail(), response);
-
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("userId", login.getId());
-        responseBody.put("message", LOGIN_SUCCESS);
-
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);*/
-    }
-    private User createUser(String email, String name, String picture) {
-        log.info("유저 생성");
-        User user = new User();
-        user.setName(name);
-        user.setImg(picture);
-        user.setPhoneNumber("010-0000-0000");
-        user.setAddress("xxxx");
-        Login login = new Login();
-        login.setEmail(email);
-        login.setPassword(passwordEncoder.encode("12345"));
-        login.setProvider("google");
-        login.setProviderId(UUID.randomUUID().toString());
-        user.setLogin(login);
-        user.setRole(Role.USER);
-        return userRepository.save(user);
-    }
-    private String verifyGoogleToken(String token) {
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
-                .setAudience(Collections.singletonList("684949675399-gp5gpm0q92vrng7ulm93hk5jt5htgu6v.apps.googleusercontent.com"))
-                .build();
-
-        GoogleIdToken idToken;
-        try {
-            idToken = verifier.verify(token);
-            if (idToken != null) {
-                GoogleIdToken.Payload payload = idToken.getPayload();
-                String email = payload.getEmail();
-                return email;
-            } else {
-                throw new CustomException(ErrorCode.INVALID_SOCIAL_TOKEN);
-            }
-        } catch (Exception e) {
-            throw new CustomException(ErrorCode.INVALID_SOCIAL_TOKEN);
-        }
-    }
 
 
 }
