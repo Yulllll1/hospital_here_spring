@@ -27,11 +27,6 @@ public class LoginController {
     public ResponseEntity<Map<String, Object>> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response){
         return loginService.login(loginDTO, response);
     }
-    @PostMapping("/oauth2/google")
-    public ResponseEntity<Map<String, Object>> googleLogin(@RequestBody Map<String, String> request, HttpServletResponse response) {
-        String token = request.get("token");
-        return loginService.socialLogin(token/*, "google", response*/);
-    }
 
     @PostMapping("/user-logout")
     public void logout(@CookieValue String refreshToken, HttpServletResponse response){
