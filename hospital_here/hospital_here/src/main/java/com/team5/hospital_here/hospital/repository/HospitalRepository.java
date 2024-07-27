@@ -11,7 +11,6 @@ import java.util.List;
 
 @Repository
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
-    // 필요한 검색 메서드를 추가할 수 있습니다.
     Page<Hospital> findByNameContaining(String name, Pageable pageable);
     List<Hospital> findByCity(String city);
 }

@@ -1,14 +1,9 @@
 package com.team5.hospital_here.user.controller;
 
 
-import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.jwt.JwtUtil;
-import com.team5.hospital_here.user.entity.UserDTO;
 import com.team5.hospital_here.user.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
