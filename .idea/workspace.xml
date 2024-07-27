@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7f23b82-5217-43ff-a531-515ad45bad53" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/config/WebClientConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/HospitalAIController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/HospitalAIService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/build.gradle.kts" afterDir="false" />
-    </list>
+    <list default="true" id="a7f23b82-5217-43ff-a531-515ad45bad53" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -135,7 +129,7 @@
       <workItem from="1721633309710" duration="3307000" />
       <workItem from="1721696661360" duration="1236000" />
       <workItem from="1721754976758" duration="1804000" />
-      <workItem from="1721903721533" duration="7829000" />
+      <workItem from="1721903721533" duration="8167000" />
     </task>
     <servers />
   </component>
