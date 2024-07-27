@@ -44,4 +44,9 @@ public class GoogleResponse implements OAuth2Response {
     public String getBirthDay() {
         return null;
     }
+
+    @Override
+    public String getBirthYear() {
+        return "";
+    }
 }

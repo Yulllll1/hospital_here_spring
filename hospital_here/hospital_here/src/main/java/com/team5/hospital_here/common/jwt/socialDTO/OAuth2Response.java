@@ -12,4 +12,5 @@ public interface OAuth2Response {
     String getImage();
     String getPhoneNumber();
     String getBirthDay();
+    String getBirthYear();
 }

@@ -62,6 +62,12 @@ public class CustomOAuthUserDetailsService extends DefaultOAuth2UserService{
         String name = oAuth2Response.getName();
         String email = oAuth2Response.getEmail();
         String birthday = oAuth2Response.getBirthDay();
+        String birthyear = oAuth2Response.getBirthYear();
+        String birth = null;
+        if(birthyear != null)
+        {
+            birth = birthyear + "-" + birthday;
+        }
         String image = oAuth2Response.getImage();
         String phone = oAuth2Response.getPhoneNumber();
         log.info("소셜 유저 세팅 성공");
@@ -76,7 +82,7 @@ public class CustomOAuthUserDetailsService extends DefaultOAuth2UserService{
             UserDTO userDTO = new UserDTO();
             userDTO.setName(name);
             userDTO.setImage(image);
-            userDTO.setBirthday(String.valueOf(birthday));
+            userDTO.setBirthday(birth);
             userDTO.setPhoneNumber(phone);
             userDTO.setPhoneNumber(user.getPhoneNumber());
             userDTO.setAddress(user.getAddress());
@@ -90,13 +96,13 @@ public class CustomOAuthUserDetailsService extends DefaultOAuth2UserService{
 
         } else {
             log.info("소셜 없음");
-            if(birthday == null)
+            if(birth.length() < 6 )
             {
-                birthday = "0000-00-00";
+                birth = "2000-01-01";
             }
             User user = null;
 
-            user = createUser(email, name, provider, providerId, image, birthday, phone);
+            user = createUser(email, name, provider, providerId, image, birth, phone);
 
             userRepository.save(user);
             UserDTO userDTO = new UserDTO();
@@ -104,7 +110,7 @@ public class CustomOAuthUserDetailsService extends DefaultOAuth2UserService{
             userDTO.setPhoneNumber(user.getPhoneNumber());
             userDTO.setAddress(user.getAddress());
             userDTO.setImage(image);
-            userDTO.setBirthday(birthday);
+            userDTO.setBirthday(birth);
             userDTO.setPhoneNumber(phone);
 
             userDTO.setProvider(provider);
@@ -117,13 +123,14 @@ public class CustomOAuthUserDetailsService extends DefaultOAuth2UserService{
 
 
     }
-    private User createUser(String email, String name, String provider, String providerId, String image, String birthday, String phone) {
+    private User createUser(String email, String name, String provider, String providerId, String image, String birth, String phone) {
+        log.info("생일 : {}", birth);
         User user = new User();
         user.setName(name);
         user.setPhoneNumber(phone);
         user.setAddress("xxxx");
         user.setImg(image);
-        user.setBirthday(birthday);
+        user.setBirthday(Date.valueOf(birth));
         Login login =new Login();
         login.setEmail(email);
         login.setPassword("12345");
