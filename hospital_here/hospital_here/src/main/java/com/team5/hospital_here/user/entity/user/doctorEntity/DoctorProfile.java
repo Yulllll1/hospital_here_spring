@@ -32,7 +32,8 @@ public class DoctorProfile {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false)
+    @OneToOne
+    @JoinColumn(name = "hospital_id", nullable = false)
     private Hospital hospital;
 
     @Column(nullable = false)
