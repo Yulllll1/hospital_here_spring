@@ -5,6 +5,7 @@ import com.team5.hospital_here.board.dto.comment.CommentUpdateDto;
 import com.team5.hospital_here.common.baseEntity.BaseEntity;
 import com.team5.hospital_here.user.entity.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @NotEmpty(message = "필수 입력값 입니다.")
     private String content;
 
     @ManyToOne

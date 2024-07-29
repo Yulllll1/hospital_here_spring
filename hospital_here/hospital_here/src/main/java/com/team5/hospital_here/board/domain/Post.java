@@ -5,6 +5,8 @@ import com.team5.hospital_here.board.dto.post.PostUpdateDto;
 import com.team5.hospital_here.common.baseEntity.BaseEntity;
 import com.team5.hospital_here.user.entity.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,8 +34,10 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @NotEmpty(message = "필수 입력값 입니다.")
     private String title;
 
+    @NotEmpty(message = "필수 입력값 입니다.")
     private String content;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)

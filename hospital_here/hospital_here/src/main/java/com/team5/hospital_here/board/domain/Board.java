@@ -3,6 +3,7 @@ package com.team5.hospital_here.board.domain;
 import com.team5.hospital_here.board.dto.board.BoardResponseDto;
 import com.team5.hospital_here.board.dto.board.BoardUpdateDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "필수 입력값 입니다.")
     private String name;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)

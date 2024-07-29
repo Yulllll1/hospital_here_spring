@@ -34,9 +34,12 @@ public class PostServiceImpl implements PostService {
     public PostResponseDto createPost(PostRequestDto postRequestDto) {
         Board board = boardRepository.findById(postRequestDto.getBoardId())
                 .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
-        User user = userRepository.findById(postRequestDto.getUserId())
+//        User user = userRepository.findById(postRequestDto.getUserId())
+//                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        //임시로 설정------------------------------------------------------------
+        User user = userRepository.findById(1L)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
+        //---------------------------------------------------------------------
         Post post = postRequestDto.toEntity(board, user);
         Post createdPost = postRepository.save(post);
         return createdPost.toResponseDto();
@@ -48,8 +51,12 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         Board board = boardRepository.findById(postUpdateDto.getBoardId())
                 .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
-        User user = userRepository.findById(postUpdateDto.getUserId())
+//        User user = userRepository.findById(postUpdateDto.getUserId())
+//                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        //임시로 설정------------------------------------------------------------
+        User user = userRepository.findById(1L)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        //---------------------------------------------------------------------
 
         post.update(postUpdateDto, board, user);
         Post updatedPost = postRepository.save(post);

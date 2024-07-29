@@ -30,11 +30,17 @@ public class CommentServiceImpl implements CommentService {
     public CommentResponseDto createComment(CommentRequestDto commentRequestDto) {
         Post post = postRepository.findById(commentRequestDto.getPostId())
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-        User user = userRepository.findById(commentRequestDto.getUserId())
+//        User user = userRepository.findById(commentRequestDto.getUserId())
+//                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        //임시로 설정------------------------------------------------------------
+        User user = userRepository.findById(1L)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        Comment parent = commentRequestDto.getParentId() != null ?
-                commentRepository.findById(commentRequestDto.getParentId())
-                        .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND)) : null;
+        //---------------------------------------------------------------------
+        Comment parent = null;
+        if (commentRequestDto.getParentId() != null) {
+            parent = commentRepository.findById(commentRequestDto.getParentId())
+                    .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
+        }
 
         Comment comment = commentRequestDto.toEntity(post, user, parent);
         Comment savedComment = commentRepository.save(comment);
@@ -47,11 +53,19 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
         Post post = postRepository.findById(commentUpdateDto.getPostId())
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-        User user = userRepository.findById(commentUpdateDto.getUserId())
+
+//        User user = userRepository.findById(commentUpdateDto.getUserId())
+//                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        //임시로 설정------------------------------------------------------------
+        User user = userRepository.findById(1L)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        Comment parent = commentUpdateDto.getParentId() != null ?
-                commentRepository.findById(commentUpdateDto.getParentId())
-                        .orElseThrow(() -> new CustomException(ErrorCode.NESTED_COMMENT_NOT_FOUND)) : null;
+        //---------------------------------------------------------------------
+        Comment parent = null;
+        if (commentUpdateDto.getParentId() != null) {
+            parent = commentRepository.findById(commentUpdateDto.getParentId())
+                    .orElseThrow(() -> new CustomException(ErrorCode.NESTED_COMMENT_NOT_FOUND));
+        }
 
         comment.update(commentUpdateDto, post, user, parent);
         Comment updatedComment = commentRepository.save(comment);
