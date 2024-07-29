@@ -14,6 +14,7 @@ import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.login.Login;
 import com.team5.hospital_here.user.entity.login.LoginDTO;
 import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.UserResponseDTO;
 import com.team5.hospital_here.user.repository.LoginRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
@@ -37,7 +38,7 @@ import java.util.UUID;
 public class LoginService {
 
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final LoginRepository loginRepository;
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -68,7 +69,7 @@ public class LoginService {
      * @return 로그인 성공
      * @exception CustomException 존재하지 않는 로그인 정보 또는 비밀번호 매칭 실패
      */
-    public ResponseEntity<Map<String, Object>> login(LoginDTO loginDTO, HttpServletResponse response){
+    public UserResponseDTO login(LoginDTO loginDTO, HttpServletResponse response){
         log.info("이메일 : {}",loginDTO.getEmail());
 
         Login login = findByEmail(loginDTO.getEmail());
@@ -85,11 +86,9 @@ public class LoginService {
 
         createToken(dbToken, login.getEmail(), response);
 
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("userId", login.getId());//유저 id랑 로그인 id 랑 같아서
-        responseBody.put("message", LOGIN_SUCCESS);
+        User user = userService.findUserByEmail(login.getEmail());
 
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return new UserResponseDTO(user.getId(), user.getRole().name());
     }
 
     /**
