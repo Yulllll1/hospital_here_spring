@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HospitalService {
@@ -27,5 +28,14 @@ public class HospitalService {
 
     public List<Hospital> getAllHospitalsForMap() {
         return hospitalRepository.findAll();
+    }
+
+    public Hospital getHospitalById(Long id) {
+        Optional<Hospital> hospitalOptional = hospitalRepository.findById(id);
+        if (hospitalOptional.isPresent()) {
+            return hospitalOptional.get();
+        } else {
+            throw new RuntimeException("Hospital not found for id :: " + id);
+        }
     }
 }

@@ -4,11 +4,7 @@ import com.team5.hospital_here.hospital.dto.HospitalDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.service.HospitalService;
 
@@ -34,19 +30,17 @@ public class HospitalController {
         return hospitalService.searchHospitals(name, page, size);
     }
 
-    @GetMapping("/hospitals/map")
-    public ResponseEntity<List<HospitalDto>> getHospitalsForMap() {
-        List<Hospital> hospitals = hospitalService.getAllHospitalsForMap();
-        List<HospitalDto> hospitalMapDtos = hospitals.stream()
-                .map(hospital -> new HospitalDto(
-                        hospital.getId(),
-                        hospital.getName(),
-                        hospital.getLatitude() != null ? hospital.getLatitude().doubleValue() : null,
-                        hospital.getLongitude() != null ? hospital.getLongitude().doubleValue() : null,
-                        hospital.getAddress()
-                ))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(hospitalMapDtos);
+    @GetMapping("/hospitals/{id}")
+    public ResponseEntity<HospitalDto> getHospitalById(@PathVariable Long id) {
+        Hospital hospital = hospitalService.getHospitalById(id);
+        HospitalDto hospitalDto = new HospitalDto(
+                hospital.getId(),
+                hospital.getName(),
+                hospital.getLatitude() != null ? hospital.getLatitude().doubleValue() : null,
+                hospital.getLongitude() != null ? hospital.getLongitude().doubleValue() : null,
+                hospital.getAddress()
+        );
+        return ResponseEntity.ok(hospitalDto);
     }
 
 }
