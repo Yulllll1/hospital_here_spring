@@ -78,6 +78,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<PostResponseDto> findPostsByUser(User user) {
+        return postRepository.findByUser(user).stream().map(Post::toResponseDto).toList();
+    }
+
+    @Override
     public List<PostResponseDto> findPostsByBoardId(Long boardId) {
         List<Post> posts = postRepository.findByBoardId(boardId);
         return posts.stream()
