@@ -25,9 +25,13 @@ public class ChatMessageService {
     private final ChatRoomRepository chatRoomRepository;
     private final UserRepository userRepository;
 
-    public List<ChatMessageResponseDTO> findAllChatMessage(Long chatRoomId) {
-        chatRoomRepository.findById(chatRoomId)
+    public List<ChatMessageResponseDTO> findAllChatMessage(Long chatRoomId, Long userId) {
+        ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId)
             .orElseThrow(() -> new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));
+
+        if (!foundChatRoom.isChatRoomMember(userId)) {
+            throw new CustomException(ErrorCode.CHAT_ROOM_ACCESS_FAILED);
+        }
 
         List<ChatMessage> chatMessageList = chatMessageRepository.findByChatRoomIdOrderByCreatedAt(
             chatRoomId);
