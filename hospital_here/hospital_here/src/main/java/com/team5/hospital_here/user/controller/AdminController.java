@@ -65,7 +65,7 @@ public class AdminController {
 
     //일반 회원을 의사 회원으로 변경 요청
     @PostMapping("/doctors")
-    public ResponseEntity<DoctorProfile> createDoctorProfile(@RequestBody @Valid DoctorProfileDTO doctorProfileDTO){
+    public ResponseEntity<DoctorProfileResponseDTO> createDoctorProfile(@RequestBody @Valid DoctorProfileDTO doctorProfileDTO){
         return new ResponseEntity<>(userService.createDoctorProfile(doctorProfileDTO), HttpStatus.CREATED);
     }
 }

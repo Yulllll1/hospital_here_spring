@@ -351,7 +351,7 @@ public class UserService {
      * HOSPITAL_NOT_FOUND, ALREADY_DOCTOR_USER,
      */
     @Transactional
-    public DoctorProfile createDoctorProfile(DoctorProfileDTO doctorProfileDTO){
+    public DoctorProfileResponseDTO createDoctorProfile(DoctorProfileDTO doctorProfileDTO){
         User user = findUserById(doctorProfileDTO.getUserId());
         doctorProfileRepository.findByUser(user).ifPresent((doctorProfile)->{
             throw new CustomException(ErrorCode.ALREADY_DOCTOR_USER);
@@ -366,6 +366,6 @@ public class UserService {
         doctorProfile.setHospital(hospital);
         doctorProfile.setMajor(doctorProfileDTO.getMajor());
 
-        return doctorProfileRepository.save(doctorProfile);
+        return new DoctorProfileResponseDTO(doctorProfileRepository.save(doctorProfile));
     }
 }
