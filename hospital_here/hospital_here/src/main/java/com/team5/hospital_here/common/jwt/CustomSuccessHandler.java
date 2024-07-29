@@ -47,7 +47,10 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 //        Long userId = Long.parseLong(responseBody.get("userId").toString());
 
 
-        String token = oAuthTokenService.createAndSaveTokens(email, response);
+        Map<String, Object> tokenData = oAuthTokenService.createAndSaveTokens(email, response);
+        String token = tokenData.get("token").toString();
+        Long userId = Long.parseLong(tokenData.get("userId").toString());
+        String role = tokenData.get("role").toString();
         response.addHeader("Authorization", "Bearer " + token);
 
 //        String refreshToken = jwtUtil.generateRefreshToken(email);
@@ -58,6 +61,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 //        response.addCookie(cookie);
 
         //response.sendRedirect("http://localhost:3000/social-login-success?token=" + "Bearer " + token + "&userId=" + userId);
-        response.sendRedirect("http://localhost:3000/social-login-success?token=" + token);
+        response.sendRedirect("http://localhost:3000/social-login-success?token=" + token + "&userId=" + userId + "&role=" + role);
     }
 }
