@@ -10,6 +10,8 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findByBoardId(Long boardId);
+    //List<Post> findByBoardId(Long boardId);
+    Page<Post> findAll(Pageable pageable);
+    Page<Post> findByBoardId(Long boardId, Pageable pageable);
     List<Post> findByTitleContaining(String title);
 }

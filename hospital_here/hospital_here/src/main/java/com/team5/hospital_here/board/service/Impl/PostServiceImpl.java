@@ -16,6 +16,8 @@ import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -69,9 +71,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostResponseDto> findAllPosts() {
-        List<Post> posts = postRepository.findAll();
-        return posts.stream().map(Post::toResponseDto).toList();
+    public Page<PostResponseDto> findAllPosts(Pageable pageable) {
+        Page<Post> posts = postRepository.findAll(pageable);
+        return posts.map(Post::toResponseDto);
+    }
+
+    @Override
+    public Page<PostResponseDto> findPostsByBoardId(Long boardId, Pageable pageable) {
+        Page<Post> posts = postRepository.findByBoardId(boardId, pageable);
+        return posts.map(Post::toResponseDto);
     }
 
     @Override
@@ -85,27 +93,33 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostResponseDto> findPostsByBoardId(Long boardId) {
-        List<Post> posts = postRepository.findByBoardId(boardId);
-        return posts.stream()
-                .map(Post::toResponseDto)
-                .collect(Collectors.toList());
-
-    }
-
-    @Override
     public List<PostResponseDto> searchPostsByTitle(String title) {
         List<Post> posts = postRepository.findByTitleContaining(title);
         return posts.stream().map(Post::toResponseDto).collect(Collectors.toList());
     }
 
-    @Override
-    public void addPostImage(Long postId, PostImgRequestDto postImgRequestDto) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+//    @Override
+//    public List<PostResponseDto> findAllPosts() {
+//        List<Post> posts = postRepository.findAll();
+//        return posts.stream().map(Post::toResponseDto).toList();
+//    }
 
-        PostImg postImg = postImgRequestDto.toEntity(post);
-        postImgRepository.save(postImg);
-    }
+//    @Override
+//    public List<PostResponseDto> findPostsByBoardId(Long boardId) {
+//        List<Post> posts = postRepository.findByBoardId(boardId);
+//        return posts.stream()
+//                .map(Post::toResponseDto)
+//                .collect(Collectors.toList());
+//
+//    }
+
+//    @Override
+//    public void addPostImage(Long postId, PostImgRequestDto postImgRequestDto) {
+//        Post post = postRepository.findById(postId)
+//                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+//
+//        PostImg postImg = postImgRequestDto.toEntity(post);
+//        postImgRepository.save(postImg);
+//    }
 }
 

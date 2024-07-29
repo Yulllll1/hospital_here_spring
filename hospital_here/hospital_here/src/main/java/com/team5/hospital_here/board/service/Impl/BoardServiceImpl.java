@@ -9,6 +9,8 @@ import com.team5.hospital_here.board.service.BoardService;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,11 +44,17 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<BoardResponseDto> findAllBoards() {
-        List<Board> boards = boardRepository.findAll();
-        return boards.stream()
-                .map(Board::toResponseDto).toList();
+    public Page<BoardResponseDto> findAllBoards(Pageable pageable) {
+        Page<Board> boards = boardRepository.findAll(pageable);
+        return boards.map(Board::toResponseDto);
     }
+
+//    @Override
+//    public List<BoardResponseDto> findAllBoards() {
+//        List<Board> boards = boardRepository.findAll();
+//        return boards.stream()
+//                .map(Board::toResponseDto).toList();
+//    }
 
     @Override
     public Optional<BoardResponseDto> findBoardById(Long id) {

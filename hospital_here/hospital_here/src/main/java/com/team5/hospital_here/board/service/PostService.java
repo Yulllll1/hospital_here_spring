@@ -16,9 +16,12 @@ public interface PostService {
     PostResponseDto createPost(PostRequestDto postRequestDto);
     PostResponseDto updatePost(PostUpdateDto postUpdateDto);
     void deletePost(Long id);
-    List<PostResponseDto> findAllPosts();
+    Page<PostResponseDto> findAllPosts(Pageable pageable);
+    Page<PostResponseDto> findPostsByBoardId(Long boardId, Pageable pageable);
     Optional<PostResponseDto> findPostById(Long id);
-    List<PostResponseDto> findPostsByBoardId(Long boardId);
     List<PostResponseDto> searchPostsByTitle(String title);
-    void addPostImage(Long postId, PostImgRequestDto postImgRequestDto);
+
+    //void addPostImage(Long postId, PostImgRequestDto postImgRequestDto);
+    //List<PostResponseDto> findAllPosts();
+    //List<PostResponseDto> findPostsByBoardId(Long boardId);
 }

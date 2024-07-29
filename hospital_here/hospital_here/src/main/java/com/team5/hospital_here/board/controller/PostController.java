@@ -3,9 +3,11 @@ package com.team5.hospital_here.board.controller;
 import com.team5.hospital_here.board.dto.post.PostRequestDto;
 import com.team5.hospital_here.board.dto.post.PostResponseDto;
 import com.team5.hospital_here.board.dto.post.PostUpdateDto;
-import com.team5.hospital_here.board.dto.postImg.PostImgRequestDto;
 import com.team5.hospital_here.board.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +26,7 @@ public class PostController {
         PostResponseDto postResponseDto = postService.createPost(postRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(postResponseDto);
     }
-    //
 
-    @PostMapping("/{postId}/images")
-    public ResponseEntity<Void> addPostImage(@PathVariable Long postId, @RequestBody PostImgRequestDto postImgRequestDto) {
-        postService.addPostImage(postId, postImgRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long id, @RequestBody PostUpdateDto postUpdateDto) {
@@ -45,9 +41,12 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
+    //notUse
     @GetMapping
-    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
-        List<PostResponseDto> posts = postService.findAllPosts();
+    public ResponseEntity<Page<PostResponseDto>> getAllPosts(@RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "6") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<PostResponseDto> posts = postService.findAllPosts(pageable);
         return ResponseEntity.ok(posts);
     }
 
@@ -59,8 +58,11 @@ public class PostController {
     }
 
     @GetMapping("/board/{boardId}")
-    public ResponseEntity<List<PostResponseDto>> getPostsByBoardId(@PathVariable Long boardId) {
-        List<PostResponseDto> posts = postService.findPostsByBoardId(boardId);
+    public ResponseEntity<Page<PostResponseDto>> getPostsByBoardId(@PathVariable Long boardId,
+                                                                   @RequestParam(defaultValue = "0") int page,
+                                                                   @RequestParam(defaultValue = "6") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<PostResponseDto> posts = postService.findPostsByBoardId(boardId, pageable);
         return ResponseEntity.ok(posts);
     }
     @GetMapping("/search")
@@ -68,4 +70,10 @@ public class PostController {
         List<PostResponseDto> posts = postService.searchPostsByTitle(title);
         return ResponseEntity.ok(posts);
     }
+
+//    @PostMapping("/{postId}/images")
+//    public ResponseEntity<Void> addPostImage(@PathVariable Long postId, @RequestBody PostImgRequestDto postImgRequestDto) {
+//        postService.addPostImage(postId, postImgRequestDto);
+//        return ResponseEntity.status(HttpStatus.CREATED).build();
+//    }
 }
