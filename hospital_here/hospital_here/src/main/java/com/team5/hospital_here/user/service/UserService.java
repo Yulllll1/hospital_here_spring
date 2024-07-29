@@ -4,6 +4,8 @@ package com.team5.hospital_here.user.service;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.CustomUser;
+import com.team5.hospital_here.hospital.entity.Hospital;
+import com.team5.hospital_here.hospital.service.HospitalService;
 import com.team5.hospital_here.user.entity.user.address.AddressDTO;
 import com.team5.hospital_here.user.entity.commonDTO.PasswordDTO;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
@@ -11,6 +13,7 @@ import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.entity.user.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileResponseDTO;
 import com.team5.hospital_here.user.entity.user.phoneNumberDTO.PhoneNumberDTO;
 import com.team5.hospital_here.user.repository.LoginRepository;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileDTO;
@@ -30,12 +33,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final LoginRepository loginRepository;
+    private final HospitalService hospitalService;
     private final PasswordEncoder passwordEncoder;
     private final DoctorProfileRepository doctorProfileRepository;
 
-    private final String USER_PASSWORD_ALTER_SUCCESSE = "비밀번호 변경을 완료했습니다.";
-    private final String USER_DELETED_SUCESS = "회원 탈퇴를 완료했습니다.";
-    private final String DOCTOR_PROFILE_DELETED_SUCESS = "의사 프로필 삭제를 완료했습니다.";
+    private final String USER_PASSWORD_ALTER_SUCCESS = "비밀번호 변경을 완료했습니다.";
+    private final String USER_DELETED_SUCCESS = "회원 탈퇴를 완료했습니다.";
+    private final String DOCTOR_PROFILE_DELETED_SUCCESS = "의사 프로필 삭제를 완료했습니다.";
 
     /**
      * 패스워드를 암호화 합니다.
@@ -49,7 +53,7 @@ public class UserService {
     /**
      * 이미 존재하는 회원인지 검증합니다.
      * @param user 검증할 회원
-     * @exception CustomException 이미 존재하는 이메일 또는 이름
+     * @exception CustomException USER_NAME_ALREADY_EXISTS, USER_ALREADY_EXISTS
      */
     private void verifyExistUser(User user){
         verifyExistEmail(user.getLogin().getEmail());
@@ -59,7 +63,7 @@ public class UserService {
     /**
      * 이미 존재하는 이메일인지 검증합니다.
      * @param email 검증할 이메일
-     * @exception CustomException 이미 존재하는 이메일
+     * @exception CustomException USER_NAME_ALREADY_EXISTS
      */
     private void verifyExistEmail(String email){
         loginRepository.findByEmail(email).ifPresent((login)->{
@@ -70,7 +74,7 @@ public class UserService {
     /**
      * 이미 존재하는 이름인지 검증합니다.
      * @param name 검증할 이름
-     * @exception CustomException 이미 존재하는 이름
+     * @exception CustomException USER_ALREADY_EXISTS
      */
     private void verifyExistUserName(String name){
         userRepository.findByName(name).ifPresent((user)->{
@@ -82,7 +86,7 @@ public class UserService {
      * 이메일로 회원을 검색합니다.
      * @param email 검색에 사용할 이메일
      * @return 검색한 회원
-     * @exception CustomException 존재하지 않는 회원
+     * @exception CustomException USER_NOT_FOUND
      */
     public User findUserByEmail(String email) {
         return userRepository.findByLoginEmail(email).orElseThrow(()->
@@ -102,7 +106,7 @@ public class UserService {
      * id값으로 회원을 검색합니다.
      * @param id 검색할 id
      * @return 검색된 회원
-     * @exception CustomException 존재하지 않는 회원
+     * @exception CustomException USER_NOT_FOUND
      */
     public User findUserById(Long id){
         return userRepository.findById(id).orElseThrow(()->
@@ -114,7 +118,7 @@ public class UserService {
      * UserDTO 형태로 반환합니다.
      * @param id 검색할 id
      * @return 검색된 회원
-     * @exception CustomException 존재하지 않는 회원
+     * @exception CustomException USER_NOT_FOUND
      */
     public UserDTO findUserByIdToUserDTO(Long id){
         return UserMapper.toUserDTO(findUserById(id));
@@ -129,25 +133,24 @@ public class UserService {
     }
 
     /**
-     * id로 의사를 검색합니다.
-     * @param id 검색할 id
-     * @return 검색된 의사
-     * @exception CustomException 존재하지 않는 회원
+     * 데이터베이스 내에 모든 의사를 검색합니다.
+     * 이후 검색된 모든 의사를 ResponseDTO로 변환해 반환합니다.
+     * @return 검색된 모든 의사 프로필 ResponseDTO
      */
-    public DoctorProfile findDoctorById(Long id){
-        return doctorProfileRepository.findById(id).orElseThrow(()->
-            new CustomException(ErrorCode.USER_NOT_FOUND));
+    public List<DoctorProfileResponseDTO> findAllDoctorToResponseDTO(){
+        return findAllDoctor().stream().map(DoctorProfileResponseDTO::new).toList();
     }
 
     /**
-     * 회원 정보로 의사를 검색합니다.
-     * @param user 검색할 회원 정보
-     * @return 검색된 의사
-     * @exception CustomException 존재하지 않는 회원
+     * 로그인한 회원 정보로 의사 프로필을 검색합니다.
+     * 이후 검색한 의사프로필을 ResponseDTO로 변환 후 반환합니다.
+     * @param customUser 로그인한 회원
+     * @return 의사 프로필 ResponseDTO
      */
-    public DoctorProfile findDoctorByUser(User user){
-        return doctorProfileRepository.findByUser(user).orElseThrow(()->
+    public DoctorProfileResponseDTO findDoctorToResponseDTOByCustomUser(CustomUser customUser){
+        DoctorProfile doctorProfile = doctorProfileRepository.findByUser(customUser.getUser()).orElseThrow(() ->
             new CustomException(ErrorCode.USER_NOT_FOUND));
+        return new DoctorProfileResponseDTO(doctorProfile);
     }
 
     /**
@@ -155,7 +158,7 @@ public class UserService {
      * 회원을 등록합니다.
      * @param userDTO 저장할 회원 정보
      * @return 저장된 회원 정보
-     * @exception CustomException 이미 사용중인 이메일 또는 이름
+     * @exception CustomException USER_NAME_ALREADY_EXISTS, USER_ALREADY_EXISTS
      */
     public UserDTO save(UserDTO userDTO) {
         User user = UserMapper.toUserEntity(userDTO);
@@ -174,7 +177,7 @@ public class UserService {
      * @param id 수정할 회원의 id
      * @param userDTO 새로운 회원 정보
      * @return 수정된 회원 정보
-     * @exception CustomException 존재하지 않는 회원
+     * @exception CustomException USER_NOT_FOUND
      */
     @Transactional
     public UserDTO updateUser(Long id, UserDTO userDTO){
@@ -211,8 +214,8 @@ public class UserService {
      * 로그인한 회원의 패스워드를 수정합니다.
      * @param customUser 로그인한 회원
      * @param passwordDTO 기존 패스워드 및 새로운 패스워드
-     * @return 패스워드 수정 완료
-     * @exception CustomException 기존 패스워드 매치 실패
+     * @return USER_PASSWORD_ALTER_SUCCESSE
+     * @exception CustomException INVALID_USER_CREDENTIALS
      */
     public String updatePassword(CustomUser customUser, PasswordDTO passwordDTO)
     {
@@ -223,7 +226,7 @@ public class UserService {
         user.getLogin().setPassword(encodePassword(passwordDTO.getAlterPassword()));
         loginRepository.save(user.getLogin());
 
-        return USER_PASSWORD_ALTER_SUCCESSE;
+        return USER_PASSWORD_ALTER_SUCCESS;
     }
 
     /**
@@ -255,7 +258,7 @@ public class UserService {
      * id를 통해 검색된 회원을 삭제합니다.
      * @param id 검색할 id
      * @return 회원 삭제 성공
-     * @exception CustomException 존재하지 않는 회원
+     * @exception CustomException USER_NOT_FOUND
      */
     public String deleteUser(Long id){
         User user = findUserById(id);
@@ -269,7 +272,7 @@ public class UserService {
      */
     public String deleteUser(User user){
         userRepository.delete(user);
-        return USER_DELETED_SUCESS;
+        return USER_DELETED_SUCCESS;
     }
 
     /**
@@ -278,7 +281,7 @@ public class UserService {
      */
     public String deleteDoctorProfile(DoctorProfile doctorProfile){
         doctorProfileRepository.delete(doctorProfile);
-        return DOCTOR_PROFILE_DELETED_SUCESS;
+        return DOCTOR_PROFILE_DELETED_SUCCESS;
     }
 
     /**
@@ -288,7 +291,7 @@ public class UserService {
      * @param id 검색할 회원 id
      * @param updateRole 새로운 권한
      * @return 수정된 회원
-     * @exception CustomException 존재하지 않는 회원
+     * @exception CustomException USER_NOT_FOUND
      */
     public UserDTO updateUserRole(Long id, String updateRole){
         User user = findUserById(id);
@@ -340,7 +343,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    //TODO: Hospital Entity 추가 되면 작업
+    /**
+     * 회원의 의사 프로필을 생성합니다.
+     * @param doctorProfileDTO 생성할 의사 프로필 정보
+     * @return 의사 프로필
+     * @exception CustomException USER_NOT_FOUNT,
+     * HOSPITAL_NOT_FOUND, ALREADY_DOCTOR_USER,
+     */
     @Transactional
     public DoctorProfile createDoctorProfile(DoctorProfileDTO doctorProfileDTO){
         User user = findUserById(doctorProfileDTO.getUserId());
@@ -348,10 +357,13 @@ public class UserService {
             throw new CustomException(ErrorCode.ALREADY_DOCTOR_USER);
         });
 
+        Hospital hospital = hospitalService.getHospitalById(doctorProfileDTO.getHospitalId());
+
         user = updateUserRoleToDOCTOR(user);
 
         DoctorProfile doctorProfile = new DoctorProfile();
         doctorProfile.setUser(user);
+        doctorProfile.setHospital(hospital);
         doctorProfile.setMajor(doctorProfileDTO.getMajor());
 
         return doctorProfileRepository.save(doctorProfile);

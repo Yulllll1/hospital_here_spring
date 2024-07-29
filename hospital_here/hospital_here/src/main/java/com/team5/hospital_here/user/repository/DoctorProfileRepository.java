@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DoctorProfileRepository extends JpaRepository<DoctorProfile, Long> {
-    public Optional<DoctorProfile> findByUser(User user);
+    Optional<DoctorProfile> findByUser(User user);
 }

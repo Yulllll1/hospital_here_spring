@@ -7,6 +7,7 @@ import com.team5.hospital_here.user.entity.commonDTO.PasswordDTO;
 import com.team5.hospital_here.user.entity.user.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileResponseDTO;
 import com.team5.hospital_here.user.entity.user.phoneNumberDTO.PhoneNumberDTO;
 import com.team5.hospital_here.user.service.UserService;
 import jakarta.validation.Valid;
@@ -31,8 +32,10 @@ public class UserController {
         return ResponseEntity.ok(UserMapper.toUserDTO(customUser.getUser()));
     }
 
-    //TODO: Hospital Entity 추가 되면 작업
-    //@GetMapping("/my-page/doctor-profile")
+    @GetMapping("/my-page/doctor-profile")
+    public ResponseEntity<DoctorProfileResponseDTO> getMyPageDoctorProfile(@AuthenticationPrincipal CustomUser customUser){
+        return ResponseEntity.ok(userService.findDoctorToResponseDTOByCustomUser(customUser));
+    }
 
 
     //회원 가입

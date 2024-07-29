@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
     USER_NOT_FOUND(400, "USER_NOT_FOUND", "사용자를 찾을 수 없음"),
+    HOSPITAL_NOT_FOUND(400, "HOSPITAL_NOT_FOUND", "병원을 찾을 수 없습니다."),
     INVALID_USER_CREDENTIALS(401, "INVALID_USER_CREDENTIALS", "비밀번호가 틀렸습니다."),
     CHAT_ROOM_NOT_FOUND(404, "CHAT_ROOM_NOT_FOUND", "존재하지 않는 채팅방입니다"),
     CHAT_ROOM_ACCESS_FAILED(400, "CHAT_ROOM_ACCESS_FAILED", "채팅방에 접근할 수 없습니다"),

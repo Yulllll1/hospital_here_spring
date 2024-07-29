@@ -1,6 +1,7 @@
 package com.team5.hospital_here.user.entity.user.doctorEntity;
 
 
+import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.user.entity.user.User;
 
 import jakarta.persistence.Column;
@@ -27,14 +28,12 @@ public class DoctorProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    
-    // TODO: Hospital Entity 추가 되면 작업
-//    @Column(nullable = false)
-//    private Hospital hospital;
+
+    @Column(nullable = false)
+    private Hospital hospital;
 
     @Column(nullable = false)
     private String major;
