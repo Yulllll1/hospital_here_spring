@@ -14,7 +14,7 @@ import lombok.Setter;
 public class Hospital {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment 설정
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -35,17 +35,16 @@ public class Hospital {
     @Column(nullable = false)
     private String zipcode;
 
-
-    @Column(name = "telephone_number", length = 500, nullable = false)
+    @Column(name = "telephone_number", length = 500)
     private String telephoneNumber;
 
     @Column(name = "homepage_link")
     private String homepageLink;
 
-    @Column(name = "latitude", precision = 38, scale = 7, nullable = false)
+    @Column(name = "latitude", precision = 38, scale = 7)
     private BigDecimal latitude;
 
-    @Column(name = "longitude", precision = 38, scale = 7, nullable = false)
+    @Column(name = "longitude", precision = 38, scale = 7)
     private BigDecimal longitude;
 
     @Column(name = "sun_start_time")
@@ -89,5 +88,4 @@ public class Hospital {
 
     @Column(name = "sat_end_time")
     private String satEndTime;
-
 }
