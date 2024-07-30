@@ -21,7 +21,6 @@ public interface ChatRoomMapper {
     ChatRoomResponseDTO toDto(ChatRoom chatRoom);
 
     @Named("userToDTO")
-    @Mapping(source = "id", target = "id")
     @Mapping(source = "login.email", target = "email")
     @Mapping(source = "login.password", target = "password")
     @Mapping(source = "login.provider", target = "provider")
