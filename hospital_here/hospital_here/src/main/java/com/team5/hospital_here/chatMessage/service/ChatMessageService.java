@@ -6,6 +6,7 @@ import com.team5.hospital_here.chatMessage.entity.ChatMessage;
 import com.team5.hospital_here.chatMessage.mapper.ChatMessageMapper;
 import com.team5.hospital_here.chatMessage.repository.ChatMessageRepository;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
+import com.team5.hospital_here.chatRoom.enums.ChatRoomStatus;
 import com.team5.hospital_here.chatRoom.repository.ChatRoomRepository;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
@@ -29,7 +30,8 @@ public class ChatMessageService {
         ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId)
             .orElseThrow(() -> new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));
 
-        if (!foundChatRoom.isChatRoomMember(userId)) {
+        if (foundChatRoom.getStatus() == ChatRoomStatus.ACTIVE && !foundChatRoom.isChatRoomMember(
+            userId)) {
             throw new CustomException(ErrorCode.CHAT_ROOM_ACCESS_FAILED);
         }
 
