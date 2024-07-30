@@ -43,19 +43,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        log.info("로그인 접근1");
         String accessToken = getJwtFromRequest(request);
-        log.info("로그인 접근11");
 
         if (accessToken == null) {
-            log.info("로그인 접근111");
             filterChain.doFilter(request, response);
-            log.info("로그인 접근1111");
             return;
         } else if(!jwtUtil.validateAccessToken(accessToken)){
-            log.info("로그인 접근11111");
             jwtExceptionHandler(response, ErrorCode.ACCESS_TOKEN_EXPIRED);
-            log.info("로그인 접근111111");
             return;
         }
 
