@@ -147,14 +147,13 @@ public class ChatRoomService {
         }
 
         ChatRoomStatus status = foundChatRoom.getStatus();
-        if (status == ChatRoomStatus.ACTIVE) { // 채팅이 진행 중인 경우
-            foundChatRoom.addLeaveUser(foundUser);
-            foundChatRoom.updateStatus(ChatRoomStatus.INACTIVE); // 채팅 비활성화 (상대가 나간 상태)
-        } else if (status == ChatRoomStatus.INACTIVE
-            && foundChatRoom.getLeaveUser() != null) { // 채팅이 비활성화인 경우
+        if (status != ChatRoomStatus.ACTIVE) {
             chatRoomRepository.delete(foundChatRoom);
             return null;
         }
+
+        foundChatRoom.addLeaveUser(foundUser);
+        foundChatRoom.updateStatus(ChatRoomStatus.INACTIVE);
 
         ChatRoom updatedChatRoom = chatRoomRepository.save(foundChatRoom);
 
