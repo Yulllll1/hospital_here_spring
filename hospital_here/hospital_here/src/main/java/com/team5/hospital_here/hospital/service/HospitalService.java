@@ -38,4 +38,6 @@ public class HospitalService {
             throw new RuntimeException("Hospital not found for id :: " + id);
         }
     }
+
+
 }
