@@ -2,13 +2,10 @@ package com.team5.hospital_here.board.service.Impl;
 
 import com.team5.hospital_here.board.domain.Board;
 import com.team5.hospital_here.board.domain.Post;
-import com.team5.hospital_here.board.domain.PostImg;
 import com.team5.hospital_here.board.dto.post.PostRequestDto;
 import com.team5.hospital_here.board.dto.post.PostResponseDto;
 import com.team5.hospital_here.board.dto.post.PostUpdateDto;
-import com.team5.hospital_here.board.dto.postImg.PostImgRequestDto;
 import com.team5.hospital_here.board.repository.BoardRepository;
-import com.team5.hospital_here.board.repository.PostImgRepository;
 import com.team5.hospital_here.board.repository.PostRepository;
 import com.team5.hospital_here.board.service.PostService;
 import com.team5.hospital_here.common.exception.CustomException;
@@ -30,7 +27,6 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
-    private final PostImgRepository postImgRepository;
 
     @Override
     public PostResponseDto createPost(PostRequestDto postRequestDto) {
@@ -51,16 +47,8 @@ public class PostServiceImpl implements PostService {
     public PostResponseDto updatePost(PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(postUpdateDto.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-        Board board = boardRepository.findById(postUpdateDto.getBoardId())
-                .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
-//        User user = userRepository.findById(postUpdateDto.getUserId())
-//                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        //임시로 설정------------------------------------------------------------
-        User user = userRepository.findById(1L)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        //---------------------------------------------------------------------
 
-        post.update(postUpdateDto, board, user);
+        post.update(postUpdateDto);
         Post updatedPost = postRepository.save(post);
         return updatedPost.toResponseDto();
     }
@@ -98,28 +86,5 @@ public class PostServiceImpl implements PostService {
         return posts.stream().map(Post::toResponseDto).collect(Collectors.toList());
     }
 
-//    @Override
-//    public List<PostResponseDto> findAllPosts() {
-//        List<Post> posts = postRepository.findAll();
-//        return posts.stream().map(Post::toResponseDto).toList();
-//    }
-
-//    @Override
-//    public List<PostResponseDto> findPostsByBoardId(Long boardId) {
-//        List<Post> posts = postRepository.findByBoardId(boardId);
-//        return posts.stream()
-//                .map(Post::toResponseDto)
-//                .collect(Collectors.toList());
-//
-//    }
-
-//    @Override
-//    public void addPostImage(Long postId, PostImgRequestDto postImgRequestDto) {
-//        Post post = postRepository.findById(postId)
-//                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-//
-//        PostImg postImg = postImgRequestDto.toEntity(post);
-//        postImgRepository.save(postImg);
-//    }
 }
 

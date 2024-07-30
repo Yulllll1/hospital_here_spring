@@ -6,7 +6,6 @@ import com.team5.hospital_here.common.baseEntity.BaseEntity;
 import com.team5.hospital_here.user.entity.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,7 +45,7 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostImg> postImgs = new ArrayList<>();
 
-    public void update(PostUpdateDto postUpdateDto, Board board, User user) {
+    public void update(PostUpdateDto postUpdateDto) {
         this.title = postUpdateDto.getTitle();
         this.content = postUpdateDto.getContent();
     }

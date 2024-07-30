@@ -17,5 +17,4 @@ public interface BoardService {
     Page<BoardResponseDto> findAllBoards(Pageable pageable);
     Optional<BoardResponseDto> findBoardById(Long id);
 
-    //List<BoardResponseDto> findAllBoards();
 }

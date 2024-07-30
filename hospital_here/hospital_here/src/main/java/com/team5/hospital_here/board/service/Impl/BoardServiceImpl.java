@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -48,13 +47,6 @@ public class BoardServiceImpl implements BoardService {
         Page<Board> boards = boardRepository.findAll(pageable);
         return boards.map(Board::toResponseDto);
     }
-
-//    @Override
-//    public List<BoardResponseDto> findAllBoards() {
-//        List<Board> boards = boardRepository.findAll();
-//        return boards.stream()
-//                .map(Board::toResponseDto).toList();
-//    }
 
     @Override
     public Optional<BoardResponseDto> findBoardById(Long id) {

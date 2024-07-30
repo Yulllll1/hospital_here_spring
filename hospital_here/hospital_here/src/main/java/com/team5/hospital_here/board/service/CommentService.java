@@ -1,6 +1,5 @@
 package com.team5.hospital_here.board.service;
 
-import com.team5.hospital_here.board.domain.Comment;
 import com.team5.hospital_here.board.dto.comment.CommentRequestDto;
 import com.team5.hospital_here.board.dto.comment.CommentResponseDto;
 import com.team5.hospital_here.board.dto.comment.CommentUpdateDto;
