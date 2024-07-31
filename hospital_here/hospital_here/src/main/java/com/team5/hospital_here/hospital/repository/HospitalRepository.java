@@ -1,6 +1,7 @@
 package com.team5.hospital_here.hospital.repository;
 
 
+import com.team5.hospital_here.hospital.entity.Department;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,4 +14,6 @@ import java.util.List;
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     Page<Hospital> findByNameContaining(String name, Pageable pageable);
     List<Hospital> findByCity(String city);
+
+
 }
