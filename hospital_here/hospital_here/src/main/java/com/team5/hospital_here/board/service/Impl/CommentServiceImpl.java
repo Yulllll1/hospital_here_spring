@@ -13,6 +13,10 @@ import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,23 +55,8 @@ public class CommentServiceImpl implements CommentService {
     public CommentResponseDto updateComment(Long id, CommentUpdateDto commentUpdateDto) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
-        Post post = postRepository.findById(commentUpdateDto.getPostId())
-                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
-//        User user = userRepository.findById(commentUpdateDto.getUserId())
-//                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        //임시로 설정------------------------------------------------------------
-        User user = userRepository.findById(1L)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        //---------------------------------------------------------------------
-        Comment parent = null;
-        if (commentUpdateDto.getParentId() != null) {
-            parent = commentRepository.findById(commentUpdateDto.getParentId())
-                    .orElseThrow(() -> new CustomException(ErrorCode.NESTED_COMMENT_NOT_FOUND));
-        }
-
-        comment.update(commentUpdateDto, post, user, parent);
+        comment.update(commentUpdateDto);
         Comment updatedComment = commentRepository.save(comment);
         return updatedComment.toResponseDto();
     }
@@ -94,10 +83,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentResponseDto> findCommentsByPostId(Long postId) {
-        List<Comment> comments = commentRepository.findByPostId(postId);
-        return comments.stream()
-                .map(Comment::toResponseDto)
-                .collect(Collectors.toList());
+    public Page<CommentResponseDto> findCommentsByPostId(Long postId, Pageable pageable) {
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").ascending());
+        Page<Comment> comments = commentRepository.findByPostId(postId, sortedPageable);
+        return comments.map(Comment::toResponseDto);
     }
+
+//    @Override
+//    public List<CommentResponseDto> findCommentsByPostId(Long postId) {
+//        List<Comment> comments = commentRepository.findByPostId(postId);
+//        return comments.stream()
+//                .map(Comment::toResponseDto)
+//                .collect(Collectors.toList());
+//    }
 }

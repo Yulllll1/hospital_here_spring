@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,14 +21,14 @@ import java.util.Optional;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
-
+    @Transactional
     @Override
     public BoardResponseDto createBoard(BoardRequestDto boardRequestDto) {
         Board board = boardRequestDto.toEntity();
         Board createdBoard = boardRepository.save(board);
         return createdBoard.toResponseDto();
     }
-
+    @Transactional
     @Override
     public BoardResponseDto updateBoard(BoardUpdateDto boardUpdateDto) {
         Board board = boardRepository.findById(boardUpdateDto.getId())
@@ -36,7 +37,7 @@ public class BoardServiceImpl implements BoardService {
         Board updatedBoard = boardRepository.save(board);
         return updatedBoard.toResponseDto();
     }
-
+    @Transactional
     @Override
     public void deleteBoard(Long id) {
         boardRepository.deleteById(id);

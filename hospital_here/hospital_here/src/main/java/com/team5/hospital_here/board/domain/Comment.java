@@ -42,10 +42,7 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
 
-    public void update(CommentUpdateDto commentUpdateDto, Post post, User user, Comment parent) {
-        this.post = post;
-        this.user = user;
-        this.parent = parent;
+    public void update(CommentUpdateDto commentUpdateDto) {
         this.content = commentUpdateDto.getContent();
     }
 
