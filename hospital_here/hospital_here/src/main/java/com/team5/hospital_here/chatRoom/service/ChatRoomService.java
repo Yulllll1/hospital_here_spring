@@ -13,6 +13,9 @@ import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileResponseDTO;
+import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
 
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
+    private final DoctorProfileRepository doctorProfileRepository;
 
     public List<ChatRoomResponseDTO> findAll() {
         List<ChatRoom> list = chatRoomRepository.findAll();
@@ -50,14 +54,26 @@ public class ChatRoomService {
         List<ChatRoomResponseDTO> list = chatRooms.stream().map(ChatRoomMapper.INSTANCE::toDto)
             .toList();
         for (int i = 0; i < list.size(); i++) {
+            ChatRoomResponseDTO chatRoomElement = list.get(i);
             try {
                 List<ChatMessage> chatRoomsMessages = chatRooms.get(i).getChatMessages();
-                list.get(i).setLastMessage(ChatMessageMapper.INSTANCE.toDTO(
+                chatRoomElement.setLastMessage(ChatMessageMapper.INSTANCE.toDTO(
                     chatRoomsMessages.get(chatRoomsMessages.size() - 1)));
             } catch (IndexOutOfBoundsException e) {
-                list.get(i).setLastMessage(null);
+                chatRoomElement.setLastMessage(null);
             }
 
+            if(chatRoomElement.getType() == ChatRoomType.DOCTOR) {
+                if (chatRoomElement.getStatus() != ChatRoomStatus.WAITING) {
+                    DoctorProfile foundDoctorProfile = doctorProfileRepository.findByUser(
+                            chatRooms.get(i).getUser2())
+                        .orElseThrow(() ->
+                            new CustomException(ErrorCode.DOCTOR_PROFILE_NOT_FOUND));
+
+                    chatRoomElement.setDoctorProfile(
+                        new DoctorProfileResponseDTO(foundDoctorProfile));
+                }
+            }
         }
 
         return list;
