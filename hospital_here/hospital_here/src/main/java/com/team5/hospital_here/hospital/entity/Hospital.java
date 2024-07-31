@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "hospital")
@@ -285,4 +286,7 @@ public class Hospital {
     public void setSatEndTime(String satEndTime) {
         this.satEndTime = satEndTime;
     }
+
+    @OneToMany(mappedBy = "hospital")
+    private List<HospitalDepartment> hospitalDepartments;
 }

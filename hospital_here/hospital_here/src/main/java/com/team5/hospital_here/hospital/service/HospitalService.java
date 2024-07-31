@@ -1,5 +1,6 @@
 package com.team5.hospital_here.hospital.service;
 
+import com.team5.hospital_here.hospital.entity.Department;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.repository.HospitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;

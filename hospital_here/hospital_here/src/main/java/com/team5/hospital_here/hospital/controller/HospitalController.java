@@ -1,6 +1,7 @@
 package com.team5.hospital_here.hospital.controller;
 
 import com.team5.hospital_here.hospital.dto.HospitalDto;
+import com.team5.hospital_here.hospital.entity.Department;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
@@ -34,19 +35,6 @@ public class HospitalController {
         return hospitalService.searchHospitals(name, page, size);
     }
 
-    @GetMapping("/hospitals/{id}")
-    public ResponseEntity<HospitalDto> getHospitalById(@PathVariable Long id) {
-        Hospital hospital = hospitalService.getHospitalById(id);
-        HospitalDto hospitalDto = new HospitalDto(
-                hospital.getId(),
-                hospital.getName(),
-                hospital.getLatitude() != null ? hospital.getLatitude().doubleValue() : null,
-                hospital.getLongitude() != null ? hospital.getLongitude().doubleValue() : null,
-                hospital.getAddress()
-        );
-        return ResponseEntity.ok(hospitalDto);
-    }
-
     @GetMapping("/hospitals/all")
     public List<HospitalDto> getAllHospitalsWithoutPagination() {
         List<Hospital> hospitals = hospitalService.getAllHospitalsForMap();
@@ -59,22 +47,6 @@ public class HospitalController {
         )).collect(Collectors.toList());
     }
 
-    @GetMapping("/api/geocode")
-    public ResponseEntity<String> getGeocode(@RequestParam String query) {
-        String apiUrl = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode";
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-NCP-APIGW-API-KEY-ID", "YOUR_NAVER_CLIENT_ID");
-        headers.set("X-NCP-APIGW-API-KEY", "YOUR_NAVER_CLIENT_SECRET");
-        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(apiUrl + "?query=" + UriUtils.encode(query, StandardCharsets.UTF_8), HttpMethod.GET, entity, String.class);
-
-        return ResponseEntity.ok(response.getBody());
-    }
-
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
 
 }
