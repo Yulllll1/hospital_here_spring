@@ -1,21 +1,24 @@
 package com.team5.hospital_here.hospital.dto;
 
-public class HospitalDto {
+import java.math.BigDecimal;
+
+public class HospitalDTO {
     private Long id;
     private String name;
     private Double latitude;
     private Double longitude;
     private String address;
+    private String city;
 
+    public HospitalDTO() {}
 
-    public HospitalDto() {}
-
-    public HospitalDto(Long id, String name, Double latitude, Double longitude, String address) {
+    public HospitalDTO(Long id, String name, Double latitude, Double longitude, String address, String city) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
+        this.city = city;
     }
 
     public Long getId() {
@@ -56,5 +59,13 @@ public class HospitalDto {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

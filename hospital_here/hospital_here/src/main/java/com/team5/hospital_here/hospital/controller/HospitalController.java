@@ -1,17 +1,13 @@
 package com.team5.hospital_here.hospital.controller;
 
-import com.team5.hospital_here.hospital.dto.HospitalDto;
-import com.team5.hospital_here.hospital.entity.Department;
+import com.team5.hospital_here.hospital.dto.HospitalDTO;
+import com.team5.hospital_here.hospital.dto.HospitalDepartmentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.service.HospitalService;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,17 +32,25 @@ public class HospitalController {
     }
 
     @GetMapping("/hospitals/all")
-    public List<HospitalDto> getAllHospitalsWithoutPagination() {
+    public List<HospitalDTO> getAllHospitalsWithoutPagination() {
         List<Hospital> hospitals = hospitalService.getAllHospitalsForMap();
-        return hospitals.stream().map(hospital -> new HospitalDto(
+        return hospitals.stream().map(hospital -> new HospitalDTO(
                 hospital.getId(),
                 hospital.getName(),
                 hospital.getLatitude() != null ? hospital.getLatitude().doubleValue() : null,
                 hospital.getLongitude() != null ? hospital.getLongitude().doubleValue() : null,
-                hospital.getAddress()
+                hospital.getAddress(),
+                hospital.getCity()  // 추가된 city 필드
         )).collect(Collectors.toList());
     }
 
+
+
+    @GetMapping("/departments/detail")
+    public ResponseEntity<List<HospitalDepartmentDTO>> getAllHospitalDepartments() {
+        List<HospitalDepartmentDTO> departments = hospitalService.getAllHospitalDepartments();
+        return ResponseEntity.ok(departments);
+    }
 
 
 }
