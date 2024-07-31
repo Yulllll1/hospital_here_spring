@@ -15,42 +15,38 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000") // react port 연결
+@CrossOrigin(origins = "http://localhost:3000") // React 포트 연결
 public class HospitalController {
 
     @Autowired
     private HospitalService hospitalService;
 
     @GetMapping("/hospitals")
-    public Page<Hospital> getAllHospitals(@RequestParam("page") int page, @RequestParam("size") int size) {
-        return hospitalService.getAllHospitals(page, size);
+    public ResponseEntity<Page<HospitalDTO>> getAllHospitals(@RequestParam("page") int page, @RequestParam("size") int size) {
+        Page<Hospital> hospitalsPage = hospitalService.getAllHospitals(page, size);
+        Page<HospitalDTO> hospitalsDTOPage = hospitalsPage.map(hospitalService::convertToDto);
+        return ResponseEntity.ok(hospitalsDTOPage);
     }
 
     @GetMapping("/search")
-    public Page<Hospital> searchHospitals(@RequestParam("name") String name, @RequestParam("page") int page, @RequestParam("size") int size) {
-        return hospitalService.searchHospitals(name, page, size);
+    public ResponseEntity<Page<HospitalDTO>> searchHospitals(@RequestParam("name") String name, @RequestParam("page") int page, @RequestParam("size") int size) {
+        Page<Hospital> hospitalsPage = hospitalService.searchHospitals(name, page, size);
+        Page<HospitalDTO> hospitalsDTOPage = hospitalsPage.map(hospitalService::convertToDto);
+        return ResponseEntity.ok(hospitalsDTOPage);
     }
 
     @GetMapping("/hospitals/all")
-    public List<HospitalDTO> getAllHospitalsWithoutPagination() {
+    public ResponseEntity<List<HospitalDTO>> getAllHospitalsWithoutPagination() {
         List<Hospital> hospitals = hospitalService.getAllHospitalsForMap();
-        return hospitals.stream().map(hospital -> new HospitalDTO(
-                hospital.getId(),
-                hospital.getName(),
-                hospital.getLatitude() != null ? hospital.getLatitude().doubleValue() : null,
-                hospital.getLongitude() != null ? hospital.getLongitude().doubleValue() : null,
-                hospital.getAddress(),
-                hospital.getCity()  // 추가된 city 필드
-        )).collect(Collectors.toList());
+        List<HospitalDTO> hospitalDTOs = hospitals.stream()
+                .map(hospitalService::convertToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(hospitalDTOs);
     }
-
-
 
     @GetMapping("/departments/detail")
     public ResponseEntity<List<HospitalDepartmentDTO>> getAllHospitalDepartments() {
         List<HospitalDepartmentDTO> departments = hospitalService.getAllHospitalDepartments();
         return ResponseEntity.ok(departments);
     }
-
-
 }

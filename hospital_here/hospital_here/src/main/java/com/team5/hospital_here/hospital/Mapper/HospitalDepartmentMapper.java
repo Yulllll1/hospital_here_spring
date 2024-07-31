@@ -20,7 +20,9 @@ public class HospitalDepartmentMapper {
                 hospital.getLatitude() != null ? hospital.getLatitude().doubleValue() : null,
                 hospital.getLongitude() != null ? hospital.getLongitude().doubleValue() : null,
                 hospital.getAddress(),
-                hospital.getCity()
+                hospital.getDistrict(),
+                hospital.getSubDistrict(),
+                hospital.getTelephoneNumber()
         );
 
         // DepartmentDTO 객체 생성

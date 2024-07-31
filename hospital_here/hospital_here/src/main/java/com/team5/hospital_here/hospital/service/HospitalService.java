@@ -71,4 +71,18 @@ public class HospitalService {
                 .map(hospitalDepartmentMapper::convertToDto)
                 .collect(Collectors.toList());
     }
+
+    // Convert Hospital entity to HospitalDTO
+    public HospitalDTO convertToDto(Hospital hospital) {
+        return new HospitalDTO(
+                hospital.getId(),
+                hospital.getName(),
+                hospital.getLatitude() != null ? hospital.getLatitude().doubleValue() : null,
+                hospital.getLongitude() != null ? hospital.getLongitude().doubleValue() : null,
+                hospital.getAddress(),
+                hospital.getDistrict(),
+                hospital.getSubDistrict(),
+                hospital.getTelephoneNumber()
+        );
+    }
 }

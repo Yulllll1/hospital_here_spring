@@ -8,19 +8,28 @@ public class HospitalDTO {
     private Double latitude;
     private Double longitude;
     private String address;
-    private String city;
+    private String district;
+    private String subDistrict;
+    private String telephoneNumber;
 
+
+    // 기본 생성자
     public HospitalDTO() {}
 
-    public HospitalDTO(Long id, String name, Double latitude, Double longitude, String address, String city) {
+    // 전체 필드를 포함한 생성자
+    public HospitalDTO(Long id, String name, Double latitude, Double longitude, String address, String district, String subDistrict, String telephoneNumber) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
-        this.city = city;
+        this.district = district;
+        this.subDistrict = subDistrict;
+        this.telephoneNumber = telephoneNumber;
+
     }
 
+    // Getter 및 Setter 메소드
     public Long getId() {
         return id;
     }
@@ -61,11 +70,27 @@ public class HospitalDTO {
         this.address = address;
     }
 
-    public String getCity() {
-        return city;
+    public String getDistrict() {
+        return district;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getSubDistrict() {
+        return subDistrict;
+    }
+
+    public void setSubDistrict(String subDistrict) {
+        this.subDistrict = subDistrict;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 }
