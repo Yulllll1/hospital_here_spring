@@ -37,8 +37,12 @@ public class HospitalController {
     }
 
     @GetMapping("/departments/detail")
-    public ResponseEntity<List<HospitalDTO>> getAllHospitalDepartments() {
-        List<Hospital> hospitals = hospitalService.getAllHospitalsForMap();
+    public ResponseEntity<Map<String, Object>> getAllHospitalDepartments(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size) {
+
+        Page<Hospital> hospitalPage = hospitalService.getAllHospitals(page, size);
+        List<Hospital> hospitals = hospitalPage.getContent();
         Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
 
         for (Hospital hospital : hospitals) {
@@ -65,7 +69,13 @@ public class HospitalController {
             }
         }
 
-        return ResponseEntity.ok(new ArrayList<>(hospitalDTOMap.values()));
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", new ArrayList<>(hospitalDTOMap.values()));
+        response.put("currentPage", hospitalPage.getNumber());
+        response.put("totalItems", hospitalPage.getTotalElements());
+        response.put("totalPages", hospitalPage.getTotalPages());
+
+        return ResponseEntity.ok(response);
     }
 
     private HospitalDTO convertToDto(Hospital hospital) {

@@ -28,18 +28,6 @@ public class HospitalService {
     @Autowired
     private HospitalDepartmentMapper hospitalDepartmentMapper;
 
-    // Paginated retrieval of hospitals
-    public Page<Hospital> getAllHospitals(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return hospitalRepository.findAll(pageable);
-    }
-
-    // Search hospitals by name with pagination
-    public Page<Hospital> searchHospitals(String name, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return hospitalRepository.findByNameContaining(name, pageable);
-    }
-
     // Get all hospitals without pagination (for map view)
     public List<Hospital> getAllHospitalsForMap() {
         return hospitalRepository.findAll();
@@ -65,6 +53,12 @@ public class HospitalService {
                 .stream()
                 .map(hospitalDepartmentMapper::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    // Get all hospitals with pagination
+    public Page<Hospital> getAllHospitals(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return hospitalRepository.findAll(pageable);
     }
 
     // Convert Hospital entity to HospitalDTO
