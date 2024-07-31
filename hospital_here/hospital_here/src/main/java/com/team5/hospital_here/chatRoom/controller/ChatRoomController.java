@@ -31,6 +31,7 @@ public class ChatRoomController {
         return ResponseEntity.ok().body(chatRoomList);
     }
 
+    // 수락 대기 중인 채팅방 조회
     @GetMapping("/wait")
     public ResponseEntity<List<ChatRoomResponseDTO>> waitingChatRoomList(
         @RequestParam Long userId) {
