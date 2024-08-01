@@ -33,37 +33,7 @@ public class HospitalController {
         return ResponseEntity.ok(hospitalDTOs);
     }
 
-    @GetMapping("/departments/detail")
-    public ResponseEntity<Map<String, Object>> getAllHospitalDepartments(
-            @RequestParam("page") int page,
-            @RequestParam("size") int size) {
 
-        Page<Hospital> hospitalPage = hospitalService.getAllHospitals("", "", page, size);
-        List<Hospital> hospitals = hospitalPage.getContent();
-        Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
-
-        for (Hospital hospital : hospitals) {
-            HospitalDTO dto = hospitalService.convertToDto(hospital);
-            hospitalDTOMap.putIfAbsent(hospital.getId(), dto);
-        }
-
-        List<HospitalDepartmentDTO> departments = hospitalService.getAllHospitalDepartments();
-
-        for (HospitalDepartmentDTO department : departments) {
-            HospitalDTO hospitalDTO = hospitalDTOMap.get(department.getHospital().getId());
-            if (hospitalDTO != null) {
-                hospitalDTO.getDepartments().add(department.getDepartment());
-            }
-        }
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("content", new ArrayList<>(hospitalDTOMap.values()));
-        response.put("currentPage", hospitalPage.getNumber());
-        response.put("totalItems", hospitalPage.getTotalElements());
-        response.put("totalPages", hospitalPage.getTotalPages());
-
-        return ResponseEntity.ok(response);
-    }
 
     @GetMapping("/search")
     public ResponseEntity<Map<String, Object>> searchHospitals(

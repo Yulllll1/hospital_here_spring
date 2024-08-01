@@ -33,12 +33,6 @@ public class HospitalService {
     @Autowired
     private HospitalDepartmentMapper hospitalDepartmentMapper;
 
-    // Get all hospitals without pagination (for map view)
-    public List<Hospital> getAllHospitalsForMap() {
-        return hospitalRepository.findAll();
-    }
-
-    // Get paginated hospitals with optional name and address filters
     public Page<Hospital> getAllHospitals(String name, String address, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         if ((name != null && !name.isEmpty()) || (address != null && !address.isEmpty())) {
@@ -47,12 +41,11 @@ public class HospitalService {
         return hospitalRepository.findAll(pageable);
     }
 
-    // Search hospitals by name and address with pagination
     public Page<Hospital> searchHospitals(String name, String address, int page, int size) {
         return getAllHospitals(name, address, page, size);
     }
 
-    // Get all hospital departments
+
     public List<HospitalDepartmentDTO> getAllHospitalDepartments() {
         return hospitalDepartmentRepository.findAll()
                 .stream()
@@ -60,15 +53,6 @@ public class HospitalService {
                 .collect(Collectors.toList());
     }
 
-    // Get departments by hospital ID
-    public List<HospitalDepartmentDTO> getDepartmentsByHospitalId(Long hospitalId) {
-        return hospitalDepartmentRepository.findByHospitalId(hospitalId)
-                .stream()
-                .map(hospitalDepartmentMapper::convertToDto)
-                .collect(Collectors.toList());
-    }
-
-    // Convert Hospital entity to HospitalDTO
     public HospitalDTO convertToDto(Hospital hospital) {
         return new HospitalDTO(
                 hospital.getId(),
@@ -83,7 +67,6 @@ public class HospitalService {
         );
     }
 
-    // Get all hospitals with their departments
     public List<HospitalDTO> getAllHospitalsWithDepartments() {
         // Get all hospitals
         List<Hospital> hospitals = hospitalRepository.findAll();
@@ -93,16 +76,13 @@ public class HospitalService {
                 .map(hospitalDepartmentMapper::convertToDto)
                 .collect(Collectors.toList());
 
-        // Create a map to group departments by hospital
         Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
 
-        // Convert hospitals to DTOs and initialize the map
         for (Hospital hospital : hospitals) {
             HospitalDTO dto = convertToDto(hospital);
             hospitalDTOMap.put(hospital.getId(), dto);
         }
 
-        // Add departments to the corresponding hospital DTOs
         for (HospitalDepartmentDTO department : departments) {
             HospitalDTO hospitalDTO = hospitalDTOMap.get(department.getHospital().getId());
             if (hospitalDTO != null) {
