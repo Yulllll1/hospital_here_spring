@@ -1,5 +1,7 @@
 package com.team5.hospital_here.hospital.service;
 
+import com.team5.hospital_here.common.exception.CustomException;
+import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.hospital.Mapper.HospitalDepartmentMapper;
 import com.team5.hospital_here.hospital.dto.HospitalDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDepartmentDTO;
@@ -40,10 +42,8 @@ public class HospitalService {
     public Page<Hospital> getAllHospitals(String name, String address, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         if ((name != null && !name.isEmpty()) || (address != null && !address.isEmpty())) {
-            // Search by name and/or address
             return hospitalRepository.findByNameContainingIgnoreCaseAndAddressContainingIgnoreCase(name, address, pageable);
         }
-        // Return all hospitals if no filters are provided
         return hospitalRepository.findAll(pageable);
     }
 
