@@ -17,9 +17,6 @@ import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileResponseDTO;
 import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -100,7 +97,32 @@ public class ChatRoomService {
             throw new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST);
         }
 
-        return foundChatRoomList.stream().map(ChatRoomMapper.INSTANCE::toDto).toList();
+        List<ChatRoomResponseDTO> list = foundChatRoomList.stream()
+            .map(ChatRoomMapper.INSTANCE::toDto).toList();
+        for (int i = 0; i < list.size(); i++) {
+            ChatRoomResponseDTO chatRoomElement = list.get(i);
+            try {
+                List<ChatMessage> chatRoomsMessages = foundChatRoomList.get(i).getChatMessages();
+                chatRoomElement.setLastMessage(ChatMessageMapper.INSTANCE.toDTO(
+                    chatRoomsMessages.get(chatRoomsMessages.size() - 1)));
+            } catch (IndexOutOfBoundsException e) {
+                chatRoomElement.setLastMessage(null);
+            }
+
+            if(chatRoomElement.getType() == ChatRoomType.DOCTOR) {
+                if (chatRoomElement.getStatus() != ChatRoomStatus.WAITING) {
+                    DoctorProfile foundDoctorProfile = doctorProfileRepository.findByUser(
+                            foundChatRoomList.get(i).getUser2())
+                        .orElseThrow(() ->
+                            new CustomException(ErrorCode.DOCTOR_PROFILE_NOT_FOUND));
+
+                    chatRoomElement.setDoctorProfile(
+                        new DoctorProfileResponseDTO(foundDoctorProfile));
+                }
+            }
+        }
+
+        return list;
     }
 
     // 채팅방 생성
