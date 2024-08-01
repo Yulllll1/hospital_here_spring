@@ -70,10 +70,34 @@ public class HospitalController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/departments/json")
-    public ResponseEntity<List<HospitalDepartmentDTO>> getAllHospitalDepartmentsInJson() {
+    @GetMapping("/hospitals/json")
+    public ResponseEntity<List<HospitalDTO>> getAllHospitalDepartmentsInJson() {
         List<HospitalDepartmentDTO> departments = hospitalService.getAllHospitalDepartments();
-        return ResponseEntity.ok(departments);
+
+        // Map to group departments by hospital
+        Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
+
+        for (HospitalDepartmentDTO department : departments) {
+            long hospitalId = department.getHospital().getId();
+            HospitalDTO hospitalDTO = hospitalDTOMap.computeIfAbsent(hospitalId, id -> {
+                return new HospitalDTO(
+                        id,
+                        department.getHospital().getName(),
+                        // Check for null and set to 0 if null
+                        department.getHospital().getLatitude() != null ? department.getHospital().getLatitude() : 0,
+                        department.getHospital().getLongitude() != null ? department.getHospital().getLongitude() : 0,
+                        department.getHospital().getAddress(),
+                        department.getHospital().getDistrict(),
+                        department.getHospital().getSubDistrict(),
+                        department.getHospital().getTelephoneNumber(),
+                        new ArrayList<>()
+                );
+            });
+
+            hospitalDTO.getDepartments().add(department.getDepartment());
+        }
+
+        return ResponseEntity.ok(new ArrayList<>(hospitalDTOMap.values()));
     }
 
     @GetMapping("/search")

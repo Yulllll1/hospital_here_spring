@@ -14,7 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,12 +83,38 @@ public class HospitalService {
         );
     }
 
+    // Get all hospitals with their departments
+    public List<HospitalDTO> getAllHospitalsWithDepartments() {
+        // Get all hospitals
+        List<Hospital> hospitals = hospitalRepository.findAll();
+        // Get all departments
+        List<HospitalDepartmentDTO> departments = hospitalDepartmentRepository.findAll()
+                .stream()
+                .map(hospitalDepartmentMapper::convertToDto)
+                .collect(Collectors.toList());
 
+        // Create a map to group departments by hospital
+        Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
 
+        // Convert hospitals to DTOs and initialize the map
+        for (Hospital hospital : hospitals) {
+            HospitalDTO dto = convertToDto(hospital);
+            hospitalDTOMap.put(hospital.getId(), dto);
+        }
+
+        // Add departments to the corresponding hospital DTOs
+        for (HospitalDepartmentDTO department : departments) {
+            HospitalDTO hospitalDTO = hospitalDTOMap.get(department.getHospital().getId());
+            if (hospitalDTO != null) {
+                hospitalDTO.getDepartments().add(department.getDepartment());
+            }
+        }
+
+        return new ArrayList<>(hospitalDTOMap.values());
+    }
 
     public Hospital getHospitalById(Long id) {
         return hospitalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hospital not found for id :: " + id));
     }
-
 }

@@ -43,10 +43,10 @@ public class Hospital {
     @Column(name = "homepage_link")
     private String homepageLink;
 
-    @Column(name = "latitude", precision = 38, scale = 7, nullable = false)
+    @Column(name = "latitude", precision = 38, scale = 7)
     private BigDecimal latitude;
 
-    @Column(name = "longitude", precision = 38, scale = 7, nullable = false)
+    @Column(name = "longitude", precision = 38, scale = 7)
     private BigDecimal longitude;
 
     @Column(name = "sun_start_time")
