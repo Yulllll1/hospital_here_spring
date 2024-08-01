@@ -58,4 +58,10 @@ public class BoardServiceImpl implements BoardService {
         }
         return Optional.empty();
     }
+
+    @Override
+    public Page<BoardResponseDto> findBoardsByName(String name, Pageable pageable) {
+        Page<Board> boards = boardRepository.findByNameContainingIgnoreCase(name, pageable);
+        return boards.map(Board::toResponseDto);
+    }
 }

@@ -12,5 +12,5 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findAll(Pageable pageable);
     Page<Post> findByBoardId(Long boardId, Pageable pageable);
-    List<Post> findByTitleContaining(String title);
+    Page<Post> findByTitleContainingIgnoreCase(String title, Pageable pageable);
 }

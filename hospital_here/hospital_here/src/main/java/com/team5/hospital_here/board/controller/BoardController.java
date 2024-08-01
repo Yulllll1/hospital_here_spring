@@ -54,4 +54,13 @@ public class BoardController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    @GetMapping("/search")
+    public ResponseEntity<Page<BoardResponseDto>> searchBoardsByName(
+            @RequestParam("name") String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BoardResponseDto> boards = boardService.findBoardsByName(name, pageable);
+        return ResponseEntity.ok(boards);
+    }
 }

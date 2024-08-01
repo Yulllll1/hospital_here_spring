@@ -81,10 +81,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostResponseDto> searchPostsByTitle(String title) {
-        List<Post> posts = postRepository.findByTitleContaining(title);
-        return posts.stream().map(Post::toResponseDto).collect(Collectors.toList());
+    public Page<PostResponseDto> searchPostsByTitle(String title, Pageable pageable) {
+        Page<Post> posts = postRepository.findByTitleContainingIgnoreCase(title, pageable);
+        return posts.map(Post::toResponseDto);
     }
+
 
 }
 

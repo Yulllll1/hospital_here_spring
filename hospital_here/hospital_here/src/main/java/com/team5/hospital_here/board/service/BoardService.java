@@ -16,5 +16,5 @@ public interface BoardService {
     void deleteBoard(Long id);
     Page<BoardResponseDto> findAllBoards(Pageable pageable);
     Optional<BoardResponseDto> findBoardById(Long id);
-
+    Page<BoardResponseDto> findBoardsByName(String name, Pageable pageable);
 }

@@ -16,6 +16,6 @@ public interface PostService {
     Page<PostResponseDto> findAllPosts(Pageable pageable);
     Page<PostResponseDto> findPostsByBoardId(Long boardId, Pageable pageable);
     Optional<PostResponseDto> findPostById(Long id);
-    List<PostResponseDto> searchPostsByTitle(String title);
+    Page<PostResponseDto> searchPostsByTitle(String title, Pageable pageable);
 
 }

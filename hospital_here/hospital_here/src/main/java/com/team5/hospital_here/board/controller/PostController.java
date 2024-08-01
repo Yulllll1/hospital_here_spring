@@ -67,14 +67,13 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<PostResponseDto>> searchPostsByTitle(@RequestParam("title") String title) {
-        List<PostResponseDto> posts = postService.searchPostsByTitle(title);
+    public ResponseEntity<Page<PostResponseDto>> searchPostsByTitle(
+            @RequestParam("title") String title,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<PostResponseDto> posts = postService.searchPostsByTitle(title, pageable);
         return ResponseEntity.ok(posts);
     }
 
-//    @PostMapping("/{postId}/images")
-//    public ResponseEntity<Void> addPostImage(@PathVariable Long postId, @RequestBody PostImgRequestDto postImgRequestDto) {
-//        postService.addPostImage(postId, postImgRequestDto);
-//        return ResponseEntity.status(HttpStatus.CREATED).build();
-//    }
 }
