@@ -1,20 +1,21 @@
 package com.team5.hospital_here.hospital.entity;
 
 import jakarta.persistence.*;
-
-import java.math.BigDecimal;
-import java.time.LocalTime;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
-@Getter
+import java.math.BigDecimal;
+import java.time.LocalTime;
+import java.util.List;
+
 @Entity
+@Getter
+@Setter
 @Table(name = "hospital")
 public class Hospital {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment 설정
     private Long id;
 
     @Column(nullable = false)
@@ -35,7 +36,8 @@ public class Hospital {
     @Column(nullable = false)
     private String zipcode;
 
-    @Column(name = "telephone_number", length = 500)
+
+    @Column(name = "telephone_number", length = 500, nullable = false)
     private String telephoneNumber;
 
     @Column(name = "homepage_link")
@@ -88,4 +90,9 @@ public class Hospital {
 
     @Column(name = "sat_end_time")
     private String satEndTime;
+
+
+
+    @OneToMany(mappedBy = "hospital")
+    private List<HospitalDepartment> hospitalDepartments;
 }
