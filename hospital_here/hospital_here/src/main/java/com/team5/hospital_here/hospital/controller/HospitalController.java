@@ -27,6 +27,7 @@ public class HospitalController {
     @Autowired
     private HospitalService hospitalService;
 
+    //hospital + department 정보
     @GetMapping("/hospitals/all")
     public ResponseEntity<List<HospitalDTO>> getAllHospitalsWithoutPagination() {
         List<HospitalDTO> hospitalDTOs = hospitalService.getAllHospitalsWithDepartments();
