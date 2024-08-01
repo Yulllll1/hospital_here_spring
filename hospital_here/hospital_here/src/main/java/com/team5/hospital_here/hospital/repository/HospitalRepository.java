@@ -12,8 +12,5 @@ import java.util.List;
 
 @Repository
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
-    Page<Hospital> findByNameContaining(String name, Pageable pageable);
-    List<Hospital> findByCity(String city);
-
-
+    Page<Hospital> findByNameContainingIgnoreCaseAndAddressContainingIgnoreCase(String name, String address, Pageable pageable);
 }

@@ -41,25 +41,17 @@ public class HospitalController {
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
 
-        Page<Hospital> hospitalPage = hospitalService.getAllHospitals(page, size);
+        Page<Hospital> hospitalPage = hospitalService.getAllHospitals("", "", page, size);
         List<Hospital> hospitals = hospitalPage.getContent();
         Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
 
+        // Convert hospitals to DTOs and add to map
         for (Hospital hospital : hospitals) {
-            HospitalDTO dto = new HospitalDTO(
-                    hospital.getId(),
-                    hospital.getName(),
-                    hospital.getLatitude() != null ? hospital.getLatitude().doubleValue() : null,
-                    hospital.getLongitude() != null ? hospital.getLongitude().doubleValue() : null,
-                    hospital.getAddress(),
-                    hospital.getDistrict(),
-                    hospital.getSubDistrict(),
-                    hospital.getTelephoneNumber(),
-                    new ArrayList<>()
-            );
+            HospitalDTO dto = hospitalService.convertToDto(hospital);
             hospitalDTOMap.putIfAbsent(hospital.getId(), dto);
         }
 
+        // Get all departments and map them to hospitals
         List<HospitalDepartmentDTO> departments = hospitalService.getAllHospitalDepartments();
 
         for (HospitalDepartmentDTO department : departments) {
@@ -74,6 +66,54 @@ public class HospitalController {
         response.put("currentPage", hospitalPage.getNumber());
         response.put("totalItems", hospitalPage.getTotalElements());
         response.put("totalPages", hospitalPage.getTotalPages());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/departments/json")
+    public ResponseEntity<List<HospitalDepartmentDTO>> getAllHospitalDepartmentsInJson() {
+        List<HospitalDepartmentDTO> departments = hospitalService.getAllHospitalDepartments();
+        return ResponseEntity.ok(departments);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Map<String, Object>> searchHospitals(
+            @RequestParam(value = "name", defaultValue = "") String name,
+            @RequestParam(value = "address", defaultValue = "") String address,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size) {
+
+        Page<Hospital> hospitalPage = hospitalService.searchHospitals(name, address, page, size);
+        List<Hospital> hospitals = hospitalPage.getContent();
+        Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
+
+        // Convert hospitals to DTOs and add to map
+        for (Hospital hospital : hospitals) {
+            HospitalDTO dto = hospitalService.convertToDto(hospital);
+            hospitalDTOMap.putIfAbsent(hospital.getId(), dto);
+        }
+
+        // Get all departments and map them to hospitals
+        List<HospitalDepartmentDTO> departments = hospitalService.getAllHospitalDepartments();
+
+        for (HospitalDepartmentDTO department : departments) {
+            HospitalDTO hospitalDTO = hospitalDTOMap.get(department.getHospital().getId());
+            if (hospitalDTO != null) {
+                hospitalDTO.getDepartments().add(department.getDepartment());
+            }
+        }
+
+        // Filter hospitals based on search criteria
+        List<HospitalDTO> filteredHospitals = hospitalDTOMap.values().stream()
+                .filter(hospitalDTO -> hospitalDTO.getName().toLowerCase().contains(name.toLowerCase()) &&
+                        hospitalDTO.getAddress().toLowerCase().contains(address.toLowerCase()))
+                .collect(Collectors.toList());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", filteredHospitals);
+        response.put("currentPage", hospitalPage.getNumber());
+        response.put("totalItems", filteredHospitals.size());
+        response.put("totalPages", (filteredHospitals.size() + size - 1) / size);
 
         return ResponseEntity.ok(response);
     }

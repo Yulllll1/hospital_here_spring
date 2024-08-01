@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,18 +34,20 @@ public class HospitalService {
         return hospitalRepository.findAll();
     }
 
-    // Get a specific hospital by ID
-    public Hospital getHospitalById(Long id) {
-        return hospitalRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Hospital not found for id :: " + id));
+    // Get paginated hospitals with optional name and address filters
+    public Page<Hospital> getAllHospitals(String name, String address, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        if ((name != null && !name.isEmpty()) || (address != null && !address.isEmpty())) {
+            // Search by name and/or address
+            return hospitalRepository.findByNameContainingIgnoreCaseAndAddressContainingIgnoreCase(name, address, pageable);
+        }
+        // Return all hospitals if no filters are provided
+        return hospitalRepository.findAll(pageable);
     }
 
-    // Get departments by hospital ID
-    public List<HospitalDepartmentDTO> getDepartmentsByHospitalId(Long hospitalId) {
-        return hospitalDepartmentRepository.findByHospitalId(hospitalId)
-                .stream()
-                .map(hospitalDepartmentMapper::convertToDto)
-                .collect(Collectors.toList());
+    // Search hospitals by name and address with pagination
+    public Page<Hospital> searchHospitals(String name, String address, int page, int size) {
+        return getAllHospitals(name, address, page, size);
     }
 
     // Get all hospital departments
@@ -55,14 +58,35 @@ public class HospitalService {
                 .collect(Collectors.toList());
     }
 
-    // Get all hospitals with pagination
-    public Page<Hospital> getAllHospitals(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return hospitalRepository.findAll(pageable);
+    // Get departments by hospital ID
+    public List<HospitalDepartmentDTO> getDepartmentsByHospitalId(Long hospitalId) {
+        return hospitalDepartmentRepository.findByHospitalId(hospitalId)
+                .stream()
+                .map(hospitalDepartmentMapper::convertToDto)
+                .collect(Collectors.toList());
     }
 
     // Convert Hospital entity to HospitalDTO
     public HospitalDTO convertToDto(Hospital hospital) {
-        return hospitalDepartmentMapper.convertToDto(hospital);
+        return new HospitalDTO(
+                hospital.getId(),
+                hospital.getName(),
+                hospital.getLatitude() != null ? hospital.getLatitude().doubleValue() : null,
+                hospital.getLongitude() != null ? hospital.getLongitude().doubleValue() : null,
+                hospital.getAddress(),
+                hospital.getDistrict(),
+                hospital.getSubDistrict(),
+                hospital.getTelephoneNumber(),
+                new ArrayList<>()
+        );
     }
+
+
+
+
+    public Hospital getHospitalById(Long id) {
+        return hospitalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Hospital not found for id :: " + id));
+    }
+
 }
