@@ -1,17 +1,17 @@
 package com.team5.hospital_here.user.controller;
 
+import com.team5.hospital_here.board.dto.post.PostResponseDto;
+import com.team5.hospital_here.board.service.PostService;
 import com.team5.hospital_here.common.jwt.CustomUser;
-import com.team5.hospital_here.common.jwt.JwtUtil;
 import com.team5.hospital_here.user.entity.user.address.AddressDTO;
 import com.team5.hospital_here.user.entity.commonDTO.PasswordDTO;
 import com.team5.hospital_here.user.entity.user.UserDTO;
 import com.team5.hospital_here.user.entity.UserMapper;
-import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileResponseDTO;
 import com.team5.hospital_here.user.entity.user.phoneNumberDTO.PhoneNumberDTO;
 import com.team5.hospital_here.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +24,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final PostService postService;
 
     //마이페이지 정보 요청
     @GetMapping("/my-page")
@@ -31,9 +32,17 @@ public class UserController {
         return ResponseEntity.ok(UserMapper.toUserDTO(customUser.getUser()));
     }
 
-    //TODO: Hospital Entity 추가 되면 작업
-    //@GetMapping("/my-page/doctor-profile")
+    //의사 프로필 정보 요청
+    @GetMapping("/my-page/doctor-profile")
+    public ResponseEntity<DoctorProfileResponseDTO> getMyPageDoctorProfile(@AuthenticationPrincipal CustomUser customUser){
+        return ResponseEntity.ok(userService.findDoctorToResponseDTOByCustomUser(customUser));
+    }
 
+    //회원이 작성한 모든 게시글 요청
+    @GetMapping("/my-page/post")
+    public ResponseEntity<List<PostResponseDto>> getMyPagePost(@AuthenticationPrincipal CustomUser customUser){
+        return ResponseEntity.ok(postService.findPostsByUser(customUser.getUser()));
+    }
 
     //회원 가입
     @PostMapping

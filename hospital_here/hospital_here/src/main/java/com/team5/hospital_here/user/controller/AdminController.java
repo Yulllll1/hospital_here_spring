@@ -3,6 +3,7 @@ package com.team5.hospital_here.user.controller;
 import com.team5.hospital_here.user.entity.user.UserDTO;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileDTO;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileResponseDTO;
 import com.team5.hospital_here.user.service.UserService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -33,11 +34,10 @@ public class AdminController {
     }
 
     //모든 의사 정보 요청
-    // TODO: Hospital Entity 추가 되면 작업
-//    @GetMapping("/doctors")
-//    public ResponseEntity<List<DoctorProfileResponseDTO>> getAllDoctor(){
-//
-//    }
+    @GetMapping("/doctors")
+    public ResponseEntity<List<DoctorProfileResponseDTO>> getAllDoctor(){
+        return ResponseEntity.ok(userService.findAllDoctorToResponseDTO());
+    }
 
     //특정 회원 정보 요청
     @GetMapping("/users/{id}")
@@ -65,7 +65,7 @@ public class AdminController {
 
     //일반 회원을 의사 회원으로 변경 요청
     @PostMapping("/doctors")
-    public ResponseEntity<DoctorProfile> createDoctorProfile(@RequestBody @Valid DoctorProfileDTO doctorProfileDTO){
+    public ResponseEntity<DoctorProfileResponseDTO> createDoctorProfile(@RequestBody @Valid DoctorProfileDTO doctorProfileDTO){
         return new ResponseEntity<>(userService.createDoctorProfile(doctorProfileDTO), HttpStatus.CREATED);
     }
 }

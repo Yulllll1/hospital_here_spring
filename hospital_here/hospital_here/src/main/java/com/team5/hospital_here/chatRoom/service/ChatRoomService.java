@@ -1,5 +1,7 @@
 package com.team5.hospital_here.chatRoom.service;
 
+import com.team5.hospital_here.chatMessage.entity.ChatMessage;
+import com.team5.hospital_here.chatMessage.mapper.ChatMessageMapper;
 import com.team5.hospital_here.chatMessage.repository.ChatMessageRepository;
 import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
@@ -9,10 +11,15 @@ import com.team5.hospital_here.chatRoom.mapper.ChatRoomMapper;
 import com.team5.hospital_here.chatRoom.repository.ChatRoomRepository;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileResponseDTO;
+import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +33,7 @@ public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
+    private final DoctorProfileRepository doctorProfileRepository;
 
     public List<ChatRoomResponseDTO> findAll() {
         List<ChatRoom> list = chatRoomRepository.findAll();
@@ -35,12 +43,64 @@ public class ChatRoomService {
 
     // 모든 채팅방 조회
     public List<ChatRoomResponseDTO> findAllChatRoom(Long userId) throws CustomException {
-        User foundUser = userRepository.findById(userId)
+        userRepository.findById(userId)
             .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         List<ChatRoom> chatRooms = chatRoomRepository.findAllWithUserId(userId);
+        if (chatRooms.isEmpty()) {
+            throw new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST);
+        }
 
-        return chatRooms.stream().map(ChatRoomMapper.INSTANCE::toDto).toList();
+        List<ChatRoomResponseDTO> list = chatRooms.stream().map(ChatRoomMapper.INSTANCE::toDto)
+            .toList();
+        for (int i = 0; i < list.size(); i++) {
+            ChatRoomResponseDTO chatRoomElement = list.get(i);
+            try {
+                List<ChatMessage> chatRoomsMessages = chatRooms.get(i).getChatMessages();
+                chatRoomElement.setLastMessage(ChatMessageMapper.INSTANCE.toDTO(
+                    chatRoomsMessages.get(chatRoomsMessages.size() - 1)));
+            } catch (IndexOutOfBoundsException e) {
+                chatRoomElement.setLastMessage(null);
+            }
+
+            if(chatRoomElement.getType() == ChatRoomType.DOCTOR) {
+                if (chatRoomElement.getStatus() != ChatRoomStatus.WAITING) {
+                    DoctorProfile foundDoctorProfile = doctorProfileRepository.findByUser(
+                            chatRooms.get(i).getUser2())
+                        .orElseThrow(() ->
+                            new CustomException(ErrorCode.DOCTOR_PROFILE_NOT_FOUND));
+
+                    chatRoomElement.setDoctorProfile(
+                        new DoctorProfileResponseDTO(foundDoctorProfile));
+                }
+            }
+        }
+
+        return list;
+    }
+
+    // 수락 대기 중인 채팅방 조회
+    public List<ChatRoomResponseDTO> findAllWaitingChatRoom(Long userId) {
+        User foundUser = userRepository.findById(userId)
+            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        // 관리자도 의사도 아닌 경우
+        if (foundUser.getRole() != Role.ADMIN && foundUser.getRole() != Role.DOCTOR) {
+            throw new CustomException(ErrorCode.NO_PERMISSION);
+        }
+
+        Role userRole = foundUser.getRole();
+        List<ChatRoom> foundChatRoomList = chatRoomRepository.findByStatus(ChatRoomStatus.WAITING)
+            .stream().filter(
+                e -> e.getType() == (userRole == Role.ADMIN ? ChatRoomType.SERVICE
+                    : ChatRoomType.DOCTOR)
+            ).toList();
+
+        if (foundChatRoomList.isEmpty()) {
+            throw new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST);
+        }
+
+        return foundChatRoomList.stream().map(ChatRoomMapper.INSTANCE::toDto).toList();
     }
 
     // 채팅방 생성
@@ -103,14 +163,13 @@ public class ChatRoomService {
         }
 
         ChatRoomStatus status = foundChatRoom.getStatus();
-        if (status == ChatRoomStatus.ACTIVE) { // 채팅이 진행 중인 경우
-            foundChatRoom.addLeaveUser(foundUser);
-            foundChatRoom.updateStatus(ChatRoomStatus.INACTIVE); // 채팅 비활성화 (상대가 나간 상태)
-        } else if (status == ChatRoomStatus.INACTIVE
-            && foundChatRoom.getLeaveUser() != null) { // 채팅이 비활성화인 경우
+        if (status != ChatRoomStatus.ACTIVE) {
             chatRoomRepository.delete(foundChatRoom);
             return null;
         }
+
+        foundChatRoom.addLeaveUser(foundUser);
+        foundChatRoom.updateStatus(ChatRoomStatus.INACTIVE);
 
         ChatRoom updatedChatRoom = chatRoomRepository.save(foundChatRoom);
 

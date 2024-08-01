@@ -43,19 +43,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        log.info("로그인 접근1");
         String accessToken = getJwtFromRequest(request);
-        log.info("로그인 접근11");
 
         if (accessToken == null) {
-            log.info("로그인 접근111");
             filterChain.doFilter(request, response);
-            log.info("로그인 접근1111");
             return;
         } else if(!jwtUtil.validateAccessToken(accessToken)){
-            log.info("로그인 접근11111");
             jwtExceptionHandler(response, ErrorCode.ACCESS_TOKEN_EXPIRED);
-            log.info("로그인 접근111111");
             return;
         }
 
@@ -78,21 +72,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private void accessToken(String token, HttpServletRequest request){
         String email = jwtUtil.getEmailFromAccessToken(token);
-        try{
-               CustomUser user = (CustomUser) customUserDetailsService.loadUserByUsername(email);
-               UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                       user, null, List.of(new SimpleGrantedAuthority(user.getUser().getRole().getName())));
 
-               authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-               SecurityContextHolder.getContext().setAuthentication(authentication);
-           } catch (CustomException e) {
-            log.info("소셜 사용자 로그인");
-               CustomOAuth2User oAuth2User = customOAuthUserDetailsService.loadUserByEmail(email);
-               UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                       oAuth2User, null, List.of(new SimpleGrantedAuthority(oAuth2User.getUser().getRole().getName())));
-               authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-               SecurityContextHolder.getContext().setAuthentication(authentication);
-           }
+        CustomUser user = (CustomUser) customUserDetailsService.loadUserByUsername(email);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                user, null, List.of(new SimpleGrantedAuthority(user.getUser().getRole().getName())));
+
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {

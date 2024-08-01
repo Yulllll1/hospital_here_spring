@@ -1,16 +1,15 @@
 package com.team5.hospital_here.common.security;
 
 
-import com.team5.hospital_here.common.jwt.CustomUserDetailsService;
-import com.team5.hospital_here.common.jwt.JwtAuthenticationFilter;
+import com.team5.hospital_here.common.jwt.*;
 import com.team5.hospital_here.user.entity.Role;
-import com.team5.hospital_here.user.service.OAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,11 +24,26 @@ public class SecurityConfig {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
     @Autowired
     private CorsConfig corsConfig;
 
+    private final CustomOAuthUserDetailsService customOAuthUserDetailsService;
+    private final CustomSuccessHandler customSuccessHandler;
+    private final JwtUtil jwtUtil;
+    public SecurityConfig(CustomSuccessHandler customSuccessHandler, JwtUtil jwtUtil, CustomOAuthUserDetailsService customOAuthUserDetailsService) {
+        this.customSuccessHandler = customSuccessHandler;
+        this.jwtUtil = jwtUtil;
+        this.customOAuthUserDetailsService = customOAuthUserDetailsService;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring()
+                .requestMatchers("/error", "/favicon.ico");
+    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -44,16 +58,17 @@ public class SecurityConfig {
             .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
             .anyRequest().permitAll()
         );
-        http.oauth2Login()
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService());
+        http
+                .oauth2Login((oauth2) -> oauth2
+                    .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+                        .userService(customOAuthUserDetailsService))
+                    .successHandler(customSuccessHandler).failureUrl("/"));
+
+
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-    @Bean
-    public OAuth2UserService customOAuth2UserService() {
-        return new OAuth2UserService();
-    }
+
 }

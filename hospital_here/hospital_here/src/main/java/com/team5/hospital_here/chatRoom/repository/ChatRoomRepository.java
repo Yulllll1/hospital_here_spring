@@ -1,6 +1,7 @@
 package com.team5.hospital_here.chatRoom.repository;
 
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
+import com.team5.hospital_here.chatRoom.enums.ChatRoomStatus;
 import java.util.List;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
         + " AND ( cr.leaveUser.id != :id OR cr.leaveUser IS NULL ) "
         + " ORDER BY cr.createdAt")
     List<ChatRoom> findAllWithUserId(Long id);
+
+    List<ChatRoom> findByStatus(ChatRoomStatus status);
 }

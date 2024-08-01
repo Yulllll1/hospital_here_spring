@@ -4,6 +4,7 @@ package com.team5.hospital_here.user.controller;
 import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.user.entity.login.LoginDTO;
 import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.UserResponseDTO;
 import com.team5.hospital_here.user.service.LoginService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +25,8 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response){
-        return loginService.login(loginDTO, response);
-    }
-    @PostMapping("/oauth2/google")
-    public ResponseEntity<Map<String, Object>> googleLogin(@RequestBody Map<String, String> request, HttpServletResponse response) {
-        String token = request.get("token");
-        return loginService.socialLogin(token/*, "google", response*/);
+    public ResponseEntity<UserResponseDTO> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response){
+        return ResponseEntity.ok(loginService.login(loginDTO, response));
     }
 
     @PostMapping("/user-logout")

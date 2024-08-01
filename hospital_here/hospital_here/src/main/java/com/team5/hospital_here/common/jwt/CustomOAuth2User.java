@@ -1,52 +1,65 @@
 package com.team5.hospital_here.common.jwt;
 
 import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.UserDTO;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
 @Getter
 public class CustomOAuth2User implements OAuth2User, UserDetails {
 
-    private final User user;
-    private final Collection<? extends GrantedAuthority> authorities;
-    private final Map<String, Object> attributes;
 
-    public CustomOAuth2User(User user, Collection<? extends GrantedAuthority> authorities, Map<String, Object> attributes) {
-        this.user = user;
-        this.authorities = authorities;
-        this.attributes = attributes;
+
+    private final UserDTO userDTO;
+
+
+    public CustomOAuth2User(UserDTO userDTO) {
+
+        this.userDTO = userDTO;
     }
 
     @Override
     public Map<String, Object> getAttributes() {
-        return attributes;
+        return null;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+
+        Collection<GrantedAuthority> collection = new ArrayList<>();
+        collection.add(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return userDTO.getRole();
+            }
+        });
+        return collection;
     }
 
     @Override
     public String getName() {
-        return user.getName();
+        return userDTO.getName();
     }
 
     @Override
     public String getPassword() {
-        return user.getLogin().getPassword();
+        return userDTO.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getLogin().getEmail();
+        return userDTO.getName();
     }
 
+    public String getUserEmail(){
+        return userDTO.getEmail();
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;
