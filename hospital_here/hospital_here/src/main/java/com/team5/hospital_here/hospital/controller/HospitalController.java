@@ -1,10 +1,7 @@
 package com.team5.hospital_here.hospital.controller;
 
-import com.team5.hospital_here.hospital.dto.DepartmentDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDepartmentDTO;
-import com.team5.hospital_here.hospital.entity.Department;
-import com.team5.hospital_here.hospital.entity.HospitalDepartment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -27,12 +23,12 @@ public class HospitalController {
     @Autowired
     private HospitalService hospitalService;
 
+    //병원 정보 + 부서별 한번에 보기
     @GetMapping("/hospitals/all")
     public ResponseEntity<List<HospitalDTO>> getAllHospitalsWithoutPagination() {
         List<HospitalDTO> hospitalDTOs = hospitalService.getAllHospitalsWithDepartments();
         return ResponseEntity.ok(hospitalDTOs);
     }
-
 
 
     @GetMapping("/search")
