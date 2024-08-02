@@ -11,15 +11,13 @@ import com.team5.hospital_here.chatRoom.mapper.ChatRoomMapper;
 import com.team5.hospital_here.chatRoom.repository.ChatRoomRepository;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileResponseDTO;
 import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,37 +44,17 @@ public class ChatRoomService {
         userRepository.findById(userId)
             .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        List<ChatRoom> chatRooms = chatRoomRepository.findAllWithUserId(userId);
-        if (chatRooms.isEmpty()) {
+        List<ChatRoom> foundChatRoomList = chatRoomRepository.findAllWithUserId(userId);
+        if (foundChatRoomList.isEmpty()) {
             throw new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST);
         }
 
-        List<ChatRoomResponseDTO> list = chatRooms.stream().map(ChatRoomMapper.INSTANCE::toDto)
+        List<ChatRoomResponseDTO> chatRoomResponseList = foundChatRoomList.stream().map(ChatRoomMapper.INSTANCE::toDto)
             .toList();
-        for (int i = 0; i < list.size(); i++) {
-            ChatRoomResponseDTO chatRoomElement = list.get(i);
-            try {
-                List<ChatMessage> chatRoomsMessages = chatRooms.get(i).getChatMessages();
-                chatRoomElement.setLastMessage(ChatMessageMapper.INSTANCE.toDTO(
-                    chatRoomsMessages.get(chatRoomsMessages.size() - 1)));
-            } catch (IndexOutOfBoundsException e) {
-                chatRoomElement.setLastMessage(null);
-            }
 
-            if(chatRoomElement.getType() == ChatRoomType.DOCTOR) {
-                if (chatRoomElement.getStatus() != ChatRoomStatus.WAITING) {
-                    DoctorProfile foundDoctorProfile = doctorProfileRepository.findByUser(
-                            chatRooms.get(i).getUser2())
-                        .orElseThrow(() ->
-                            new CustomException(ErrorCode.DOCTOR_PROFILE_NOT_FOUND));
+        setLastMessageAndDoctorProfile(chatRoomResponseList, foundChatRoomList);
 
-                    chatRoomElement.setDoctorProfile(
-                        new DoctorProfileResponseDTO(foundDoctorProfile));
-                }
-            }
-        }
-
-        return list;
+        return chatRoomResponseList;
     }
 
     // 수락 대기 중인 채팅방 조회
@@ -100,13 +78,43 @@ public class ChatRoomService {
             throw new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST);
         }
 
-        return foundChatRoomList.stream().map(ChatRoomMapper.INSTANCE::toDto).toList();
+        List<ChatRoomResponseDTO> chatRoomResponseList = foundChatRoomList.stream()
+            .map(ChatRoomMapper.INSTANCE::toDto).toList();
+
+        setLastMessageAndDoctorProfile(chatRoomResponseList, foundChatRoomList);
+
+        return chatRoomResponseList;
+    }
+
+    // ChatRoomResponseDTO의 lastMessage, doctorProfile 채우기
+    private void setLastMessageAndDoctorProfile(List<ChatRoomResponseDTO> list, List<ChatRoom> chatRooms) {
+        for (int i = 0; i < list.size(); i++) {
+            ChatRoomResponseDTO chatRoomElement = list.get(i);
+            try {
+                List<ChatMessage> chatRoomsMessages = chatRooms.get(i).getChatMessages();
+                chatRoomElement.setLastMessage(ChatMessageMapper.INSTANCE.toDTO(
+                    chatRoomsMessages.get(chatRoomsMessages.size() - 1)));
+            } catch (IndexOutOfBoundsException e) {
+                chatRoomElement.setLastMessage(null);
+            }
+
+            if(chatRoomElement.getType() == ChatRoomType.DOCTOR) {
+                if (chatRoomElement.getStatus() != ChatRoomStatus.WAITING) {
+                    DoctorProfile foundDoctorProfile = doctorProfileRepository.findByUser(
+                            chatRooms.get(i).getUser2())
+                        .orElseThrow(() ->
+                            new CustomException(ErrorCode.DOCTOR_PROFILE_NOT_FOUND));
+
+                    chatRoomElement.setDoctorProfile(
+                        new DoctorProfileResponseDTO(foundDoctorProfile));
+                }
+            }
+        }
     }
 
     // 채팅방 생성
-    public ChatRoomResponseDTO saveChatRoom(Long userId, ChatRoomType chatRoomType) {
-        User foundUser = userRepository.findById(userId)
-            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    public ChatRoomResponseDTO saveChatRoom(CustomUser customUser, ChatRoomType chatRoomType) {
+        User foundUser = customUser.getUser();
 
         ChatRoom newChatRoom = ChatRoom.builder()
             .user1(foundUser)
