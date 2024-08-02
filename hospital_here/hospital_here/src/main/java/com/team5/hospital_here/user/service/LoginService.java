@@ -97,6 +97,9 @@ public class LoginService {
      * @param response HttpServletResponse
      */
     public void logout(String refreshToken, HttpServletResponse response){
+        if(!jwtUtil.validateRefreshToken(refreshToken))
+            throw new CustomException(ErrorCode.REFRESH_TOKEN_EXPIRED);
+
         String email = jwtUtil.getEmailFromRefreshToken(refreshToken);
         refreshTokenRepository.findByLoginEmail(email).ifPresentOrElse(
             refreshTokenRepository::delete

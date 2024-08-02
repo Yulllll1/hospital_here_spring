@@ -230,7 +230,7 @@ public class UserService {
     }
 
     /**
-     * 호그인한 회원의 주소를 수정합니다.
+     * 로그인한 회원의 주소를 수정합니다.
      * @param customUser 로그인한 회원
      * @param addressDTO 새로운 주소
      * @return 수정된 주소

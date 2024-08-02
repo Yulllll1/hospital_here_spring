@@ -3,9 +3,11 @@ package com.team5.hospital_here.chatMessage.controller;
 import com.team5.hospital_here.chatMessage.dto.ChatMessageModifyRequestDTO;
 import com.team5.hospital_here.chatMessage.dto.ChatMessageResponseDTO;
 import com.team5.hospital_here.chatMessage.service.ChatMessageService;
+import com.team5.hospital_here.common.jwt.CustomUser;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,9 +25,11 @@ public class ChatMessageController {
     private final ChatMessageService chatMessageService;
 
     @GetMapping
-    public ResponseEntity<List<ChatMessageResponseDTO>> chatMessageList(@RequestParam Long chatRoomId) {
+    public ResponseEntity<List<ChatMessageResponseDTO>> chatMessageList(
+        @RequestParam Long chatRoomId, @AuthenticationPrincipal
+    CustomUser customUser) {
         List<ChatMessageResponseDTO> chatMessageList = chatMessageService.findAllChatMessage(
-            chatRoomId);
+            chatRoomId, customUser.getUser().getId());
 
         return ResponseEntity.ok().body(chatMessageList);
     }

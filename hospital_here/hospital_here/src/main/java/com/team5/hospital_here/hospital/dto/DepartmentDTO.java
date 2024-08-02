@@ -1,11 +1,13 @@
 package com.team5.hospital_here.hospital.dto;
 
+import com.team5.hospital_here.hospital.entity.Department;
+
 public class DepartmentDTO {
     private Long id;
     private String name;
 
     // 기본 생성자
-    public DepartmentDTO() {}
+    public DepartmentDTO(Department department) {}
 
     // 모든 필드를 포함하는 생성자
     public DepartmentDTO(Long id, String name) {

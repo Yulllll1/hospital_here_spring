@@ -20,7 +20,6 @@ public interface ChatMessageMapper {
     ChatMessageResponseDTO toDTO(ChatMessage chatMessage);
 
     @Named("userToDTO")
-    @Mapping(source = "id", target = "id")
     @Mapping(source = "login.email", target = "email")
     @Mapping(source = "login.password", target = "password")
     @Mapping(source = "login.provider", target = "provider")

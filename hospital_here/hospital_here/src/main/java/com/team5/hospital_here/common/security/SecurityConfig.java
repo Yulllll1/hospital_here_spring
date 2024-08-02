@@ -55,6 +55,7 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.POST, "/users").permitAll()
 
             .requestMatchers("/users/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+            .requestMatchers("/chatrooms/**").hasAnyRole(Role.USER.name())
             .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
             .anyRequest().permitAll()
         );
