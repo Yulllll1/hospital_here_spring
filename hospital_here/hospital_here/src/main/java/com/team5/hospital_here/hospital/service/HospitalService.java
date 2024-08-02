@@ -1,7 +1,5 @@
 package com.team5.hospital_here.hospital.service;
 
-import com.team5.hospital_here.common.exception.CustomException;
-import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.hospital.Mapper.HospitalDepartmentMapper;
 import com.team5.hospital_here.hospital.dto.DepartmentDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDTO;
@@ -74,9 +72,7 @@ public class HospitalService {
     }
 
     public List<HospitalDTO> getAllHospitalsWithDepartments() {
-        // Get all hospitals
         List<Hospital> hospitals = hospitalRepository.findAll();
-        // Get all departments
         List<HospitalDepartmentDTO> departments = hospitalDepartmentRepository.findAll()
                 .stream()
                 .map(hospitalDepartmentMapper::convertToDto)
