@@ -4,125 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7f23b82-5217-43ff-a531-515ad45bad53" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/project_back.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.logs/error/2024-07-25.0.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.logs/error/2024-07-26.0.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.logs/error/2024-07-27.0.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/controller/BoardController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/controller/CommentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/controller/PostController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/Board.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/Comment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/Post.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/PostImg.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/board/BoardRequestDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/board/BoardResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/board/BoardUpdateDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/comment/CommentRequestDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/comment/CommentResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/comment/CommentUpdateDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/post/PostRequestDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/post/PostResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/post/PostUpdateDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/postImg/PostImgRequestDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/postImg/PostImgResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/repository/BoardRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/repository/CommentRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/repository/PostImgRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/repository/PostRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/BoardService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/CommentService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/BoardServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/CommentServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostImgServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/PostImgService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/PostService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatMessage/controller/ChatMessageController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatMessage/controller/StompMessageController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatMessage/dto/ChatMessageModifyRequestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatMessage/dto/ChatMessageRequestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatMessage/dto/ChatMessageResponseDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatMessage/entity/ChatMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatMessage/mapper/ChatMessageMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatMessage/repository/ChatMessageRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatMessage/service/ChatMessageService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatRoom/controller/ChatRoomAdminController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatRoom/controller/ChatRoomController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatRoom/dto/ChatRoomRequestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatRoom/dto/ChatRoomResponseDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatRoom/entity/ChatRoom.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatRoom/enums/ChatRoomStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatRoom/enums/ChatRoomType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatRoom/mapper/ChatRoomMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatRoom/repository/ChatRoomRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/chatRoom/service/ChatRoomService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/CustomOAuth2User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/CustomOAuthUserDetailsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/CustomSuccessHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/entity/RefreshToken.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/repository/RefreshTokenRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/socialDTO/GoogleResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/socialDTO/NaverResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/socialDTO/OAuth2Response.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/security/CorsConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/dto/HospitalDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/entity/Department.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/entity/Hospital_department.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/entity/Reservation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/repository/ReservationRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/controller/AdminController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/controller/LoginController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/commonDTO/PasswordDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/login/LoginDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/user/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/user/UserResponseDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/user/address/AddressDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/user/doctorEntity/DoctorProfileDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/user/doctorEntity/DoctorProfileResponseDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/user/phoneNumberDTO/PhoneNumberDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/service/LoginService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/service/OAuthTokenService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/hospital_here.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/hospital_here.main.iml" afterDir="false" />
+    <list default="true" id="a7f23b82-5217-43ff-a531-515ad45bad53" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/config/AppConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/config/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/config/WebSocketConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/exception/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/exception/ErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/exception/ExceptionResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/exception/ExceptionResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/CustomUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/CustomUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/CustomUserDetails.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/CustomUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/jwt/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/common/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/HospitalAIController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/DepartmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/DepartmentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/HospitalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/HospitalController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/entity/Hospital.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/entity/Hospital.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/repository/HospitalRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/repository/HospitalRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/HospitalAIService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/dto/DepartmentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/dto/DepartmentDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/repository/DepartmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/repository/DepartmentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/repository/HospitalDepartmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/repository/HospitalDepartmentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/DepartmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/DepartmentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/HospitalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/HospitalService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/controller/VerifiedUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/controller/VerifiedUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/login/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/user/UserDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/doctorEntity/DoctorProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/user/doctorEntity/DoctorProfile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/entity/doctorEntity/DoctorProfileDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/repository/DoctorProfileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/repository/DoctorProfileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/repository/LoginRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/repository/LoginRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/resources/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/resources/logback-spring.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/resources/static/hospital.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,7 +51,13 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -169,37 +66,41 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2jalwe3cn5DN2n6GMmkfJTJzhuV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build hospital_here.executor": "Run",
-    "Gradle.hospital_here [:Crawling.main()].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.HospitalHereApplication.executor": "Run",
-    "git-widget-placeholder": "Merging feat/hospitalnarim",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/git/hospital_here_spring/hospital_here/hospital_here/build.gradle.kts",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build hospital_here.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.hospital_here [:Crawling.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.hospital_here [:HospitalHereApplication.main()].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.HospitalHereApplication.executor&quot;: &quot;Run&quot;,
+    &quot;app.teamhub.selectedTeam&quot;: &quot;kdt-gitlab.elice.io/cloud_track/class_03/web_project3/team05/hospital_here_spring&quot;,
+    &quot;app.teamhub.trackedBranches&quot;: &quot;1hf5k97/dev,1hf5k97/master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/yul2&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/git/hospital_here_spring/hospital_here/hospital_here/build.gradle.kts&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
-  <component name="RunManager" selected="Spring Boot.HospitalHereApplication">
+  <component name="RunManager">
     <configuration name="Crawling" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.team5.hospital_here.hospital.other.Crawling" />
       <module name="hospital_here.main" />
@@ -222,7 +123,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Crawling" />
+        <item itemvalue="애플리케이션.Crawling" />
+        <item itemvalue="애플리케이션.Crawling" />
+        <item itemvalue="애플리케이션.Crawling" />
       </list>
     </recent_temporary>
   </component>
@@ -254,9 +157,22 @@
       <workItem from="1721903721533" duration="9662000" />
       <workItem from="1722234307314" duration="15363000" />
     </task>
+    <task id="LOCAL-00001" summary="Changes">
+      <option name="closed" value="true" />
+      <created>1722534979925</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1722534979925</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes" />
   </component>
 </project>
