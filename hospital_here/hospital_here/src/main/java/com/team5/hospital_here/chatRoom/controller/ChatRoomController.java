@@ -3,10 +3,12 @@ package com.team5.hospital_here.chatRoom.controller;
 import com.team5.hospital_here.chatRoom.dto.ChatRoomRequestDTO;
 import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
 import com.team5.hospital_here.chatRoom.service.ChatRoomService;
+import com.team5.hospital_here.common.jwt.CustomUser;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,9 +45,9 @@ public class ChatRoomController {
 
     // 채팅방 생성
     @PostMapping
-    public ResponseEntity<ChatRoomResponseDTO> chatRoomAdd(@RequestBody ChatRoomRequestDTO chatRoomRequestDTO) {
-        ChatRoomResponseDTO newChatRoom = chatRoomService.saveChatRoom(
-            chatRoomRequestDTO.getUserId(),
+    public ResponseEntity<ChatRoomResponseDTO> chatRoomAdd(@AuthenticationPrincipal CustomUser customUser,
+                                                            @RequestBody ChatRoomRequestDTO chatRoomRequestDTO) {
+        ChatRoomResponseDTO newChatRoom = chatRoomService.saveChatRoom(customUser,
             chatRoomRequestDTO.getChatRoomType());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(newChatRoom);

@@ -11,6 +11,7 @@ import com.team5.hospital_here.chatRoom.mapper.ChatRoomMapper;
 import com.team5.hospital_here.chatRoom.repository.ChatRoomRepository;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
@@ -104,9 +105,8 @@ public class ChatRoomService {
     }
 
     // 채팅방 생성
-    public ChatRoomResponseDTO saveChatRoom(Long userId, ChatRoomType chatRoomType) {
-        User foundUser = userRepository.findById(userId)
-            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+    public ChatRoomResponseDTO saveChatRoom(CustomUser customUser, ChatRoomType chatRoomType) {
+        User foundUser = customUser.getUser();
 
         ChatRoom newChatRoom = ChatRoom.builder()
             .user1(foundUser)
