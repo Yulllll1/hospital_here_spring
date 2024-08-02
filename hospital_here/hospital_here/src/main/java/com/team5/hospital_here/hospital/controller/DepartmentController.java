@@ -1,10 +1,13 @@
 package com.team5.hospital_here.hospital.controller;
 
+import com.team5.hospital_here.hospital.dto.HospitalDepartmentDTO;
 import com.team5.hospital_here.hospital.entity.Department;
 import com.team5.hospital_here.hospital.service.DepartmentService;
+import com.team5.hospital_here.hospital.service.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,4 +25,5 @@ public class DepartmentController {
     public List<Department> getDepartments() {
         return departmentService.getAllDepartments();
     }
+
 }
