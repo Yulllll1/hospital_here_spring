@@ -1,10 +1,8 @@
 package com.team5.hospital_here.hospital.service;
 
 import com.team5.hospital_here.hospital.Mapper.HospitalDepartmentMapper;
-import com.team5.hospital_here.hospital.dto.DepartmentDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDepartmentDTO;
-import com.team5.hospital_here.hospital.entity.Department;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.entity.HospitalDepartment;
 import com.team5.hospital_here.hospital.repository.DepartmentRepository;
@@ -100,5 +98,14 @@ public class HospitalService {
                 .orElseThrow(() -> new RuntimeException("Hospital not found for id :: " + id));
     }
 
+    public List<Hospital> getHospitalByNameContained(String name){
+        List<Hospital> hospitals = hospitalRepository.findByNameContains(name);
+        for(Hospital hospital : hospitals){
+            for(HospitalDepartment hospitalDepartment : hospital.getHospitalDepartments()){
+                hospitalDepartment.setHospital(null);
+            }
+        }
 
+        return hospitals;
+    }
 }
