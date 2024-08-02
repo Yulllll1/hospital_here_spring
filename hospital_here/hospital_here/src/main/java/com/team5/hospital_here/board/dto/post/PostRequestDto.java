@@ -15,6 +15,7 @@ public class PostRequestDto {
     private Long userId;
     private String title;
     private String content;
+    private String imageUrl;
 
     public Post toEntity(Board board, User user) {
         return Post.builder()

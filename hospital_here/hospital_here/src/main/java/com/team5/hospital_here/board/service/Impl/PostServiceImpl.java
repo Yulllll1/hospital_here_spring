@@ -2,10 +2,13 @@ package com.team5.hospital_here.board.service.Impl;
 
 import com.team5.hospital_here.board.domain.Board;
 import com.team5.hospital_here.board.domain.Post;
+import com.team5.hospital_here.board.domain.PostImg;
 import com.team5.hospital_here.board.dto.post.PostRequestDto;
 import com.team5.hospital_here.board.dto.post.PostResponseDto;
 import com.team5.hospital_here.board.dto.post.PostUpdateDto;
+import com.team5.hospital_here.board.dto.postImg.PostImgResponseDto;
 import com.team5.hospital_here.board.repository.BoardRepository;
+import com.team5.hospital_here.board.repository.PostImgRepository;
 import com.team5.hospital_here.board.repository.PostRepository;
 import com.team5.hospital_here.board.service.PostService;
 import com.team5.hospital_here.common.exception.CustomException;
@@ -19,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +29,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final PostImgRepository postImgRepository;
 
     @Override
     public PostResponseDto createPost(PostRequestDto postRequestDto) {
@@ -40,6 +43,14 @@ public class PostServiceImpl implements PostService {
         //---------------------------------------------------------------------
         Post post = postRequestDto.toEntity(board, user);
         Post createdPost = postRepository.save(post);
+
+        PostImg postImg = PostImg.builder()
+                .post(post)
+                .link(postRequestDto.getImageUrl())
+                .build();
+        //createdPost.getPostImgs().add(postImg);
+        //todo 단순히 postImg에만 url이 저장되는듯 post의 postImgs랑 매핑해야함
+        postImgRepository.save(postImg);
         return createdPost.toResponseDto();
     }
 

@@ -161,6 +161,9 @@ public class LoginService {
      * @return 발급 완료
      */
     public String createNewAccessToken(String refreshToken, HttpServletResponse response){
+        if(!jwtUtil.validateRefreshToken(refreshToken))
+            throw new CustomException(ErrorCode.REFRESH_TOKEN_EXPIRED);
+
         String email = jwtUtil.getEmailFromRefreshToken(refreshToken);
 
         RefreshToken dbToken = refreshTokenRepository.findByLoginEmail(email).orElseThrow(()->

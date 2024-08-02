@@ -21,6 +21,10 @@ public class PostImg {
 
     private String link;
 
+    public void updateUrl(String url) {
+        this.link = url;
+    }
+
     public PostImgResponseDto toResponseDto() {
         return PostImgResponseDto.builder()
                 .id(this.id)

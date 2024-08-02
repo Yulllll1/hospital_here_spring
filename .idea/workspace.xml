@@ -4,16 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7f23b82-5217-43ff-a531-515ad45bad53" name="Changes" comment="Changes">
+    <list default="true" id="a5742c7b-a896-44bb-be6c-1599bc16b34f" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/DepartmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/DepartmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/HospitalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/HospitalController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/dto/DepartmentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/dto/DepartmentDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/repository/DepartmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/repository/DepartmentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/repository/HospitalDepartmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/repository/HospitalDepartmentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/DepartmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/DepartmentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/HospitalService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/HospitalService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,13 +92,33 @@
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.HospitalHereApplication">
     <configuration name="Crawling" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.team5.hospital_here.hospital.other.Crawling" />
       <module name="hospital_here.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.team5.hospital_here.hospital.other.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HospitalHereApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="P3_MYSQL_URL" value="localhost:3306/mydatabase" />
+        <env name="P3_MYSQL_USERNAME" value="springstudent" />
+        <env name="P3_MYSQL_PASSWORD" value="springstudent" />
+        <env name="GEMINI_API_KEY" value="AIzaSyCnHPqIZ84FnijhYdzieibdxDBJvTGSx-w" />
+        <env name="GEMINI_API_URL" value="https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="com.team5.hospital_here.HospitalHereApplication" />
+      <module name="hospital_here.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.team5.hospital_here.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -121,11 +133,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Crawling" />
+      <item itemvalue="Application.HospitalHereApplication" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="애플리케이션.Crawling" />
-        <item itemvalue="애플리케이션.Crawling" />
-        <item itemvalue="애플리케이션.Crawling" />
+        <item itemvalue="Application.HospitalHereApplication" />
       </list>
     </recent_temporary>
   </component>
