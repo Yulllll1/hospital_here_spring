@@ -15,7 +15,7 @@ public class FirebaseConfig {
     @Bean
     public FirebaseApp firebaseApp() throws IOException {
         FileInputStream serviceAccount =
-                new FileInputStream("C:/Users/rhkdg/OneDrive/바탕 화면/project_back/hospital_here/hospital_here/src/main/resources/firebase-service-account.json");
+                new FileInputStream("./src/main/resources/firebase-service-account.json");
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
