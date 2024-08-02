@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7f23b82-5217-43ff-a531-515ad45bad53" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.logs/error/2024-08-01.0.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/hospital_here.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/hospital_here.main.iml" afterDir="false" />
+    <list default="true" id="a7f23b82-5217-43ff-a531-515ad45bad53" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/DepartmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/DepartmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/ReservationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/controller/ReservationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/hospital/service/ReservationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +44,13 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -57,6 +59,7 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2jalwe3cn5DN2n6GMmkfJTJzhuV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -65,6 +68,7 @@
   "keyToString": {
     "Gradle.Build hospital_here.executor": "Run",
     "Gradle.hospital_here [:Crawling.main()].executor": "Run",
+    "Gradle.hospital_here [:HospitalHereApplication.main()].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -72,7 +76,9 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.HospitalHereApplication.executor": "Run",
-    "git-widget-placeholder": "dev",
+    "app.teamhub.selectedTeam": "kdt-gitlab.elice.io/cloud_track/class_03/web_project3/team05/hospital_here_spring",
+    "app.teamhub.trackedBranches": "1hf5k97/dev,1hf5k97/master",
+    "git-widget-placeholder": "feat/hospital",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/git/hospital_here_spring/hospital_here/hospital_here/build.gradle.kts",
     "node.js.detected.package.eslint": "true",
@@ -108,11 +114,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Crawling" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -140,14 +141,24 @@
       <workItem from="1721696661360" duration="1236000" />
       <workItem from="1721754976758" duration="1804000" />
       <workItem from="1721903721533" duration="9662000" />
-      <workItem from="1722234307314" duration="20258000" />
-      <workItem from="1722430663696" duration="9726000" />
-      <workItem from="1722477919226" duration="9535000" />
-      <workItem from="1722571097306" duration="611000" />
+      <workItem from="1722234307314" duration="15363000" />
     </task>
+    <task id="LOCAL-00001" summary="Changes">
+      <option name="closed" value="true" />
+      <created>1722534979925</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1722534979925</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes" />
   </component>
 </project>
