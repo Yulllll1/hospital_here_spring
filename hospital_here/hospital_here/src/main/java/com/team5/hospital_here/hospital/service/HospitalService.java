@@ -1,12 +1,9 @@
 package com.team5.hospital_here.hospital.service;
 
-import com.team5.hospital_here.common.exception.CustomException;
-import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.hospital.Mapper.HospitalDepartmentMapper;
 import com.team5.hospital_here.hospital.dto.HospitalDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDepartmentDTO;
 import com.team5.hospital_here.hospital.entity.Hospital;
-import com.team5.hospital_here.hospital.entity.HospitalDepartment;
 import com.team5.hospital_here.hospital.repository.HospitalDepartmentRepository;
 import com.team5.hospital_here.hospital.repository.HospitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,9 +65,7 @@ public class HospitalService {
     }
 
     public List<HospitalDTO> getAllHospitalsWithDepartments() {
-        // Get all hospitals
         List<Hospital> hospitals = hospitalRepository.findAll();
-        // Get all departments
         List<HospitalDepartmentDTO> departments = hospitalDepartmentRepository.findAll()
                 .stream()
                 .map(hospitalDepartmentMapper::convertToDto)
@@ -97,4 +92,6 @@ public class HospitalService {
         return hospitalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hospital not found for id :: " + id));
     }
+
+
 }

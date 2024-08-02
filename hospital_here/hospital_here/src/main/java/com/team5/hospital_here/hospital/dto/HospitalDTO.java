@@ -12,7 +12,7 @@ public class HospitalDTO {
     private String district;
     private String subDistrict;
     private String telephoneNumber;
-    private List<DepartmentDTO> departments; // 부서 목록 추가
+    private List<DepartmentDTO> departments; // 부서 리스트 추가
 
     public HospitalDTO() {}
 
@@ -28,7 +28,6 @@ public class HospitalDTO {
         this.departments = departments;
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getName() { return name; }

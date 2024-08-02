@@ -10,20 +10,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000") // React의 URL
+@CrossOrigin(origins = "http://localhost:3000")
 public class DepartmentController {
 
     @Autowired
     private DepartmentService departmentService;
 
+    //departments 리스트만
     @GetMapping("/departments")
     public List<Department> getDepartments() {
         return departmentService.getAllDepartments();
     }
 
+
+    //hospitalId에 따른 매핑된 부서별 정보
+    @GetMapping("/hospitals/{hospitalId}/departments")
+    public ResponseEntity<List<Department>> getDepartmentsByHospitalId(@PathVariable Long hospitalId) {
+        List<Department> departments = departmentService.getDepartmentsByHospitalId(hospitalId);
+        return ResponseEntity.ok(departments);
+    }
 }
