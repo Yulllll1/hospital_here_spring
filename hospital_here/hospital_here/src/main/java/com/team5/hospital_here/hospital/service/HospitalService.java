@@ -1,15 +1,9 @@
 package com.team5.hospital_here.hospital.service;
 
-import com.team5.hospital_here.common.exception.CustomException;
-import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.hospital.Mapper.HospitalDepartmentMapper;
-import com.team5.hospital_here.hospital.dto.DepartmentDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDepartmentDTO;
-import com.team5.hospital_here.hospital.entity.Department;
 import com.team5.hospital_here.hospital.entity.Hospital;
-import com.team5.hospital_here.hospital.entity.HospitalDepartment;
-import com.team5.hospital_here.hospital.repository.DepartmentRepository;
 import com.team5.hospital_here.hospital.repository.HospitalDepartmentRepository;
 import com.team5.hospital_here.hospital.repository.HospitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +29,6 @@ public class HospitalService {
 
     @Autowired
     private HospitalDepartmentMapper hospitalDepartmentMapper;
-
-    @Autowired
-    private DepartmentRepository departmentRepository;
 
     public Page<Hospital> getAllHospitals(String name, String address, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -74,9 +65,7 @@ public class HospitalService {
     }
 
     public List<HospitalDTO> getAllHospitalsWithDepartments() {
-        // Get all hospitals
         List<Hospital> hospitals = hospitalRepository.findAll();
-        // Get all departments
         List<HospitalDepartmentDTO> departments = hospitalDepartmentRepository.findAll()
                 .stream()
                 .map(hospitalDepartmentMapper::convertToDto)

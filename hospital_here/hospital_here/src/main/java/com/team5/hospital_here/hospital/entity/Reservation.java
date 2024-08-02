@@ -1,7 +1,5 @@
 package com.team5.hospital_here.hospital.entity;
 
-
-
 import com.team5.hospital_here.user.entity.user.User;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -26,7 +24,7 @@ public class Reservation {
     private LocalTime timeSlot;
 
     @ManyToOne
-    @JoinColumn(name = "user_id") // 외래키
+    @JoinColumn(name = "user_id")
     private User user;
 
 }

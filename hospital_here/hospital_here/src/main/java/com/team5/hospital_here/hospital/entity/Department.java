@@ -1,11 +1,8 @@
 package com.team5.hospital_here.hospital.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Getter

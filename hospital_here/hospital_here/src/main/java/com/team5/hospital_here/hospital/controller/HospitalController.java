@@ -30,7 +30,7 @@ public class HospitalController {
         return ResponseEntity.ok(hospitalDTOs);
     }
 
-
+    //병원 정보 + 검색
     @GetMapping("/search")
     public ResponseEntity<Map<String, Object>> searchHospitals(
             @RequestParam(value = "name", defaultValue = "") String name,
@@ -38,6 +38,7 @@ public class HospitalController {
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
 
+        // 병원 검색 및 DTO 변환
         Page<Hospital> hospitalPage = hospitalService.searchHospitals(name, address, page, size);
         List<Hospital> hospitals = hospitalPage.getContent();
         Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
@@ -47,6 +48,7 @@ public class HospitalController {
             hospitalDTOMap.putIfAbsent(hospital.getId(), dto);
         }
 
+        //병원 부서 정보 추가
         List<HospitalDepartmentDTO> departments = hospitalService.getAllHospitalDepartments();
 
         for (HospitalDepartmentDTO department : departments) {
@@ -56,6 +58,7 @@ public class HospitalController {
             }
         }
 
+        //응답
         Map<String, Object> response = new HashMap<>();
         response.put("content", new ArrayList<>(hospitalDTOMap.values()));
         response.put("currentPage", hospitalPage.getNumber());

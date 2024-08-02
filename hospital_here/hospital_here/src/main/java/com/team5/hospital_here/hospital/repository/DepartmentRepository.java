@@ -10,6 +10,4 @@ import java.util.List;
 
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
-    @Query("SELECT d FROM Department d JOIN HospitalDepartment hd ON d.id = hd.department.id WHERE hd.hospital.id = :hospitalId")
-    List<Department> findByHospitalId(@Param("hospitalId") Long hospitalId);
 }
