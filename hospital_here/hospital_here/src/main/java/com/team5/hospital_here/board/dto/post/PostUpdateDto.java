@@ -9,8 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class PostUpdateDto {
     private Long id;
-    private Long boardId;
-    private Long userId;
     private String title;
     private String content;
+    private String imageUrl;
 }

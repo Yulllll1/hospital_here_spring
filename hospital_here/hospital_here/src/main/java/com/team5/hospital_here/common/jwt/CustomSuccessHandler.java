@@ -60,7 +60,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 //        cookie.setMaxAge(jwtUtil.REFRESH_TOKEN_COOKIE_MAX_AGE);
 //        response.addCookie(cookie);
 
+
         response.sendRedirect("http://localhost:3000/social-login-success?token=" + token + "&userId=" + userId + "&role=" + role);
         //response.sendRedirect("http://localhost:3000/social-login-success?token=" + token);
+
     }
 }

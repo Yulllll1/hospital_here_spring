@@ -41,7 +41,6 @@ public class OAuthTokenService {
         tokenData.put("userId", userId);
         tokenData.put("role",role);
         return tokenData;
-
     }
 
     private Login findByEmail(String email){
