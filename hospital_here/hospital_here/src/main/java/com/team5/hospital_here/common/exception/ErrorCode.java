@@ -34,6 +34,7 @@ public enum ErrorCode {
     POST_NOT_FOUND(400, "POST_NOT_FOUND", "게시글을 찾을 수 없습니다."),
     COMMENT_NOT_FOUND(400, "COMMENT_NOT_FOUND", "댓글을 찾을 수 없습니다."),
     NESTED_COMMENT_NOT_FOUND(400, "NESTED_COMMENT_NOT_FOUND", "대댓글을 찾을 수 없습니다."),
+    POST_IMG_NOT_FOUND(404, "POST_IMG_NOT_FOUND", "게시글 이미지를 찾을 수 없습니다."),
     ;
 
     //NOTE: HttpStatus code
