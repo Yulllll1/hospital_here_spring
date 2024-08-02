@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5742c7b-a896-44bb-be6c-1599bc16b34f" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="a7f23b82-5217-43ff-a531-515ad45bad53" name="Changes" comment="Changes" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,62 +61,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build hospital_here.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.hospital_here [:Crawling.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.hospital_here [:HospitalHereApplication.main()].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.HospitalHereApplication.executor&quot;: &quot;Run&quot;,
-    &quot;app.teamhub.selectedTeam&quot;: &quot;kdt-gitlab.elice.io/cloud_track/class_03/web_project3/team05/hospital_here_spring&quot;,
-    &quot;app.teamhub.trackedBranches&quot;: &quot;1hf5k97/dev,1hf5k97/master&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/yul2&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/git/hospital_here_spring/hospital_here/hospital_here/build.gradle.kts&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build hospital_here.executor": "Run",
+    "Gradle.hospital_here [:Crawling.main()].executor": "Run",
+    "Gradle.hospital_here [:HospitalHereApplication.main()].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.HospitalHereApplication.executor": "Run",
+    "app.teamhub.selectedTeam": "kdt-gitlab.elice.io/cloud_track/class_03/web_project3/team05/hospital_here_spring",
+    "app.teamhub.trackedBranches": "1hf5k97/dev,1hf5k97/master",
+    "git-widget-placeholder": "dev",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/git/hospital_here_spring/hospital_here/hospital_here/build.gradle.kts",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
-  <component name="RunManager" selected="Application.HospitalHereApplication">
+  <component name="RunManager" selected="Spring Boot.HospitalHereApplication">
     <configuration name="Crawling" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.team5.hospital_here.hospital.other.Crawling" />
       <module name="hospital_here.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.team5.hospital_here.hospital.other.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HospitalHereApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <envs>
-        <env name="P3_MYSQL_URL" value="localhost:3306/mydatabase" />
-        <env name="P3_MYSQL_USERNAME" value="springstudent" />
-        <env name="P3_MYSQL_PASSWORD" value="springstudent" />
-        <env name="GEMINI_API_KEY" value="AIzaSyCnHPqIZ84FnijhYdzieibdxDBJvTGSx-w" />
-        <env name="GEMINI_API_URL" value="https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent" />
-      </envs>
-      <option name="MAIN_CLASS_NAME" value="com.team5.hospital_here.HospitalHereApplication" />
-      <module name="hospital_here.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.team5.hospital_here.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -133,15 +111,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Application.Crawling" />
-      <item itemvalue="Application.HospitalHereApplication" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.HospitalHereApplication" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -170,6 +139,7 @@
       <workItem from="1721754976758" duration="1804000" />
       <workItem from="1721903721533" duration="9662000" />
       <workItem from="1722234307314" duration="15363000" />
+      <workItem from="1722579446467" duration="17189000" />
     </task>
     <task id="LOCAL-00001" summary="Changes">
       <option name="closed" value="true" />
