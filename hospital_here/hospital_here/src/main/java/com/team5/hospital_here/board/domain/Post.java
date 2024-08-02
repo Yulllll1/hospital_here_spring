@@ -1,5 +1,6 @@
 package com.team5.hospital_here.board.domain;
 
+import com.team5.hospital_here.board.dto.post.PostRequestDto;
 import com.team5.hospital_here.board.dto.post.PostResponseDto;
 import com.team5.hospital_here.board.dto.post.PostUpdateDto;
 import com.team5.hospital_here.common.baseEntity.BaseEntity;
@@ -50,6 +51,14 @@ public class Post extends BaseEntity {
         this.content = postUpdateDto.getContent();
     }
 
+    public void addPostImg(PostImg postImg) {
+        if (this.postImgs == null) {
+            this.postImgs = new ArrayList<>();
+        }
+        this.postImgs.add(postImg);
+        postImg.setPost(this);
+    }
+
     public PostResponseDto toResponseDto() {
         return PostResponseDto.builder()
                 .id(this.id)
@@ -57,6 +66,9 @@ public class Post extends BaseEntity {
                 .userId(this.user.getId())
                 .title(this.title)
                 .content(this.content)
+                .imageUrls(this.postImgs.stream()
+                        .map(PostImg::toResponseDto)
+                        .toList())
                 .build();
     }
 }

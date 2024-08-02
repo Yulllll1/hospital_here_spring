@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="a5742c7b-a896-44bb-be6c-1599bc16b34f" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/PostImg.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/PostImg.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/post/PostResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/post/PostResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/postImg/PostImgResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/postImg/PostImgResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/repository/PostImgRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/repository/PostImgRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,5 +194,14 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Changes" />
     <option name="LAST_COMMIT_MESSAGE" value="Changes" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="GradleRunConfiguration">
+        <watch expression="createdPost" />
+        <watch expression="postImg" />
+        <watch expression="postImg" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

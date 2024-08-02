@@ -1,6 +1,8 @@
 package com.team5.hospital_here.board.dto.post;
 
 import com.team5.hospital_here.board.domain.PostImg;
+import com.team5.hospital_here.board.dto.postImg.PostImgRequestDto;
+import com.team5.hospital_here.board.dto.postImg.PostImgResponseDto;
 import lombok.*;
 
 import java.util.List;
@@ -16,5 +18,5 @@ public class PostResponseDto {
     private Long userId;
     private String title;
     private String content;
-    private List<PostImg> imgUrls;
+    private List<PostImgResponseDto> imageUrls;
 }

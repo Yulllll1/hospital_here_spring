@@ -44,13 +44,16 @@ public class PostServiceImpl implements PostService {
         Post post = postRequestDto.toEntity(board, user);
         Post createdPost = postRepository.save(post);
 
-        PostImg postImg = PostImg.builder()
-                .post(post)
-                .link(postRequestDto.getImageUrl())
-                .build();
-        //createdPost.getPostImgs().add(postImg);
-        //todo 단순히 postImg에만 url이 저장되는듯 post의 postImgs랑 매핑해야함
-        postImgRepository.save(postImg);
+        if (postRequestDto.getImageUrl() != null) {
+            PostImg postImg = PostImg.builder()
+                    .link(postRequestDto.getImageUrl())
+                    .build();
+
+            createdPost.addPostImg(postImg);
+
+            postImgRepository.save(postImg);
+            createdPost = postRepository.save(createdPost);
+        }
         return createdPost.toResponseDto();
     }
 
