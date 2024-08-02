@@ -69,4 +69,10 @@ public class HospitalController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/hospitals/contained-name")
+    public ResponseEntity<List<Hospital>> getHospitalsByContainedName(@RequestParam String name){
+        System.out.println(name);
+        return ResponseEntity.ok(hospitalService.getHospitalByNameContained(name));
+    }
 }
