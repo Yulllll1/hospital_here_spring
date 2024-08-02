@@ -5,9 +5,15 @@ import com.team5.hospital_here.board.dto.comment.CommentResponseDto;
 import com.team5.hospital_here.board.dto.comment.CommentUpdateDto;
 import com.team5.hospital_here.board.service.CommentService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -18,18 +24,21 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @Transactional
     @PostMapping
     public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto commentRequestDto) {
         CommentResponseDto commentResponseDto = commentService.createComment(commentRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentResponseDto);
     }
 
+    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long id, @RequestBody CommentUpdateDto commentUpdateDto) {
         CommentResponseDto commentResponseDto = commentService.updateComment(id, commentUpdateDto);
         return ResponseEntity.ok(commentResponseDto);
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
@@ -49,9 +58,15 @@ public class CommentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Transactional
     @GetMapping("/post/{postId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentsByPostId(@PathVariable Long postId) {
-        List<CommentResponseDto> comments = commentService.findCommentsByPostId(postId);
+    public ResponseEntity<Page<CommentResponseDto>> getCommentsByPostId(
+            @PathVariable Long postId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<CommentResponseDto> comments = commentService.findCommentsByPostId(postId, pageable);
         return ResponseEntity.ok(comments);
     }
 }

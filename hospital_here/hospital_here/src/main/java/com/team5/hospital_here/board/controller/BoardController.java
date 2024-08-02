@@ -5,11 +5,13 @@ import com.team5.hospital_here.board.dto.board.BoardResponseDto;
 import com.team5.hospital_here.board.dto.board.BoardUpdateDto;
 import com.team5.hospital_here.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/boards")
@@ -38,15 +40,27 @@ public class BoardController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BoardResponseDto>> getAllBoards() {
-        List<BoardResponseDto> boards = boardService.findAllBoards();
+    public ResponseEntity<Page<BoardResponseDto>> getAllBoards(@RequestParam(defaultValue = "0") int page,
+                                                               @RequestParam(defaultValue = "6") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BoardResponseDto> boards = boardService.findAllBoards(pageable);
         return ResponseEntity.ok(boards);
     }
 
+    //notUse
     @GetMapping("/{id}")
     public ResponseEntity<BoardResponseDto> getBoardById(@PathVariable Long id) {
         return boardService.findBoardById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+    @GetMapping("/search")
+    public ResponseEntity<Page<BoardResponseDto>> searchBoardsByName(
+            @RequestParam("name") String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BoardResponseDto> boards = boardService.findBoardsByName(name, pageable);
+        return ResponseEntity.ok(boards);
     }
 }

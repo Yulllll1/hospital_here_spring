@@ -9,8 +9,5 @@ import lombok.*;
 @NoArgsConstructor
 public class CommentUpdateDto {
     private Long id;
-    private Long postId;
-    private Long userId;
-    private Long parentId;
     private String content;
 }

@@ -9,9 +9,11 @@ import com.team5.hospital_here.board.service.BoardService;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,14 +21,14 @@ import java.util.Optional;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
-
+    @Transactional
     @Override
     public BoardResponseDto createBoard(BoardRequestDto boardRequestDto) {
         Board board = boardRequestDto.toEntity();
         Board createdBoard = boardRepository.save(board);
         return createdBoard.toResponseDto();
     }
-
+    @Transactional
     @Override
     public BoardResponseDto updateBoard(BoardUpdateDto boardUpdateDto) {
         Board board = boardRepository.findById(boardUpdateDto.getId())
@@ -35,17 +37,16 @@ public class BoardServiceImpl implements BoardService {
         Board updatedBoard = boardRepository.save(board);
         return updatedBoard.toResponseDto();
     }
-
+    @Transactional
     @Override
     public void deleteBoard(Long id) {
         boardRepository.deleteById(id);
     }
 
     @Override
-    public List<BoardResponseDto> findAllBoards() {
-        List<Board> boards = boardRepository.findAll();
-        return boards.stream()
-                .map(Board::toResponseDto).toList();
+    public Page<BoardResponseDto> findAllBoards(Pageable pageable) {
+        Page<Board> boards = boardRepository.findAll(pageable);
+        return boards.map(Board::toResponseDto);
     }
 
     @Override
@@ -56,5 +57,11 @@ public class BoardServiceImpl implements BoardService {
             return Optional.ofNullable(board.toResponseDto());
         }
         return Optional.empty();
+    }
+
+    @Override
+    public Page<BoardResponseDto> findBoardsByName(String name, Pageable pageable) {
+        Page<Board> boards = boardRepository.findByNameContainingIgnoreCase(name, pageable);
+        return boards.map(Board::toResponseDto);
     }
 }
