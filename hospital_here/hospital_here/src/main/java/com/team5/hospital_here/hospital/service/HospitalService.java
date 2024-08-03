@@ -70,9 +70,7 @@ public class HospitalService {
     }
 
     public List<HospitalDTO> getAllHospitalsWithDepartments() {
-        // Get all hospitals
         List<Hospital> hospitals = hospitalRepository.findAll();
-        // Get all departments
         List<HospitalDepartmentDTO> departments = hospitalDepartmentRepository.findAll()
                 .stream()
                 .map(hospitalDepartmentMapper::convertToDto)
@@ -98,6 +96,12 @@ public class HospitalService {
     public Hospital getHospitalById(Long id) {
         return hospitalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hospital not found for id :: " + id));
+    }
+    public HospitalDTO getHospitalDTOById(Long id) {
+        Hospital hospital = hospitalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Hospital not found for id :: " + id));
+        HospitalDTO hospitalDTO = convertToDto(hospital);
+        return hospitalDTO;
     }
 
     public List<Hospital> getHospitalByNameContained(String name){
