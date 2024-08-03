@@ -14,10 +14,8 @@ public class HospitalDTO {
     private String telephoneNumber;
     private List<DepartmentDTO> departments = new ArrayList<>(); // 빈 리스트로 초기화
 
-    // 기본 생성자
     public HospitalDTO() {}
 
-    // 모든 필드를 포함하는 생성자
     public HospitalDTO(Long id, String name, Double latitude, Double longitude, String address, String district, String subDistrict, String telephoneNumber, List<DepartmentDTO> departments) {
         this.id = id;
         this.name = name;

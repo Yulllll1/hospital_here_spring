@@ -3,7 +3,6 @@ package com.team5.hospital_here.hospital.controller;
 import com.team5.hospital_here.hospital.Mapper.DepartmentMapper;
 import com.team5.hospital_here.hospital.dto.DepartmentDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDTO;
-import com.team5.hospital_here.hospital.dto.HospitalDepartmentDTO;
 import com.team5.hospital_here.hospital.entity.Department;
 import com.team5.hospital_here.hospital.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,5 +86,10 @@ public class HospitalController {
     public ResponseEntity<List<Hospital>> getHospitalsByContainedName(@RequestParam String name){
         System.out.println(name);
         return ResponseEntity.ok(hospitalService.getHospitalByNameContained(name));
+    }
+
+    @GetMapping("/hospitals/{hospitalId}")
+    public ResponseEntity<HospitalDTO> getHospitalById(@PathVariable Long hospitalId) {
+        return ResponseEntity.ok(hospitalService.getHospitalDTOById(hospitalId));
     }
 }

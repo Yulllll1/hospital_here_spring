@@ -6,16 +6,15 @@ public class DepartmentDTO {
     private Long id;
     private String name;
 
-    // 기본 생성자
+
+
     public DepartmentDTO(Department department) {}
 
-    // 모든 필드를 포함하는 생성자
     public DepartmentDTO(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    // Getter와 Setter
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
