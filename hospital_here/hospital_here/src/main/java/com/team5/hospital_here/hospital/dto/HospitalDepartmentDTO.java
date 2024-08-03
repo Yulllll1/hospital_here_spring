@@ -1,5 +1,7 @@
 package com.team5.hospital_here.hospital.dto;
 
+import com.team5.hospital_here.hospital.entity.Department;
+
 public class HospitalDepartmentDTO {
     private Long id;
     private HospitalDTO hospital;

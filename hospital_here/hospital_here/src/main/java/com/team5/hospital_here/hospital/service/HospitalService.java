@@ -1,15 +1,9 @@
 package com.team5.hospital_here.hospital.service;
 
-import com.team5.hospital_here.common.exception.CustomException;
-import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.hospital.Mapper.HospitalDepartmentMapper;
-import com.team5.hospital_here.hospital.dto.DepartmentDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDepartmentDTO;
-import com.team5.hospital_here.hospital.entity.Department;
 import com.team5.hospital_here.hospital.entity.Hospital;
-import com.team5.hospital_here.hospital.entity.HospitalDepartment;
-import com.team5.hospital_here.hospital.repository.DepartmentRepository;
 import com.team5.hospital_here.hospital.repository.HospitalDepartmentRepository;
 import com.team5.hospital_here.hospital.repository.HospitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +30,6 @@ public class HospitalService {
     @Autowired
     private HospitalDepartmentMapper hospitalDepartmentMapper;
 
-    @Autowired
-    private DepartmentRepository departmentRepository;
-
     public Page<Hospital> getAllHospitals(String name, String address, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         if ((name != null && !name.isEmpty()) || (address != null && !address.isEmpty())) {
@@ -47,7 +38,7 @@ public class HospitalService {
         return hospitalRepository.findAll(pageable);
     }
 
-    public Page<Hospital> searchHospitals(String name, String address, int page, int size) {
+    public Page<Hospital> searchHospitals(String name, String address, String departmentName, int page, int size) {
         return getAllHospitals(name, address, page, size);
     }
 
@@ -74,18 +65,17 @@ public class HospitalService {
     }
 
     public List<HospitalDTO> getAllHospitalsWithDepartments() {
-        // Get all hospitals
         List<Hospital> hospitals = hospitalRepository.findAll();
-        // Get all departments
         List<HospitalDepartmentDTO> departments = hospitalDepartmentRepository.findAll()
                 .stream()
                 .map(hospitalDepartmentMapper::convertToDto)
-                .collect(Collectors.toList());
+                .toList();
 
         Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
 
         for (Hospital hospital : hospitals) {
             HospitalDTO dto = convertToDto(hospital);
+            dto.setDepartments(new ArrayList<>()); // departments 필드 초기화
             hospitalDTOMap.put(hospital.getId(), dto);
         }
 
