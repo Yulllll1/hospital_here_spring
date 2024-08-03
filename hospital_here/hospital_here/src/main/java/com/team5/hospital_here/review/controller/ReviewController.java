@@ -1,9 +1,12 @@
 package com.team5.hospital_here.review.controller;
 
 
+import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.review.entity.ReviewDTO;
+import com.team5.hospital_here.review.repository.ReviewRepository;
 import com.team5.hospital_here.review.service.ReviewService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,13 +16,15 @@ import java.util.List;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final ReviewRepository reviewRepository;
 
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService, ReviewRepository reviewRepository) {
         this.reviewService = reviewService;
+        this.reviewRepository = reviewRepository;
     }
 
 
-    @GetMapping("/{userId}")
+    @GetMapping("/users/{userId}")
     public ResponseEntity<List<ReviewDTO>> getReview(@PathVariable Long userId) {
         return ResponseEntity.ok(reviewService.findByUser(userId));
     }
@@ -31,14 +36,19 @@ public class ReviewController {
     }
 
     @PutMapping("/{reviewId}")
-    public ResponseEntity<String> updateReview(@PathVariable Long reviewId, @RequestBody ReviewDTO reviewDTO) {
-        reviewService.updateReview(reviewId,reviewDTO);
+    public ResponseEntity<String> updateReview(@AuthenticationPrincipal CustomUser customUser, @PathVariable Long reviewId, @RequestBody ReviewDTO reviewDTO) {
+        reviewService.updateReview(customUser,reviewId,reviewDTO);
         return ResponseEntity.ok("리뷰 수정 성공");
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<String> deleteReview(@PathVariable Long reviewId) {
-        reviewService.deleteReview(reviewId);
+    public ResponseEntity<String> deleteReview(@AuthenticationPrincipal CustomUser customUser, @PathVariable Long reviewId) {
+        reviewService.deleteReview(customUser, reviewId);
         return ResponseEntity.ok("리뷰 삭제 성공");
+    }
+
+    @GetMapping("/{hospitalId}")
+    public ResponseEntity<List<ReviewDTO>> getReviewByHospital(@PathVariable Long hospitalId) {
+        return ResponseEntity.ok(reviewService.findByHospitalId(hospitalId));
     }
 }
