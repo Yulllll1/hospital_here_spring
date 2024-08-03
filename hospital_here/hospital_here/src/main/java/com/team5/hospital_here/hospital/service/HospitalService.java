@@ -97,6 +97,12 @@ public class HospitalService {
         return hospitalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hospital not found for id :: " + id));
     }
+    public HospitalDTO getHospitalDTOById(Long id) {
+        Hospital hospital = hospitalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Hospital not found for id :: " + id));
+        HospitalDTO hospitalDTO = convertToDto(hospital);
+        return hospitalDTO;
+    }
 
     public List<Hospital> getHospitalByNameContained(String name){
         List<Hospital> hospitals = hospitalRepository.findByNameContains(name);

@@ -74,4 +74,9 @@ public class HospitalController {
         System.out.println(name);
         return ResponseEntity.ok(hospitalService.getHospitalByNameContained(name));
     }
+
+    @GetMapping("/hospitals/{hospitalId}")
+    public ResponseEntity<HospitalDTO> getHospitalById(@PathVariable Long hospitalId) {
+        return ResponseEntity.ok(hospitalService.getHospitalDTOById(hospitalId));
+    }
 }
