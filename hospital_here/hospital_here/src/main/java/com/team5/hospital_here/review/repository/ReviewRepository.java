@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
 
     List<ReviewEntity> findByUserId(Long id);
+    List<ReviewEntity> findByHospitalId(Long id);
 }
