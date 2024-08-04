@@ -7,9 +7,7 @@ import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.repository.HospitalDepartmentRepository;
 import com.team5.hospital_here.hospital.repository.HospitalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,12 +28,17 @@ public class HospitalService {
     @Autowired
     private HospitalDepartmentMapper hospitalDepartmentMapper;
 
-    public Page<Hospital> getAllHospitals(String name, String address, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        if ((name != null && !name.isEmpty()) || (address != null && !address.isEmpty())) {
-            return hospitalRepository.findByNameContainingIgnoreCaseAndAddressContainingIgnoreCase(name, address, pageable);
-        }
-        return hospitalRepository.findAll(pageable);
+    public Page<Hospital> searchHospitals(String name, String address, String departmentName, int page, int size) {
+        // 조건에 맞는 병원 목록 검색
+        List<Hospital> filteredHospitals = hospitalRepository.searchHospitals(name, address, departmentName);
+
+        // 페이지네이션 적용
+        int start = (int) PageRequest.of(page, size).getOffset();
+        int end = Math.min((start + PageRequest.of(page, size).getPageSize()), filteredHospitals.size());
+
+        List<Hospital> paginatedHospitals = filteredHospitals.subList(start, end);
+
+        return new PageImpl<>(paginatedHospitals, PageRequest.of(page, size, Sort.by("id").ascending()), filteredHospitals.size());
     }
 
     public Page<Hospital> searchHospitals(String name, String address, String departmentName, int page, int size) {
@@ -54,8 +57,8 @@ public class HospitalService {
         return new HospitalDTO(
                 hospital.getId(),
                 hospital.getName(),
-                hospital.getLatitude() != null ? hospital.getLatitude().doubleValue() : null,
-                hospital.getLongitude() != null ? hospital.getLongitude().doubleValue() : null,
+                hospital.getLatitude() != null ? hospital.getLatitude() : null,
+                hospital.getLongitude() != null ? hospital.getLongitude() : null,
                 hospital.getAddress(),
                 hospital.getDistrict(),
                 hospital.getSubDistrict(),

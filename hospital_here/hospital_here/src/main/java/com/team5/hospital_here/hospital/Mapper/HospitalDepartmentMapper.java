@@ -32,8 +32,8 @@ public class HospitalDepartmentMapper {
         return new HospitalDTO(
                 hospital.getId(),
                 hospital.getName(),
-                hospital.getLatitude() != null ? hospital.getLatitude().doubleValue() : null,
-                hospital.getLongitude() != null ? hospital.getLongitude().doubleValue() : null,
+                hospital.getLatitude() != null ? hospital.getLatitude() : null,
+                hospital.getLongitude() != null ? hospital.getLongitude() : null,
                 hospital.getAddress(),
                 hospital.getDistrict(),
                 hospital.getSubDistrict(),
