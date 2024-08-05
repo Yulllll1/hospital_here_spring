@@ -19,4 +19,6 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
             @Param("name") String name,
             @Param("address") String address,
             @Param("departmentName") String departmentName);
+
+    List<Hospital> findByNameContains(String name);
 }

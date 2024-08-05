@@ -71,17 +71,7 @@ public class HospitalService {
     }
 
     public HospitalDTO convertToDto(Hospital hospital) {
-        return new HospitalDTO(
-                hospital.getId(),
-                hospital.getName(),
-                hospital.getLatitude() != null ? hospital.getLatitude() : null,
-                hospital.getLongitude() != null ? hospital.getLongitude() : null,
-                hospital.getAddress(),
-                hospital.getDistrict(),
-                hospital.getSubDistrict(),
-                hospital.getTelephoneNumber(),
-                new ArrayList<>()
-        );
+        return hospitalDepartmentMapper.convertToDto(hospital);
     }
 
     public List<HospitalDTO> getAllHospitalsWithDepartments() {

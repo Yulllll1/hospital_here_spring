@@ -47,7 +47,8 @@ public class HospitalController {
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
 
-        // 병원 검색 및 DTO 변환
+        // 병원 검색 및 DTO 변환,
+        //검색 결과를 hospitalDTO로 변환 후 hospitaldtomap에 저장
         Page<Hospital> hospitalPage = hospitalService.searchHospitals(name, address, departmentName, latitude, longitude, page, size);
         List<Hospital> hospitals = hospitalPage.getContent();
         Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
@@ -58,6 +59,7 @@ public class HospitalController {
         }
 
         // 병원 ID 기반으로 부서 정보 추가
+        //부서 목록을 가져와서 departmentdto로 변환 후 hospitaldto에 저장
         for (Long hospitalId : hospitalDTOMap.keySet()) {
             List<Department> departments = departmentService.getDepartmentsByHospitalId(hospitalId);
             HospitalDTO hospitalDTO = hospitalDTOMap.get(hospitalId);
