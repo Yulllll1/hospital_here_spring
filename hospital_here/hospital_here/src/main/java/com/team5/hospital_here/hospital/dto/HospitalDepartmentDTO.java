@@ -1,14 +1,12 @@
 package com.team5.hospital_here.hospital.dto;
 
-import com.team5.hospital_here.hospital.entity.Department;
-
 public class HospitalDepartmentDTO {
     private Long id;
     private HospitalDTO hospital;
     private DepartmentDTO department;
 
-    public HospitalDepartmentDTO() {}
 
+    public HospitalDepartmentDTO() {}
 
     public HospitalDepartmentDTO(Long id, HospitalDTO hospital, DepartmentDTO department) {
         this.id = id;

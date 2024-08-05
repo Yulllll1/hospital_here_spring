@@ -3,8 +3,6 @@ package com.team5.hospital_here.hospital.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -42,11 +40,11 @@ public class Hospital {
     @Column(name = "homepage_link")
     private String homepageLink;
 
-    @Column(name = "latitude", precision = 38, scale = 7)
-    private BigDecimal latitude;
+    @Column(name = "latitude")
+    private Double latitude;
 
-    @Column(name = "longitude", precision = 38, scale = 7)
-    private BigDecimal longitude;
+    @Column(name = "longitude")
+    private Double longitude;
 
     @Column(name = "sun_start_time")
     private String sunStartTime;
