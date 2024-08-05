@@ -6,8 +6,6 @@ public class DepartmentDTO {
     private Long id;
     private String name;
 
-
-
     public DepartmentDTO(Department department) {}
 
     public DepartmentDTO(Long id, String name) {
