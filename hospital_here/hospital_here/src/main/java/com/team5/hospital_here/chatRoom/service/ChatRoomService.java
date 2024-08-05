@@ -36,6 +36,10 @@ public class ChatRoomService {
     public List<ChatRoomResponseDTO> findAll() {
         List<ChatRoom> list = chatRoomRepository.findAll();
 
+        if (list.isEmpty()) {
+            throw new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST);
+        }
+
         return list.stream().map(ChatRoomMapper.INSTANCE::toDto).toList();
     }
 

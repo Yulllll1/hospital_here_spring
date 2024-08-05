@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="a5742c7b-a896-44bb-be6c-1599bc16b34f" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.logs/error/2024-08-02.0.log" beforeDir="false" afterPath="$PROJECT_DIR$/.logs/error/2024-08-02.0.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/CommentServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostServiceImpl.java" afterDir="false" />
     </list>
+=======
+    <list default="true" id="a7f23b82-5217-43ff-a531-515ad45bad53" name="Changes" comment="Changes" />
+>>>>>>> 848eaaf14efa04d8c9d71eae6db00cc2c9320973
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,6 +70,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Gradle.Build hospital_here.executor&quot;: &quot;Run&quot;,
@@ -90,6 +95,32 @@
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+=======
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build hospital_here.executor": "Run",
+    "Gradle.hospital_here [:Crawling.main()].executor": "Run",
+    "Gradle.hospital_here [:HospitalHereApplication.main()].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.HospitalHereApplication.executor": "Run",
+    "app.teamhub.selectedTeam": "kdt-gitlab.elice.io/cloud_track/class_03/web_project3/team05/hospital_here_spring",
+    "app.teamhub.trackedBranches": "1hf5k97/dev,1hf5k97/master",
+    "git-widget-placeholder": "dev",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/git/hospital_here_spring/hospital_here/hospital_here/build.gradle.kts",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
+>>>>>>> 848eaaf14efa04d8c9d71eae6db00cc2c9320973
   }
 }</component>
   <component name="ReactorSettings">
@@ -136,6 +167,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
     <list>
       <item itemvalue="Application.Crawling" />
       <item itemvalue="Application.HospitalHereApplication" />
@@ -145,6 +177,8 @@
         <item itemvalue="Application.HospitalHereApplication" />
       </list>
     </recent_temporary>
+=======
+>>>>>>> 848eaaf14efa04d8c9d71eae6db00cc2c9320973
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -173,6 +207,7 @@
       <workItem from="1721754976758" duration="1804000" />
       <workItem from="1721903721533" duration="9662000" />
       <workItem from="1722234307314" duration="15363000" />
+      <workItem from="1722579446467" duration="600000" />
     </task>
     <task id="LOCAL-00001" summary="Changes">
       <option name="closed" value="true" />

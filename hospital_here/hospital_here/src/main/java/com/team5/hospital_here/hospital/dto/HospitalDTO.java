@@ -1,6 +1,6 @@
 package com.team5.hospital_here.hospital.dto;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HospitalDTO {
@@ -12,7 +12,7 @@ public class HospitalDTO {
     private String district;
     private String subDistrict;
     private String telephoneNumber;
-    private List<DepartmentDTO> departments; // 부서 목록 추가
+    private List<DepartmentDTO> departments = new ArrayList<>(); // 빈 리스트로 초기화
 
     public HospitalDTO() {}
 
@@ -25,7 +25,7 @@ public class HospitalDTO {
         this.district = district;
         this.subDistrict = subDistrict;
         this.telephoneNumber = telephoneNumber;
-        this.departments = departments;
+        this.departments = departments != null ? departments : new ArrayList<>(); // 빈 리스트로 초기화
     }
 
     // Getters and Setters
