@@ -53,6 +53,7 @@ public class ChatRoom extends BaseEntity {
     @JoinColumn(name = "leave_user_id")
     private User leaveUser;
 
+    @Builder.Default
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.PERSIST, orphanRemoval = true)
     @OrderBy("createdAt")
     private List<ChatMessage> chatMessages = new ArrayList<>();
