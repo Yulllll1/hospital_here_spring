@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
-    Page<Hospital> findByNameContainingIgnoreCaseAndAddressContainingIgnoreCase(String name, String address, Pageable pageable);
 
     @Query("SELECT h FROM Hospital h JOIN h.hospitalDepartments hd JOIN hd.department d WHERE "
             + "(:name IS NULL OR h.name LIKE %:name%) AND "

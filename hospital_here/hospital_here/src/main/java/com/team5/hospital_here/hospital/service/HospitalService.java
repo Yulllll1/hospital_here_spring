@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class HospitalService {
@@ -39,18 +38,6 @@ public class HospitalService {
         List<Hospital> paginatedHospitals = filteredHospitals.subList(start, end);
 
         return new PageImpl<>(paginatedHospitals, PageRequest.of(page, size, Sort.by("id").ascending()), filteredHospitals.size());
-    }
-
-    public Page<Hospital> searchHospitals(String name, String address, String departmentName, int page, int size) {
-        return getAllHospitals(name, address, page, size);
-    }
-
-
-    public List<HospitalDepartmentDTO> getAllHospitalDepartments() {
-        return hospitalDepartmentRepository.findAll()
-                .stream()
-                .map(hospitalDepartmentMapper::convertToDto)
-                .collect(Collectors.toList());
     }
 
     public HospitalDTO convertToDto(Hospital hospital) {
