@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5742c7b-a896-44bb-be6c-1599bc16b34f" name="Changes" comment="Changes" />
+    <list default="true" id="a5742c7b-a896-44bb-be6c-1599bc16b34f" name="Changes" comment="Changes">
+      <change beforePath="$PROJECT_DIR$/.logs/error/2024-08-05.0.log" beforeDir="false" afterPath="$PROJECT_DIR$/.logs/error/2024-08-05.0.log" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
