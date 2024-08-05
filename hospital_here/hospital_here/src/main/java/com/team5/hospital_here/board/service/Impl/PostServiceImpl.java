@@ -62,8 +62,20 @@ public class PostServiceImpl implements PostService {
     public PostResponseDto updatePost(PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(postUpdateDto.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-
         post.update(postUpdateDto);
+
+        if (postUpdateDto.getImageUrls() != null) {
+            postImgRepository.deleteAll(post.getPostImgs());
+            for (String imageUrl : postUpdateDto.getImageUrls()) {
+                PostImg postImg = PostImg.builder()
+                        .link(imageUrl)
+                        .post(post)
+                        .build();
+                post.addPostImg(postImg);
+                postImgRepository.save(postImg);
+            }
+        }
+
         Post updatedPost = postRepository.save(post);
         return updatedPost.toResponseDto();
     }
