@@ -17,6 +17,7 @@ public interface ChatMessageMapper {
 
     @Mapping(source = "user", target = "user", qualifiedByName = "userToDTO")
     @Mapping(source = "chatRoom.id", target = "chatRoomId")
+    @Mapping(target = "doctorProfile", ignore = true)
     ChatMessageResponseDTO toDTO(ChatMessage chatMessage);
 
     @Named("userToDTO")
