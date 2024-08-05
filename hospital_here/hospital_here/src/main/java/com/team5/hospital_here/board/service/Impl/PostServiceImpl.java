@@ -49,9 +49,7 @@ public class PostServiceImpl implements PostService {
             PostImg postImg = PostImg.builder()
                     .link(postRequestDto.getImageUrl())
                     .build();
-
             createdPost.addPostImg(postImg);
-
             postImgRepository.save(postImg);
             createdPost = postRepository.save(createdPost);
         }
@@ -64,16 +62,14 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
         post.update(postUpdateDto);
 
-        if (postUpdateDto.getImageUrls() != null) {
+        if (postUpdateDto.getImageUrl() != null) {
             postImgRepository.deleteAll(post.getPostImgs());
-            for (String imageUrl : postUpdateDto.getImageUrls()) {
-                PostImg postImg = PostImg.builder()
-                        .link(imageUrl)
-                        .post(post)
-                        .build();
-                post.addPostImg(postImg);
-                postImgRepository.save(postImg);
-            }
+            PostImg postImg = PostImg.builder()
+                    .link(postUpdateDto.getImageUrl())
+                    .post(post)
+                    .build();
+            post.addPostImg(postImg);
+            postImgRepository.save(postImg);
         }
 
         Post updatedPost = postRepository.save(post);

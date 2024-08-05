@@ -13,5 +13,5 @@ public class PostUpdateDto {
     private Long id;
     private String title;
     private String content;
-    private List<String> imageUrls;
+    private String imageUrl;
 }
