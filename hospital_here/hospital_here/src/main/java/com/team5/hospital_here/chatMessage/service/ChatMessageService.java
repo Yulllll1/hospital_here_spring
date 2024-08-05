@@ -5,12 +5,18 @@ import com.team5.hospital_here.chatMessage.dto.ChatMessageResponseDTO;
 import com.team5.hospital_here.chatMessage.entity.ChatMessage;
 import com.team5.hospital_here.chatMessage.mapper.ChatMessageMapper;
 import com.team5.hospital_here.chatMessage.repository.ChatMessageRepository;
+import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
 import com.team5.hospital_here.chatRoom.enums.ChatRoomStatus;
+import com.team5.hospital_here.chatRoom.enums.ChatRoomType;
 import com.team5.hospital_here.chatRoom.repository.ChatRoomRepository;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
+import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileResponseDTO;
+import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +31,7 @@ public class ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final UserRepository userRepository;
+    private final DoctorProfileRepository doctorProfileRepository;
 
     public List<ChatMessageResponseDTO> findAllChatMessage(Long chatRoomId, Long userId) {
         ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId)
@@ -38,7 +45,30 @@ public class ChatMessageService {
         List<ChatMessage> chatMessageList = chatMessageRepository.findByChatRoomIdOrderByCreatedAt(
             chatRoomId);
 
-        return chatMessageList.stream().map(ChatMessageMapper.INSTANCE::toDTO).toList();
+        List<ChatMessageResponseDTO> list = chatMessageList.stream()
+            .map(ChatMessageMapper.INSTANCE::toDTO).toList();
+
+        setDoctorProfile(list);
+
+        return list;
+    }
+
+    // ChatMessageResponseDTO의 doctorProfile 채우기
+    private void setDoctorProfile(List<ChatMessageResponseDTO> list) {
+        for (int i = 0; i < list.size(); i++) {
+            ChatMessageResponseDTO chatMessageElement = list.get(i);
+
+            // 해당 메시지가 의사의 메시지인 경우
+            if (chatMessageElement.getUser().getRole().equals(Role.DOCTOR.name())) {
+                DoctorProfile foundDoctorProfile = doctorProfileRepository.findByUser(
+                        userRepository.findById(chatMessageElement.getUser().getId())
+                            .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)))
+                    .orElseThrow(() -> new CustomException(ErrorCode.DOCTOR_PROFILE_NOT_FOUND));
+
+                chatMessageElement.setDoctorProfile(
+                    new DoctorProfileResponseDTO(foundDoctorProfile));
+            }
+        }
     }
 
     public ChatMessageResponseDTO addChatMessage(Long chatRoomId,
