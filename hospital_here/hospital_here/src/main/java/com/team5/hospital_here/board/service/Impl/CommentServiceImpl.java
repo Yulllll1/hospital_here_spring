@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,7 @@ public class CommentServiceImpl implements CommentService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     @Override
     public CommentResponseDto createComment(CommentRequestDto commentRequestDto) {
         Post post = postRepository.findById(commentRequestDto.getPostId())
@@ -50,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
         Comment savedComment = commentRepository.save(comment);
         return savedComment.toResponseDto();
     }
-
+    @Transactional
     @Override
     public CommentResponseDto updateComment(Long id, CommentUpdateDto commentUpdateDto) {
         Comment comment = commentRepository.findById(id)
@@ -60,7 +62,7 @@ public class CommentServiceImpl implements CommentService {
         Comment updatedComment = commentRepository.save(comment);
         return updatedComment.toResponseDto();
     }
-
+    @Transactional
     @Override
     public void deleteComment(Long id) {
         commentRepository.deleteById(id);

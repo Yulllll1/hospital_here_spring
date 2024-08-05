@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class PostServiceImpl implements PostService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final PostImgRepository postImgRepository;
-
+    @Transactional
     @Override
     public PostResponseDto createPost(PostRequestDto postRequestDto) {
         Board board = boardRepository.findById(postRequestDto.getBoardId())
@@ -56,7 +57,7 @@ public class PostServiceImpl implements PostService {
         }
         return createdPost.toResponseDto();
     }
-
+    @Transactional
     @Override
     public PostResponseDto updatePost(PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(postUpdateDto.getId())
@@ -66,7 +67,7 @@ public class PostServiceImpl implements PostService {
         Post updatedPost = postRepository.save(post);
         return updatedPost.toResponseDto();
     }
-
+    @Transactional
     @Override
     public void deletePost(Long id) {
         postRepository.deleteById(id);
