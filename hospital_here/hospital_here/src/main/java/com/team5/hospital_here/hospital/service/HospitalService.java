@@ -27,17 +27,46 @@ public class HospitalService {
     @Autowired
     private HospitalDepartmentMapper hospitalDepartmentMapper;
 
-    public Page<Hospital> searchHospitals(String name, String address, String departmentName, int page, int size) {
-        // 조건에 맞는 병원 목록 검색
+    public Page<Hospital> searchHospitals(String name, String address, String departmentName, Double latitude, Double longitude, int page, int size) {
         List<Hospital> filteredHospitals = hospitalRepository.searchHospitals(name, address, departmentName);
 
-        // 페이지네이션 적용
+        if (latitude != null && longitude != null) {
+            filteredHospitals.sort((h1, h2) -> {
+                Double distance1 = calculateDistanceOrNull(latitude, longitude, h1.getLatitude(), h1.getLongitude());
+                Double distance2 = calculateDistanceOrNull(latitude, longitude, h2.getLatitude(), h2.getLongitude());
+
+                if (distance1 == null && distance2 == null) return 0;
+                if (distance1 == null) return 1;
+                if (distance2 == null) return -1;
+
+                return Double.compare(distance1, distance2);
+            });
+        }
+
         int start = (int) PageRequest.of(page, size).getOffset();
         int end = Math.min((start + PageRequest.of(page, size).getPageSize()), filteredHospitals.size());
 
         List<Hospital> paginatedHospitals = filteredHospitals.subList(start, end);
 
         return new PageImpl<>(paginatedHospitals, PageRequest.of(page, size, Sort.by("id").ascending()), filteredHospitals.size());
+    }
+
+    private Double calculateDistanceOrNull(Double userLat, Double userLon, Double hospitalLat, Double hospitalLon) {
+        if (hospitalLat == null || hospitalLon == null) {
+            return null;
+        }
+        return calculateDistance(userLat, userLon, hospitalLat, hospitalLon);
+    }
+
+    private double calculateDistance(double userLat, double userLon, double hospitalLat, double hospitalLon) {
+        final int R = 6371;
+        double latDistance = Math.toRadians(hospitalLat - userLat);
+        double lonDistance = Math.toRadians(hospitalLon - userLon);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(userLat)) * Math.cos(Math.toRadians(hospitalLat))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
     }
 
     public HospitalDTO convertToDto(Hospital hospital) {
@@ -65,7 +94,7 @@ public class HospitalService {
 
         for (Hospital hospital : hospitals) {
             HospitalDTO dto = convertToDto(hospital);
-            dto.setDepartments(new ArrayList<>()); // departments 필드 초기화
+            dto.setDepartments(new ArrayList<>());
             hospitalDTOMap.put(hospital.getId(), dto);
         }
 
@@ -83,6 +112,4 @@ public class HospitalService {
         return hospitalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Hospital not found for id :: " + id));
     }
-
-
 }

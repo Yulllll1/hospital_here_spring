@@ -3,7 +3,6 @@ package com.team5.hospital_here.hospital.controller;
 import com.team5.hospital_here.hospital.Mapper.DepartmentMapper;
 import com.team5.hospital_here.hospital.dto.DepartmentDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDTO;
-import com.team5.hospital_here.hospital.dto.HospitalDepartmentDTO;
 import com.team5.hospital_here.hospital.entity.Department;
 import com.team5.hospital_here.hospital.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.service.HospitalService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -34,7 +30,6 @@ public class HospitalController {
     @Autowired
     private DepartmentMapper departmentMapper;
 
-
     @GetMapping("/hospitals/all")
     public ResponseEntity<List<HospitalDTO>> getAllHospitalsWithoutPagination() {
         List<HospitalDTO> hospitalDTOs = hospitalService.getAllHospitalsWithDepartments();
@@ -46,11 +41,13 @@ public class HospitalController {
             @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam(value = "address", defaultValue = "") String address,
             @RequestParam(value = "departmentName", defaultValue = "") String departmentName,
+            @RequestParam(value = "latitude", required = false) Double latitude,
+            @RequestParam(value = "longitude", required = false) Double longitude,
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
 
         // 병원 검색 및 DTO 변환
-        Page<Hospital> hospitalPage = hospitalService.searchHospitals(name, address, departmentName, page, size);
+        Page<Hospital> hospitalPage = hospitalService.searchHospitals(name, address, departmentName, latitude, longitude, page, size);
         List<Hospital> hospitals = hospitalPage.getContent();
         Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
 
@@ -64,7 +61,6 @@ public class HospitalController {
             List<Department> departments = departmentService.getDepartmentsByHospitalId(hospitalId);
             HospitalDTO hospitalDTO = hospitalDTOMap.get(hospitalId);
             if (hospitalDTO != null) {
-                // Department 객체를 DepartmentDTO 객체로 변환
                 List<DepartmentDTO> departmentDTOs = departments.stream()
                         .map(department -> departmentMapper.convertToDto(department))
                         .collect(Collectors.toList());

@@ -3,9 +3,6 @@ package com.team5.hospital_here.hospital.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.math.BigDecimal;
-import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -15,7 +12,7 @@ import java.util.List;
 public class Hospital {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment 설정
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

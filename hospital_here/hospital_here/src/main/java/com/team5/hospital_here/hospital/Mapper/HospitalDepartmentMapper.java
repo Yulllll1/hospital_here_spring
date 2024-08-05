@@ -27,7 +27,7 @@ public class HospitalDepartmentMapper {
         );
     }
 
-    // Hospital 엔티티를 HospitalDTO로 변환하는 메소드
+    // Hospital 엔티티를 HospitalDTO로 변환
     public HospitalDTO convertToDto(Hospital hospital) {
         return new HospitalDTO(
                 hospital.getId(),
