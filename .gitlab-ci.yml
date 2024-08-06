@@ -1,8 +1,13 @@
-test-job: # 임의로 지정한 JOB 이름
+stages:
+  - build
+  - test
+
+job_build:
+  stage: build
+  script:
+    - echo "Building the project"
+
+job_test:
   stage: test
-  only:
-    - test
-  script:    
-    - echo "Hello World" # 실행할 스크립트
-  tags:
-    - helloworld
+  script:
+    - echo "Running tests"
