@@ -23,7 +23,7 @@
       <pattern>${CONSOLE_LOG_FILE_PATTERN}</pattern>
     </encoder>
     <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-      <fileNamePattern>.logs/error/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <fileNamePattern>./.logs/error/%d{yyyy-MM-dd}.%i.log</fileNamePattern>
       <maxFileSize>100MB</maxFileSize>
       <maxHistory>30</maxHistory>
     </rollingPolicy>

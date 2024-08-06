@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.service.HospitalService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -33,7 +30,6 @@ public class HospitalController {
     @Autowired
     private DepartmentMapper departmentMapper;
 
-
     //hospital + department 정보
     @GetMapping("/hospitals/all")
     public ResponseEntity<List<HospitalDTO>> getAllHospitalsWithoutPagination() {
@@ -46,11 +42,14 @@ public class HospitalController {
             @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam(value = "address", defaultValue = "") String address,
             @RequestParam(value = "departmentName", defaultValue = "") String departmentName,
+            @RequestParam(value = "latitude", required = false) Double latitude,
+            @RequestParam(value = "longitude", required = false) Double longitude,
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
 
-        // 병원 검색 및 DTO 변환
-        Page<Hospital> hospitalPage = hospitalService.searchHospitals(name, address, departmentName, page, size);
+        // 병원 검색 및 DTO 변환,
+        //검색 결과를 hospitalDTO로 변환 후 hospitaldtomap에 저장
+        Page<Hospital> hospitalPage = hospitalService.searchHospitals(name, address, departmentName, latitude, longitude, page, size);
         List<Hospital> hospitals = hospitalPage.getContent();
         Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
 
@@ -60,11 +59,11 @@ public class HospitalController {
         }
 
         // 병원 ID 기반으로 부서 정보 추가
+        //부서 목록을 가져와서 departmentdto로 변환 후 hospitaldto에 저장
         for (Long hospitalId : hospitalDTOMap.keySet()) {
             List<Department> departments = departmentService.getDepartmentsByHospitalId(hospitalId);
             HospitalDTO hospitalDTO = hospitalDTOMap.get(hospitalId);
             if (hospitalDTO != null) {
-                // Department 객체를 DepartmentDTO 객체로 변환
                 List<DepartmentDTO> departmentDTOs = departments.stream()
                         .map(department -> departmentMapper.convertToDto(department))
                         .collect(Collectors.toList());

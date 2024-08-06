@@ -12,9 +12,8 @@ public class HospitalDTO {
     private String district;
     private String subDistrict;
     private String telephoneNumber;
-    private List<DepartmentDTO> departments = new ArrayList<>(); // 빈 리스트로 초기화
-
-    public HospitalDTO() {}
+    private List<DepartmentDTO> departments = new ArrayList<>();
+    private Double distance;
 
     public HospitalDTO(Long id, String name, Double latitude, Double longitude, String address, String district, String subDistrict, String telephoneNumber, List<DepartmentDTO> departments) {
         this.id = id;
@@ -25,10 +24,10 @@ public class HospitalDTO {
         this.district = district;
         this.subDistrict = subDistrict;
         this.telephoneNumber = telephoneNumber;
-        this.departments = departments != null ? departments : new ArrayList<>(); // 빈 리스트로 초기화
+        this.departments = departments != null ? departments : new ArrayList<>();
+
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getName() { return name; }
@@ -47,4 +46,7 @@ public class HospitalDTO {
     public void setTelephoneNumber(String telephoneNumber) { this.telephoneNumber = telephoneNumber; }
     public List<DepartmentDTO> getDepartments() { return departments; }
     public void setDepartments(List<DepartmentDTO> departments) { this.departments = departments; }
+
+    public Double getDistance() { return distance; }
+    public void setDistance(Double distance) { this.distance = distance; }
 }
