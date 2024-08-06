@@ -49,18 +49,20 @@ public class Post extends BaseEntity {
     public void update(PostUpdateDto postUpdateDto) {
         this.title = postUpdateDto.getTitle();
         this.content = postUpdateDto.getContent();
-        if (postUpdateDto.getImageUrl() != null) {
-            this.updateImage(postUpdateDto.getImageUrl());
+        if (postUpdateDto.getImageUrls() != null) {
+            this.updateImages(postUpdateDto.getImageUrls());
         }
     }
 
-    private void updateImage(String imageUrl) {
+    private void updateImages(List<String> imageUrls) {
         this.postImgs.clear();
-        PostImg postImg = PostImg.builder()
-                .link(imageUrl)
-                .post(this)
-                .build();
-        this.postImgs.add(postImg);
+        for (String imageUrl : imageUrls) {
+            PostImg postImg = PostImg.builder()
+                    .link(imageUrl)
+                    .post(this)
+                    .build();
+            this.postImgs.add(postImg);
+        }
     }
 
     public void addPostImg(PostImg postImg) {

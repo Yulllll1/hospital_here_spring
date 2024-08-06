@@ -21,21 +21,19 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-    @Transactional
     @PostMapping
     public ResponseEntity<PostResponseDto> createPost(@RequestBody PostRequestDto postRequestDto) {
         PostResponseDto postResponseDto = postService.createPost(postRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(postResponseDto);
     }
 
-    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long id, @RequestBody PostUpdateDto postUpdateDto) {
         postUpdateDto.setId(id);
         PostResponseDto postResponseDto = postService.updatePost(postUpdateDto);
         return ResponseEntity.ok(postResponseDto);
     }
-    @Transactional
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         postService.deletePost(id);

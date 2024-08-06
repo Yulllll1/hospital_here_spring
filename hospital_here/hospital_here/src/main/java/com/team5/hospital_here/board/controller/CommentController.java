@@ -24,21 +24,18 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @Transactional
     @PostMapping
     public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto commentRequestDto) {
         CommentResponseDto commentResponseDto = commentService.createComment(commentRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentResponseDto);
     }
 
-    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long id, @RequestBody CommentUpdateDto commentUpdateDto) {
         CommentResponseDto commentResponseDto = commentService.updateComment(id, commentUpdateDto);
         return ResponseEntity.ok(commentResponseDto);
     }
 
-    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
@@ -58,7 +55,6 @@ public class CommentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Transactional
     @GetMapping("/post/{postId}")
     public ResponseEntity<Page<CommentResponseDto>> getCommentsByPostId(
             @PathVariable Long postId,

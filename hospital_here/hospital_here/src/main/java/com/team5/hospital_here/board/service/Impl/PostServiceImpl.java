@@ -31,50 +31,42 @@ public class PostServiceImpl implements PostService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final PostImgRepository postImgRepository;
+
     @Transactional
     @Override
     public PostResponseDto createPost(PostRequestDto postRequestDto) {
         Board board = boardRepository.findById(postRequestDto.getBoardId())
                 .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
+
 //        User user = userRepository.findById(postRequestDto.getUserId())
 //                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        //임시로 설정------------------------------------------------------------
+
         User user = userRepository.findById(1L)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        //---------------------------------------------------------------------
+
+
         Post post = postRequestDto.toEntity(board, user);
         Post createdPost = postRepository.save(post);
 
-        if (postRequestDto.getImageUrl() != null) {
-            PostImg postImg = PostImg.builder()
-                    .link(postRequestDto.getImageUrl())
-                    .build();
-            createdPost.addPostImg(postImg);
-            postImgRepository.save(postImg);
-            createdPost = postRepository.save(createdPost);
-        }
+        savePostImages(postRequestDto.getImageUrls(), createdPost);
+
         return createdPost.toResponseDto();
     }
+
     @Transactional
     @Override
     public PostResponseDto updatePost(PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(postUpdateDto.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+
         post.update(postUpdateDto);
 
-        if (postUpdateDto.getImageUrl() != null) {
-            postImgRepository.deleteAll(post.getPostImgs());
-            PostImg postImg = PostImg.builder()
-                    .link(postUpdateDto.getImageUrl())
-                    .post(post)
-                    .build();
-            post.addPostImg(postImg);
-            postImgRepository.save(postImg);
-        }
+        updatePostImages(postUpdateDto.getImageUrls(), post);
 
         Post updatedPost = postRepository.save(post);
         return updatedPost.toResponseDto();
     }
+
     @Transactional
     @Override
     public void deletePost(Long id) {
@@ -92,7 +84,6 @@ public class PostServiceImpl implements PostService {
         return postRepository.findByUser(user).stream().map(Post::toResponseDto).toList();
     }
 
-
     @Override
     public Page<PostResponseDto> findPostsByBoardId(Long boardId, Pageable pageable) {
         Page<Post> posts = postRepository.findByBoardId(boardId, pageable);
@@ -102,11 +93,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Optional<PostResponseDto> findPostById(Long id) {
         Optional<Post> optionalPost = postRepository.findById(id);
-        if (optionalPost.isPresent()) {
-            Post post = optionalPost.get();
-            return Optional.ofNullable(post.toResponseDto());
-        }
-        return Optional.empty();
+        return optionalPost.map(Post::toResponseDto);
     }
 
     @Override
@@ -115,6 +102,40 @@ public class PostServiceImpl implements PostService {
         return posts.map(Post::toResponseDto);
     }
 
+    private void savePostImages(List<String> imageUrls, Post post) {
+        if (imageUrls != null && !imageUrls.isEmpty()) {
+            for (String imageUrl : imageUrls) {
+                PostImg postImg = PostImg.builder()
+                        .link(imageUrl)
+                        .post(post)
+                        .build();
+                post.addPostImg(postImg);
+                postImgRepository.save(postImg);
+            }
+        }
+    }
 
+    private void updatePostImages(List<String> newImageUrls, Post post) {
+        List<PostImg> existingImages = post.getPostImgs();
+        List<String> existingImageUrls = existingImages.stream()
+                .map(PostImg::getLink)
+                .toList();
+
+        for (String imageUrl : newImageUrls) {
+            if (!existingImageUrls.contains(imageUrl)) {
+                PostImg postImg = PostImg.builder()
+                        .link(imageUrl)
+                        .post(post)
+                        .build();
+                post.addPostImg(postImg);
+                postImgRepository.save(postImg);
+            }
+        }
+
+        for (PostImg postImg : existingImages) {
+            if (!newImageUrls.contains(postImg.getLink())) {
+                postImgRepository.delete(postImg);
+            }
+        }
+    }
 }
-
