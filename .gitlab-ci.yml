@@ -4,10 +4,11 @@ stages:
 
 job_build:
   stage: build
+  before_script:
+    - echo 'build starts'
+    - chmod +x ./gradlew
   script:
-    - echo "Building the project"
-    - ./gradlew build
-
+    - ./gradlew clean build
   artifacts:
     paths:
       - build/libs/*.jar
