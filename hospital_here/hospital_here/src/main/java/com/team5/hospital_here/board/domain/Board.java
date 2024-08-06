@@ -26,6 +26,7 @@ public class Board {
     @NotEmpty(message = "필수 입력값 입니다.")
     private String name;
 
+    @Builder.Default
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
