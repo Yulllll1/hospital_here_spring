@@ -5,6 +5,8 @@ import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.review.entity.ReviewDTO;
 import com.team5.hospital_here.review.repository.ReviewRepository;
 import com.team5.hospital_here.review.service.ReviewService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -51,4 +53,18 @@ public class ReviewController {
     public ResponseEntity<List<ReviewDTO>> getReviewByHospital(@PathVariable Long hospitalId) {
         return ResponseEntity.ok(reviewService.findByHospitalId(hospitalId));
     }
+
+    @GetMapping("/users/{userId}/Page")
+    public ResponseEntity<Page<ReviewDTO>> getReviewByUser(@PathVariable Long userId, Pageable pageable) {
+        Page<ReviewDTO> reviews = reviewService.findByUserPage(userId, pageable);
+        return ResponseEntity.ok(reviews);
+    }
+
+    @GetMapping("/{hospitalId}/Page")
+    public ResponseEntity<Page<ReviewDTO>> getReviewByHospital(@PathVariable Long hospitalId, Pageable pageable) {
+        Page<ReviewDTO> reviews = reviewService.findByHospitalIdPage(hospitalId, pageable);
+        return ResponseEntity.ok(reviews);
+    }
+
+
 }

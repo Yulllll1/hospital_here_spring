@@ -12,6 +12,8 @@ import com.team5.hospital_here.review.repository.ReviewRepository;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -95,6 +97,16 @@ public class ReviewService {
         return reviewEntities.stream()
                 .map(ReviewMapper::toReviewDTO)
                 .toList();
+    }
+
+    public Page<ReviewDTO> findByUserPage(Long userId, Pageable pageable) {
+        Page<ReviewEntity> reviewEntities = reviewRepository.findByUserId(userId, pageable);
+        return reviewEntities.map(ReviewMapper::toReviewDTO);
+    }
+
+    public Page<ReviewDTO> findByHospitalIdPage(Long hospitalId, Pageable pageable) {
+        Page<ReviewEntity> reviewEntities = reviewRepository.findByHospitalId(hospitalId, pageable);
+        return reviewEntities.map(ReviewMapper::toReviewDTO);
     }
 
 
