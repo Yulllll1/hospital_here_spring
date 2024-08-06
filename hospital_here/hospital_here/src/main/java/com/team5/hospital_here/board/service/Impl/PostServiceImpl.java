@@ -13,6 +13,7 @@ import com.team5.hospital_here.board.repository.PostRepository;
 import com.team5.hospital_here.board.service.PostService;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,14 +35,11 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
-    public PostResponseDto createPost(PostRequestDto postRequestDto) {
+    public PostResponseDto createPost(PostRequestDto postRequestDto, CustomUser customUser) {
         Board board = boardRepository.findById(postRequestDto.getBoardId())
                 .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
 
-//        User user = userRepository.findById(postRequestDto.getUserId())
-//                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        User user = userRepository.findById(1L)
+        User user = userRepository.findById(customUser.getUser().getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
 
@@ -55,9 +53,13 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
-    public PostResponseDto updatePost(PostUpdateDto postUpdateDto) {
+    public PostResponseDto updatePost(PostUpdateDto postUpdateDto, Long userId) {
         Post post = postRepository.findById(postUpdateDto.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+
+        if (!post.getUser().getId().equals(userId)) {
+            throw new CustomException(ErrorCode.ACCESS_DENIED);
+        }
 
         post.update(postUpdateDto);
 
@@ -69,8 +71,15 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
-    public void deletePost(Long id) {
-        postRepository.deleteById(id);
+    public void deletePost(Long id, Long userId) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+
+        if (!post.getUser().getId().equals(userId)) {
+            throw new CustomException(ErrorCode.ACCESS_DENIED);
+        }
+
+        postRepository.delete(post);
     }
 
     @Override
