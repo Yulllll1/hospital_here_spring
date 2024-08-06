@@ -62,5 +62,9 @@ tasks.withType<Test> {
 }
 
 bootJar {
-	mainClassName = 'com.team5.hospital_here'
+    enabled = false
+}
+
+jar {
+    enabled = true
 }
