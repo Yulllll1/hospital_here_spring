@@ -60,3 +60,7 @@ dependencies {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+bootJar {
+	mainClassName = 'com.team5.hospital_here'
+}
