@@ -17,3 +17,34 @@
 #   stage: test
 #   script:
 #     - echo "Running tests"
+
+stages:
+  - build
+  - deploy
+
+spring_build:
+  stage: 
+    build
+  only:
+    - dev
+  before_script:
+    - cd ~/builds/PBnDJ9Bm/0/cloud_track/class_03/web_project3/team05/hospital_here_spring/hospital_here/hospital_here
+    - sudo chmod +x gradlew
+    - sudo rm -rf ../../logs
+  script:
+    - ./gradlew clean build
+  after_script:
+    - echo 'build success..'
+    - sudo cp hospital_here/hospital_here/build/libs/hospital_here-0.0.1.jar ~elice/hospital/backend/
+
+spring_deploy:
+  stage: 
+    deploy
+  only:
+    - dev
+  before_script:
+    - sudo ~/builds/kill_spring.sh
+  script:
+    - sudo nohup java -jar ~elice/hospital/backend/hospital_here-0.0.1.jar &
+  after_script:
+    - echo 'deploy success..'
