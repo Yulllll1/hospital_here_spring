@@ -30,8 +30,6 @@ spring_build:
   before_script:
     - cd ~/builds/PBnDJ9Bm/0/cloud_track/class_03/web_project3/team05/hospital_here_spring/hospital_here/hospital_here
     - sudo chmod +x gradlew
-    - echo "import org.gradle.api.tasks.compile.JavaCompile" >> build.gradlew.kts
-    - echo 'tasks.withType<JavaCompile> {options.compilerArgs.add("-Xlint:-unchecked")}' >> build.gradle.kts
   script:
     - ./gradlew clean build
   after_script:
