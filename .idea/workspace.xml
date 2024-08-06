@@ -6,12 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a5742c7b-a896-44bb-be6c-1599bc16b34f" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/controller/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/controller/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/post/PostRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/post/PostRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/post/PostUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/post/PostUpdateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/error/2024-08-06.0.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/error/2024-08-06.0.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -197,6 +191,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="Changes" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/controller/UserController.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="GradleRunConfiguration">
         <watch expression="createdPost" />
