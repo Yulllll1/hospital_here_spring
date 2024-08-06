@@ -40,9 +40,11 @@ public class Post extends BaseEntity {
     @NotEmpty(message = "필수 입력값 입니다.")
     private String content;
 
+    @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostImg> postImgs = new ArrayList<>();
 
