@@ -26,22 +26,27 @@ public class StompMessageController {
     ChatMessageRequestDTO chatMessageRequestDTO) {
 
         ChatMessageResponseDTO chatMessage = ChatMessageResponseDTO.builder()
-            .id(chatMessageRequestDTO.getId()).build();
+            .id(chatMessageRequestDTO.getId()).isAccepted(false).build();
 
-        // id가 없다면 새로운 메시지
-        if (chatMessageRequestDTO.getId() == null) {
-            chatMessage = chatMessageService.addChatMessage(chatRoomId,
-                chatMessageRequestDTO);
+        // 채팅 수락 요청
+        if (chatMessageRequestDTO.getIsAccepted()) {
+            chatMessage.setIsAccepted(true);
         } else {
-            // content가 null이면 메시지 삭제
-            if (chatMessageRequestDTO.getContent() == null) {
-                chatMessageService.removeChatMessage(chatMessageRequestDTO.getId());
-                chatMessage.setContent(null);
+            // id가 없다면 새로운 메시지
+            if (chatMessageRequestDTO.getId() == null) {
+                chatMessage = chatMessageService.addChatMessage(chatRoomId,
+                    chatMessageRequestDTO);
             } else {
-                // 메시지 수정
-                chatMessage = chatMessageService.modifyChatMessage(
-                    chatMessageRequestDTO.getId(),
-                    chatMessageRequestDTO.getUserId(), chatMessageRequestDTO.getContent());
+                // content가 null이면 메시지 삭제
+                if (chatMessageRequestDTO.getContent() == null) {
+                    chatMessageService.removeChatMessage(chatMessageRequestDTO.getId());
+                    chatMessage.setContent(null);
+                } else {
+                    // 메시지 수정
+                    chatMessage = chatMessageService.modifyChatMessage(
+                        chatMessageRequestDTO.getId(),
+                        chatMessageRequestDTO.getUserId(), chatMessageRequestDTO.getContent());
+                }
             }
         }
 
