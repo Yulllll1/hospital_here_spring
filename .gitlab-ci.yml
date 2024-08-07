@@ -26,7 +26,7 @@ spring_deploy:
   only:
     - dev
   script:
-    - bash ~/builds/kill_spring.sh
+    - bash /home/gitlab-runner/builds/kill_spring.sh
     # - sudo ~/builds/kill_spring.sh
     # - sudo nohup java -jar ~elice/hospital/backend/hospital_here-0.0.1.jar &
   after_script:
