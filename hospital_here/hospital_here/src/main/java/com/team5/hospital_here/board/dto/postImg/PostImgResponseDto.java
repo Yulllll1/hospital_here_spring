@@ -1,6 +1,5 @@
 package com.team5.hospital_here.board.dto.postImg;
 
-import com.team5.hospital_here.board.domain.PostImg;
 import lombok.*;
 
 @Getter
