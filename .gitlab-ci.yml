@@ -8,11 +8,9 @@ spring_build:
   only:
     - dev
   before_script:
-    - cd ~/builds/PBnDJ9Bm/0/cloud_track/class_03/web_project3/team05/hospital_here_spring/hospital_here/hospital_here
     - pwd
-    - echo $GEMINI_API_URL
-    - echo $GEMINI_API_KEY
-    - echo $P3_MYSQL_URL
+    - cd ..
+    # - cd ~/builds/PBnDJ9Bm/0/cloud_track/class_03/web_project3/team05/hospital_here_spring/hospital_here/hospital_here
     # - sudo chmod +x gradlew
     # - sudo rm -rf ../../logs
   script:
