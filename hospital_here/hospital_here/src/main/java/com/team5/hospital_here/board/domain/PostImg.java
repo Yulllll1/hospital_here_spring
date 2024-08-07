@@ -21,8 +21,8 @@ public class PostImg {
 
     private String link;
 
-    public void updateUrl(String url) {
-        this.link = url;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public PostImgResponseDto toResponseDto() {
