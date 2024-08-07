@@ -1,6 +1,6 @@
 stages:
   - build
-  # - deploy
+  - deploy
 
 spring_build:
   stage: 
@@ -17,12 +17,13 @@ spring_build:
     - echo 'build success..'
     - sudo cp hospital_here/hospital_here/build/libs/hospital_here-0.0.1.jar ~elice/hospital/backend/
 
-# spring_deploy:
-#   stage: 
-#     deploy
-#   only:
-#     - dev
-#   script:
-#      - sudo nohup java -jar ~elice/hospital/backend/hospital_here-0.0.1.jar &
-#   after_script:
-#     - echo 'deploy success..'
+spring_deploy:
+  stage: 
+    deploy
+  only:
+    - dev
+  script:
+    #  - sudo nohup java -jar ~elice/hospital/backend/hospital_here-0.0.1.jar &
+    - ssh -o StrictHostKeyChecking=no elice@34.64.103.17 'bash /home/gitlab-runner/builds/kill_spring.sh'
+  after_script:
+    - echo 'deploy success..'
