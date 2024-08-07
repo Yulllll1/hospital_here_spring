@@ -8,18 +8,19 @@ spring_build:
   only:
     - dev
   before_script:
-    - pwd
-    - cd ..
-    # - cd ~/builds/PBnDJ9Bm/0/cloud_track/class_03/web_project3/team05/hospital_here_spring/hospital_here/hospital_here
-    # - sudo chmod +x gradlew
-    # - sudo rm -rf ../../logs
+    - cd hospital_here/hospital_here
+    - sudo chmod +x gradlew
   script:
+    - ./gradlew clean build
     - pwd
-    # - ./gradlew clean build
-  after_script:
-    - pwd
-    # - echo 'build success..'
-    # - sudo cp hospital_here/hospital_here/build/libs/hospital_here-0.0.1.jar ~elice/hospital/backend/
+    - ls
+  artifacts:
+    paths:
+      - ./build/libs/*.jar
+    expire_in: 30s
+  # after_script:
+  #   - echo 'build success..'
+  #   - sudo cp hospital_here/hospital_here/build/libs/hospital_here-0.0.1.jar ~elice/hospital/backend/
 
 # spring_deploy:
 #   stage: 
