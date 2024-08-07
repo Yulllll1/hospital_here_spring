@@ -17,4 +17,6 @@ public class ChatMessageResponseDTO {
     private LocalDateTime updatedAt;
     private DoctorProfileResponseDTO doctorProfile;
     private Boolean isAccepted;
+    private Boolean isTerminated;
+    private Long userId;
 }

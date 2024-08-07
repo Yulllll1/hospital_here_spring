@@ -9,4 +9,5 @@ public class ChatMessageRequestDTO {
     private Long chatRoomId;
     private String content;
     private Boolean isAccepted;
+    private Boolean isTerminated;
 }
