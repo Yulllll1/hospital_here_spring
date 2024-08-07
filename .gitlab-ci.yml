@@ -1,3 +1,6 @@
+services:
+  - mysql:8
+
 stages:
   - build
   - deploy
