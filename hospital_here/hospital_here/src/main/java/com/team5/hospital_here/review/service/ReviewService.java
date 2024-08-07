@@ -9,7 +9,9 @@ import com.team5.hospital_here.review.entity.ReviewDTO;
 import com.team5.hospital_here.review.entity.ReviewEntity;
 import com.team5.hospital_here.review.entity.ReviewMapper;
 import com.team5.hospital_here.review.repository.ReviewRepository;
+import com.team5.hospital_here.user.entity.UserMapper;
 import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.UserDTO;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -44,6 +46,9 @@ public class ReviewService {
         return reviewEntities.stream()
                 .map(ReviewMapper::toReviewDTO)
                 .toList();
+    }
+    public String findUserNameById(Long id){
+        return userRepository.findById(id).get().getName();
     }
 
     public void createReview(Long hospitalId, ReviewDTO reviewDTO) {
