@@ -26,7 +26,8 @@ spring_deploy:
   only:
     - dev
   script:
-    - sudo ~/builds/kill_spring.sh
+    - ssh elice@34.64.103.17 `bash ~/builds/kill_spring.sh
+    # - sudo ~/builds/kill_spring.sh
     # - sudo nohup java -jar ~elice/hospital/backend/hospital_here-0.0.1.jar &
   after_script:
     - echo 'deploy success..'
