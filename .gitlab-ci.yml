@@ -23,7 +23,6 @@ spring_deploy:
   only:
     - dev
   script:
-    #  - sudo nohup java -jar ~elice/hospital/backend/hospital_here-0.0.1.jar &
-    - ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" elice@34.64.103.17 'bash /home/gitlab-runner/builds/kill_spring.sh'
+    - sudo bash /home/gitlab-runner/builds/kill_spring.sh
   after_script:
     - echo 'deploy success..'
