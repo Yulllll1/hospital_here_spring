@@ -12990,3 +12990,4 @@ java.lang.NullPointerException: Cannot invoke "com.team5.hospital_here.common.jw
 2024-08-07 14:53:01  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: ACCESS_DENIED, code message: 접근 권한이 없습니다.
 2024-08-07 15:18:41  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_UPDATE_DENIED, code message: 게시글을 수정할 수 없습니다.
 2024-08-07 15:18:43  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_DELETE_DENIED, code message: 게시글을 삭제할 수 없습니다.
+2024-08-07 15:32:13  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_UPDATE_DENIED, code message: 게시글을 수정할 수 없습니다.
