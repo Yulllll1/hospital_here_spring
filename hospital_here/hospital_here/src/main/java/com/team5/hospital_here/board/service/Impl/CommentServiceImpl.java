@@ -10,6 +10,7 @@ import com.team5.hospital_here.board.repository.PostRepository;
 import com.team5.hospital_here.board.service.CommentService;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,15 +34,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public CommentResponseDto createComment(CommentRequestDto commentRequestDto) {
+    public CommentResponseDto createComment(CommentRequestDto commentRequestDto, CustomUser customUser) {
         Post post = postRepository.findById(commentRequestDto.getPostId())
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
-//        User user = userRepository.findById(commentRequestDto.getUserId())
-//                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        //임시로 설정------------------------------------------------------------
-        User user = userRepository.findById(1L)
+
+        User user = userRepository.findById(customUser.getUser().getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        //---------------------------------------------------------------------
+
         Comment parent = null;
         if (commentRequestDto.getParentId() != null) {
             parent = commentRepository.findById(commentRequestDto.getParentId())
@@ -54,9 +53,13 @@ public class CommentServiceImpl implements CommentService {
     }
     @Transactional
     @Override
-    public CommentResponseDto updateComment(Long id, CommentUpdateDto commentUpdateDto) {
+    public CommentResponseDto updateComment(Long id, CommentUpdateDto commentUpdateDto, CustomUser customUser) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
+
+        if (!comment.getUser().getId().equals(customUser.getUser().getId())) {
+            throw new CustomException(ErrorCode.COMMENT_UPDATE_DENIED);
+        }
 
         comment.update(commentUpdateDto);
         Comment updatedComment = commentRepository.save(comment);
@@ -64,7 +67,14 @@ public class CommentServiceImpl implements CommentService {
     }
     @Transactional
     @Override
-    public void deleteComment(Long id) {
+    public void deleteComment(Long id, CustomUser customUser) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
+
+        if (!comment.getUser().getId().equals(customUser.getUser().getId())) {
+            throw new CustomException(ErrorCode.COMMENT_DELETE_DENIED);
+        }
+
         commentRepository.deleteById(id);
     }
 
@@ -91,11 +101,4 @@ public class CommentServiceImpl implements CommentService {
         return comments.map(Comment::toResponseDto);
     }
 
-//    @Override
-//    public List<CommentResponseDto> findCommentsByPostId(Long postId) {
-//        List<Comment> comments = commentRepository.findByPostId(postId);
-//        return comments.stream()
-//                .map(Comment::toResponseDto)
-//                .collect(Collectors.toList());
-//    }
 }

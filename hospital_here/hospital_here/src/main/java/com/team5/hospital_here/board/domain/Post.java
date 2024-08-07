@@ -1,6 +1,5 @@
 package com.team5.hospital_here.board.domain;
 
-import com.team5.hospital_here.board.dto.post.PostRequestDto;
 import com.team5.hospital_here.board.dto.post.PostResponseDto;
 import com.team5.hospital_here.board.dto.post.PostUpdateDto;
 import com.team5.hospital_here.common.baseEntity.BaseEntity;

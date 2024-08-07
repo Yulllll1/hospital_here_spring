@@ -6,7 +6,6 @@ import com.team5.hospital_here.board.domain.PostImg;
 import com.team5.hospital_here.board.dto.post.PostRequestDto;
 import com.team5.hospital_here.board.dto.post.PostResponseDto;
 import com.team5.hospital_here.board.dto.post.PostUpdateDto;
-import com.team5.hospital_here.board.dto.postImg.PostImgResponseDto;
 import com.team5.hospital_here.board.repository.BoardRepository;
 import com.team5.hospital_here.board.repository.PostImgRepository;
 import com.team5.hospital_here.board.repository.PostRepository;
@@ -42,12 +41,10 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findById(customUser.getUser().getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-
         Post post = postRequestDto.toEntity(board, user);
         Post createdPost = postRepository.save(post);
 
         savePostImages(postRequestDto.getImageUrls(), createdPost);
-
         return createdPost.toResponseDto();
     }
 
@@ -58,7 +55,7 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
         if (!post.getUser().getId().equals(userId)) {
-            throw new CustomException(ErrorCode.ACCESS_DENIED);
+            throw new CustomException(ErrorCode.POST_UPDATE_DENIED);
         }
 
         post.update(postUpdateDto);
@@ -76,7 +73,7 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
         if (!post.getUser().getId().equals(userId)) {
-            throw new CustomException(ErrorCode.ACCESS_DENIED);
+            throw new CustomException(ErrorCode.POST_DELETE_DENIED);
         }
 
         postRepository.delete(post);

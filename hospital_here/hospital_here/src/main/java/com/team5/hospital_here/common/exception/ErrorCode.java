@@ -35,7 +35,10 @@ public enum ErrorCode {
     COMMENT_NOT_FOUND(400, "COMMENT_NOT_FOUND", "댓글을 찾을 수 없습니다."),
     NESTED_COMMENT_NOT_FOUND(400, "NESTED_COMMENT_NOT_FOUND", "대댓글을 찾을 수 없습니다."),
     POST_IMG_NOT_FOUND(404, "POST_IMG_NOT_FOUND", "게시글 이미지를 찾을 수 없습니다."),
-    ACCESS_DENIED(403, "ACCESS_DENIED", "접근 권한이 없습니다."),
+    POST_UPDATE_DENIED(403, "POST_UPDATE_DENIED", "게시글을 수정할 수 없습니다."),
+    POST_DELETE_DENIED(403, "POST_DELETE_DENIED", "게시글을 삭제할 수 없습니다."),
+    COMMENT_UPDATE_DENIED(403, "COMMENT_UPDATE_DENIED", "댓글을 수정할 수 없습니다."),
+    COMMENT_DELETE_DENIED(403, "COMMENT_DELETE_DENIED", "댓글을 삭제할 수 없습니다."),
     ;
 
     //NOTE: HttpStatus code
