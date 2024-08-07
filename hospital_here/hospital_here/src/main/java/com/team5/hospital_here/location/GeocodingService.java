@@ -20,7 +20,25 @@ public class GeocodingService {
         this.webClient = webClientBuilder.baseUrl("https://naveropenapi.apigw.ntruss.com").build();
     }
 
-    public Mono<GeocodeResponseDto> getAddress(double lat, double lng) {
+    // 도로명 주소를 위도와 경도로 변환
+    public Mono<GeocodeResponseDto> getCoords(String address) {
+        return this.webClient.get()
+            .uri(uriBuilder -> uriBuilder
+                .path("/map-geocode/v2/geocode")
+                .queryParam("query", address)
+                .build())
+            .header("X-NCP-APIGW-API-KEY-ID", clientId)
+            .header("X-NCP-APIGW-API-KEY", clientSecret)
+            .retrieve()
+            .bodyToMono(GeocodeResponseDto.class)
+            .onErrorResume(e -> {
+                e.printStackTrace();
+                return Mono.empty();
+            });
+    }
+
+    // 위도와 경도를 주소로 변환
+    public Mono<ReverseGeocodeResponseDto> getAddress(double lat, double lng) {
         return this.webClient.get()
             .uri(uriBuilder -> uriBuilder
                 .path("/map-reversegeocode/v2/gc")
@@ -30,7 +48,7 @@ public class GeocodingService {
             .header("X-NCP-APIGW-API-KEY-ID", clientId)
             .header("X-NCP-APIGW-API-KEY", clientSecret)
             .retrieve()
-            .bodyToMono(GeocodeResponseDto.class)
+            .bodyToMono(ReverseGeocodeResponseDto.class)
             .onErrorResume(e -> {
                 e.printStackTrace();
                 return Mono.empty();
