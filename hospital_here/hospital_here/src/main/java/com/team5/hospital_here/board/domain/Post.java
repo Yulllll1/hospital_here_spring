@@ -79,11 +79,13 @@ public class Post extends BaseEntity {
                 .id(this.id)
                 .boardId(this.board.getId())
                 .userId(this.user.getId())
+                .userName(this.user.getName())
                 .title(this.title)
                 .content(this.content)
                 .imageUrls(this.postImgs.stream()
                         .map(PostImg::toResponseDto)
                         .toList())
+                .createdAt(this.getCreatedAt())
                 .build();
     }
 }

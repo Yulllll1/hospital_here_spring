@@ -49,7 +49,7 @@ public class CommentServiceImpl implements CommentService {
 
         Comment comment = commentRequestDto.toEntity(post, user, parent);
         Comment savedComment = commentRepository.save(comment);
-        return savedComment.toResponseDto();
+        return createCommentResponseDto(savedComment);
     }
     @Transactional
     @Override
@@ -99,6 +99,18 @@ public class CommentServiceImpl implements CommentService {
         Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").ascending());
         Page<Comment> comments = commentRepository.findByPostId(postId, sortedPageable);
         return comments.map(Comment::toResponseDto);
+    }
+
+    private CommentResponseDto createCommentResponseDto(Comment comment) {
+        return CommentResponseDto.builder()
+                .id(comment.getId())
+                .postId(comment.getPost() != null ? comment.getPost().getId() : null)
+                .userId(comment.getUser() != null ? comment.getUser().getId() : null)
+                .parentId(comment.getParent() != null ? comment.getParent().getId() : null)
+                .content(comment.getContent())
+                .userName(comment.getUser() != null ? comment.getUser().getName() : null)
+                .createdAt(comment.getCreatedAt())
+                .build();
     }
 
 }

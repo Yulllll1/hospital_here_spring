@@ -6,6 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="a5742c7b-a896-44bb-be6c-1599bc16b34f" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/domain/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/comment/CommentResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/comment/CommentResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/post/PostResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/dto/post/PostResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/CommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,6 +219,31 @@
           <url>file://$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/user/controller/UserController.java</url>
           <line>31</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/CommentServiceImpl.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/CommentServiceImpl.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/CommentServiceImpl.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/CommentServiceImpl.java</url>
+          <line>99</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/CommentServiceImpl.java</url>
+          <line>100</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

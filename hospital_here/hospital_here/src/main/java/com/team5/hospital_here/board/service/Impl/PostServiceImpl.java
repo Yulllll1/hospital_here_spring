@@ -45,7 +45,8 @@ public class PostServiceImpl implements PostService {
         Post createdPost = postRepository.save(post);
 
         savePostImages(postRequestDto.getImageUrls(), createdPost);
-        return createdPost.toResponseDto();
+
+        return createPostResponseDto(createdPost, user);
     }
 
     @Transactional
@@ -143,5 +144,20 @@ public class PostServiceImpl implements PostService {
                 postImgRepository.delete(postImg);
             }
         }
+    }
+
+    private PostResponseDto createPostResponseDto(Post post, User user) {
+        return PostResponseDto.builder()
+                .id(post.getId())
+                .boardId(post.getBoard().getId())
+                .userId(user.getId())
+                .userName(user.getName())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .imageUrls(post.getPostImgs().stream()
+                        .map(PostImg::toResponseDto)
+                        .toList())
+                .createdAt(post.getCreatedAt())
+                .build();
     }
 }

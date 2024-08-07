@@ -5,6 +5,7 @@ import com.team5.hospital_here.board.dto.postImg.PostImgRequestDto;
 import com.team5.hospital_here.board.dto.postImg.PostImgResponseDto;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,4 +20,6 @@ public class PostResponseDto {
     private String title;
     private String content;
     private List<PostImgResponseDto> imageUrls;
+    private String userName;
+    private LocalDateTime createdAt;
 }

@@ -2,6 +2,8 @@ package com.team5.hospital_here.board.dto.comment;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -13,4 +15,6 @@ public class CommentResponseDto {
     private Long userId;
     private Long parentId;
     private String content;
+    private String userName;
+    private LocalDateTime createdAt;
 }
