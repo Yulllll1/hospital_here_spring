@@ -50,6 +50,28 @@ public class Post extends BaseEntity {
     public void update(PostUpdateDto postUpdateDto) {
         this.title = postUpdateDto.getTitle();
         this.content = postUpdateDto.getContent();
+        if (postUpdateDto.getImageUrls() != null) {
+            this.updateImages(postUpdateDto.getImageUrls());
+        }
+    }
+
+    private void updateImages(List<String> imageUrls) {
+        this.postImgs.clear();
+        for (String imageUrl : imageUrls) {
+            PostImg postImg = PostImg.builder()
+                    .link(imageUrl)
+                    .post(this)
+                    .build();
+            this.postImgs.add(postImg);
+        }
+    }
+
+    public void addPostImg(PostImg postImg) {
+        if (this.postImgs == null) {
+            this.postImgs = new ArrayList<>();
+        }
+        this.postImgs.add(postImg);
+        postImg.setPost(this);
     }
 
     public PostResponseDto toResponseDto() {
@@ -59,6 +81,9 @@ public class Post extends BaseEntity {
                 .userId(this.user.getId())
                 .title(this.title)
                 .content(this.content)
+                .imageUrls(this.postImgs.stream()
+                        .map(PostImg::toResponseDto)
+                        .toList())
                 .build();
     }
 }

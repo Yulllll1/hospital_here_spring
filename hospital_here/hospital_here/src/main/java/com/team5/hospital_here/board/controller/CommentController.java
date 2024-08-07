@@ -4,6 +4,7 @@ import com.team5.hospital_here.board.dto.comment.CommentRequestDto;
 import com.team5.hospital_here.board.dto.comment.CommentResponseDto;
 import com.team5.hospital_here.board.dto.comment.CommentUpdateDto;
 import com.team5.hospital_here.board.service.CommentService;
+import com.team5.hospital_here.common.jwt.CustomUser;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,24 +26,25 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @Transactional
     @PostMapping
-    public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto commentRequestDto) {
-        CommentResponseDto commentResponseDto = commentService.createComment(commentRequestDto);
+    public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto commentRequestDto,
+                                                            @AuthenticationPrincipal CustomUser customUser) {
+        CommentResponseDto commentResponseDto = commentService.createComment(commentRequestDto, customUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(commentResponseDto);
     }
 
-    @Transactional
     @PutMapping("/{id}")
-    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long id, @RequestBody CommentUpdateDto commentUpdateDto) {
-        CommentResponseDto commentResponseDto = commentService.updateComment(id, commentUpdateDto);
+    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long id,
+                                                            @RequestBody CommentUpdateDto commentUpdateDto,
+                                                            @AuthenticationPrincipal CustomUser customUser) {
+        CommentResponseDto commentResponseDto = commentService.updateComment(id, commentUpdateDto, customUser);
         return ResponseEntity.ok(commentResponseDto);
     }
 
-    @Transactional
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
-        commentService.deleteComment(id);
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id,
+                                              @AuthenticationPrincipal CustomUser customUser) {
+        commentService.deleteComment(id, customUser);
         return ResponseEntity.noContent().build();
     }
 
@@ -58,7 +61,6 @@ public class CommentController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Transactional
     @GetMapping("/post/{postId}")
     public ResponseEntity<Page<CommentResponseDto>> getCommentsByPostId(
             @PathVariable Long postId,

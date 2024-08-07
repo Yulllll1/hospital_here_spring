@@ -4,16 +4,16 @@ import com.team5.hospital_here.board.dto.post.PostRequestDto;
 import com.team5.hospital_here.board.dto.post.PostResponseDto;
 import com.team5.hospital_here.board.dto.post.PostUpdateDto;
 import com.team5.hospital_here.board.service.PostService;
+import com.team5.hospital_here.common.jwt.CustomUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -21,24 +21,27 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-    @Transactional
     @PostMapping
-    public ResponseEntity<PostResponseDto> createPost(@RequestBody PostRequestDto postRequestDto) {
-        PostResponseDto postResponseDto = postService.createPost(postRequestDto);
+    public ResponseEntity<PostResponseDto> createPost(@RequestBody PostRequestDto postRequestDto,
+                                                      @AuthenticationPrincipal CustomUser customUser) {
+
+        PostResponseDto postResponseDto = postService.createPost(postRequestDto, customUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(postResponseDto);
     }
 
-    @Transactional
     @PutMapping("/{id}")
-    public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long id, @RequestBody PostUpdateDto postUpdateDto) {
+    public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long id,
+                                                      @RequestBody PostUpdateDto postUpdateDto,
+                                                      @AuthenticationPrincipal CustomUser customUser) {
         postUpdateDto.setId(id);
-        PostResponseDto postResponseDto = postService.updatePost(postUpdateDto);
+        PostResponseDto postResponseDto = postService.updatePost(postUpdateDto, customUser.getUser().getId());
         return ResponseEntity.ok(postResponseDto);
     }
-    @Transactional
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
+    public ResponseEntity<Void> deletePost(@PathVariable Long id,
+                                           @AuthenticationPrincipal CustomUser customUser) {
+        postService.deletePost(id, customUser.getUser().getId());
         return ResponseEntity.noContent().build();
     }
 
