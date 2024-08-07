@@ -8,4 +8,5 @@ public class ChatMessageRequestDTO {
     private Long userId;
     private Long chatRoomId;
     private String content;
+    private Boolean isAccepted;
 }
