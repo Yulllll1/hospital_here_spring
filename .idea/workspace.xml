@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="a5742c7b-a896-44bb-be6c-1599bc16b34f" name="Changes" comment="Changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.logs/error/2024-08-08.0.log" beforeDir="false" afterPath="$PROJECT_DIR$/.logs/error/2024-08-08.0.log" afterDir="false" />
@@ -14,6 +15,9 @@
       <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/PostServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hospital_here/hospital_here/src/main/resources/firebase-service-account.json" beforeDir="false" />
     </list>
+=======
+    <list default="true" id="a5742c7b-a896-44bb-be6c-1599bc16b34f" name="Changes" comment="Changes" />
+>>>>>>> 4751ac6d3f237fd83ad8e6c1bb59096dceb4d796
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,12 +33,7 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="hospital_here" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -84,7 +83,7 @@
     &quot;Spring Boot.HospitalHereApplication.executor&quot;: &quot;Run&quot;,
     &quot;app.teamhub.selectedTeam&quot;: &quot;kdt-gitlab.elice.io/cloud_track/class_03/web_project3/team05/hospital_here_spring&quot;,
     &quot;app.teamhub.trackedBranches&quot;: &quot;1hf5k97/dev,1hf5k97/master&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/yul2&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/git/hospital_here_spring/hospital_here/hospital_here/build.gradle.kts&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -99,7 +98,7 @@
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
-  <component name="RunManager" selected="Application.HospitalHereApplication">
+  <component name="RunManager" selected="Spring Boot.HospitalHereApplication">
     <configuration name="Crawling" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.team5.hospital_here.hospital.other.Crawling" />
       <module name="hospital_here.main" />
@@ -143,6 +142,7 @@
     <list>
       <item itemvalue="Application.Crawling" />
       <item itemvalue="Application.HospitalHereApplication" />
+      <item itemvalue="Spring Boot.HospitalHereApplication" />
     </list>
     <recent_temporary>
       <list>
@@ -177,6 +177,8 @@
       <workItem from="1721754976758" duration="1804000" />
       <workItem from="1721903721533" duration="9662000" />
       <workItem from="1722234307314" duration="15363000" />
+      <workItem from="1723108953268" duration="2017000" />
+      <workItem from="1723128489429" duration="6535000" />
     </task>
     <task id="LOCAL-00001" summary="Changes">
       <option name="closed" value="true" />
@@ -221,6 +223,7 @@
           <line>31</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
+<<<<<<< HEAD
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/hospital_here/hospital_here/src/main/java/com/team5/hospital_here/board/service/Impl/CommentServiceImpl.java</url>
           <line>60</line>
@@ -251,6 +254,8 @@
           <line>75</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
+=======
+>>>>>>> 4751ac6d3f237fd83ad8e6c1bb59096dceb4d796
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
