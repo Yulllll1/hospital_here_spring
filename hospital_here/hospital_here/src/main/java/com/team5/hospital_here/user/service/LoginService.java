@@ -124,6 +124,7 @@ public class LoginService {
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         cookie.setMaxAge(jwtUtil.REFRESH_TOKEN_COOKIE_MAX_AGE);
+        cookie.setSecure(true);
         response.addCookie(cookie);
 
         dbToken.setToken(refreshToken);
@@ -137,7 +138,9 @@ public class LoginService {
     private void destroyRefreshTokenCookie(HttpServletResponse response){
         Cookie cookie = new Cookie(jwtUtil.REFRESH_TOKEN_COOKIE_NAME, null);
         cookie.setPath("/");
+        cookie.setHttpOnly(true);
         cookie.setMaxAge(0);
+        cookie.setSecure(true);
         response.addCookie(cookie);
     }
 
