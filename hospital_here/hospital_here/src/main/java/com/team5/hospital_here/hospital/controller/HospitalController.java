@@ -47,14 +47,18 @@ public class HospitalController {
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
 
-        // 병원 검색 및 DTO 변환,
         //검색 결과를 hospitalDTO로 변환 후 hospitaldtomap에 저장
         Page<Hospital> hospitalPage = hospitalService.searchHospitals(name, address, departmentName, latitude, longitude, page, size);
         List<Hospital> hospitals = hospitalPage.getContent();
         Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
 
+        // Hospital을 HospitalDTO로 변환하면서 distance를 설정
         for (Hospital hospital : hospitals) {
-            HospitalDTO dto = hospitalService.convertToDto(hospital);
+            Double distance = null;
+            if (latitude != null && longitude != null && hospital.getLatitude() != null && hospital.getLongitude() != null) {
+                distance = hospitalService.calculateDistance(latitude, longitude, hospital.getLatitude(), hospital.getLongitude());
+            }
+            HospitalDTO dto = hospitalService.convertToDto(hospital, distance);
             hospitalDTOMap.putIfAbsent(hospital.getId(), dto);
         }
 
