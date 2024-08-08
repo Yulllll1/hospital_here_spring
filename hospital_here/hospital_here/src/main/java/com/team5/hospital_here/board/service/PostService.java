@@ -20,5 +20,6 @@ public interface PostService {
     Page<PostResponseDto> findPostsByBoardId(Long boardId, Pageable pageable);
     Optional<PostResponseDto> findPostById(Long id);
     Page<PostResponseDto> searchPostsByTitle(String title, Pageable pageable);
+    Page<PostResponseDto> findPostsByUserName(String userName, Pageable pageable);
 
 }

@@ -109,6 +109,15 @@ public class PostServiceImpl implements PostService {
         return posts.map(Post::toResponseDto);
     }
 
+    @Override
+    public Page<PostResponseDto> findPostsByUserName(String userName, Pageable pageable) {
+        User user = userRepository.findByName(userName)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        Page<Post> posts = postRepository.findByUser(user, pageable);
+        return posts.map(Post::toResponseDto);
+    }
+
+
     private void savePostImages(List<String> imageUrls, Post post) {
         if (imageUrls != null && !imageUrls.isEmpty()) {
             for (String imageUrl : imageUrls) {
