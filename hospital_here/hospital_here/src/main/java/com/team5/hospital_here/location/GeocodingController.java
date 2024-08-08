@@ -1,10 +1,12 @@
 package com.team5.hospital_here.location;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+@RequestMapping("/api/geocode")
 @RestController
 public class GeocodingController {
 
@@ -14,10 +16,15 @@ public class GeocodingController {
         this.geocodingService = geocodingService;
     }
 
-    @GetMapping("/api/geocode")
-    public Mono<GeocodeResponseDto> getGeocode(
+    @GetMapping("/coords-to-address")
+    public Mono<ReverseGeocodeResponseDto> getAddressByCoords(
         @RequestParam double lat,
         @RequestParam double lng) {
         return geocodingService.getAddress(lat, lng);
+    }
+
+    @GetMapping("/address-to-coords")
+    public Mono<GeocodeResponseDto> getCoordsByAddress(@RequestParam String address) {
+        return geocodingService.getCoords(address);
     }
 }

@@ -1,102 +1,81 @@
 package com.team5.hospital_here.location;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class GeocodeResponseDto {
 
     @JsonProperty("status")
-    private Status status;
+    private String status;
 
-    @JsonProperty("results")
-    private Result[] results;
+    @JsonProperty("meta")
+    private Meta meta;
 
+    @JsonProperty("addresses")
+    private List<Address> addresses;
 
-    public static class Status {
-        @JsonProperty("code")
-        private int code;
+    public static class Meta {
+        @JsonProperty("totalCount")
+        private int totalCount;
 
-        @JsonProperty("name")
-        private String name;
+        @JsonProperty("page")
+        private int page;
 
-        @JsonProperty("message")
-        private String message;
-
-
+        @JsonProperty("count")
+        private int count;
     }
 
-    public static class Result {
-        @JsonProperty("name")
-        private String name;
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Address {
+        @JsonProperty("roadAddress")
+        private String roadAddress;
 
-        @JsonProperty("code")
-        private Code code;
+        @JsonProperty("jibunAddress")
+        private String jibunAddress;
 
-        @JsonProperty("region")
-        private Region region;
+        @JsonProperty("x")
+        private double x; // 경도
 
+        @JsonProperty("y")
+        private double y; // 위도
 
+        @JsonProperty("postalCode")
+        private String postalCode; // 추가된 필드
 
-        public static class Code {
-            @JsonProperty("id")
-            private String id;
-
-            @JsonProperty("type")
-            private String type;
-
-            @JsonProperty("mappingId")
-            private String mappingId;
-
-        }
-
-        public static class Region {
-            @JsonProperty("area0")
-            private Area area0;
-
-            @JsonProperty("area1")
-            private Area area1;
-
-            @JsonProperty("area2")
-            private Area area2;
-
-            @JsonProperty("area3")
-            private Area area3;
-
-            @JsonProperty("area4")
-            private Area area4;
-
-
-
-            public static class Area {
-                @JsonProperty("name")
-                private String name;
-
-                @JsonProperty("coords")
-                private Coords coords;
-
-
-                public static class Coords {
-                    @JsonProperty("center")
-                    private Center center;
-
-
-                    public static class Center {
-                        @JsonProperty("crs")
-                        private String crs;
-
-                        @JsonProperty("x")
-                        private double x;
-
-                        @JsonProperty("y")
-                        private double y;
-
-                    }
+        @JsonProperty("addressElements")
+        private void unpackPostalCode(List<AddressElement> addressElements) {
+            for (AddressElement element : addressElements) {
+                if (element.getTypes().contains("POSTAL_CODE")) {
+                    this.postalCode = element.getLongName();
+                    break;
                 }
             }
         }
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class AddressElement {
+        @JsonProperty("types")
+        private List<String> types;
+
+        @JsonProperty("longName")
+        private String longName;
+
+        @JsonProperty("shortName")
+        private String shortName;
+
+        @JsonProperty("code")
+        private String code;
     }
 }
