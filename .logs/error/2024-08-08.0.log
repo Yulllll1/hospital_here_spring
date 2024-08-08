@@ -437,3 +437,4 @@ List of constraint violations:[
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 	at java.base/java.lang.Thread.run(Thread.java:840)
+2024-08-08 10:35:21  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 404, code name: CHAT_ROOM_NOT_EXIST, code message: 채팅방 목록이 없습니다
