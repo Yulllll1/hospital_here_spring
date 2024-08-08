@@ -13,6 +13,7 @@ import com.team5.hospital_here.board.service.PostService;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.CustomUser;
+import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,10 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postUpdateDto.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
-        if (!post.getUser().getId().equals(userId)) {
+        User loginUser = userRepository.findById(userId)
+                .orElseThrow(() ->new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        if (!post.getUser().getId().equals(userId) && !loginUser.getRole().equals(Role.ADMIN)) {
             throw new CustomException(ErrorCode.POST_UPDATE_DENIED);
         }
 
@@ -73,7 +77,10 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
 
-        if (!post.getUser().getId().equals(userId)) {
+        User currentUser = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        if (!post.getUser().getId().equals(userId) && !currentUser.getRole().equals(Role.ADMIN)) {
             throw new CustomException(ErrorCode.POST_DELETE_DENIED);
         }
 

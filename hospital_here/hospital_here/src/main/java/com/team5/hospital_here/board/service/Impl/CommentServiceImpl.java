@@ -11,6 +11,7 @@ import com.team5.hospital_here.board.service.CommentService;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.CustomUser;
+import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
 
-        if (!comment.getUser().getId().equals(customUser.getUser().getId())) {
+        if (!comment.getUser().getId().equals(customUser.getUser().getId()) && !customUser.getUser().getRole().equals(Role.ADMIN)) {
             throw new CustomException(ErrorCode.COMMENT_UPDATE_DENIED);
         }
 
@@ -71,7 +72,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.COMMENT_NOT_FOUND));
 
-        if (!comment.getUser().getId().equals(customUser.getUser().getId())) {
+        if (!comment.getUser().getId().equals(customUser.getUser().getId()) && !customUser.getUser().getRole().equals(Role.ADMIN)) {
             throw new CustomException(ErrorCode.COMMENT_DELETE_DENIED);
         }
 
