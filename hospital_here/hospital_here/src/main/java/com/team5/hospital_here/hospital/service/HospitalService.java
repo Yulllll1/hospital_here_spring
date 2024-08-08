@@ -59,7 +59,7 @@ public class HospitalService {
         return calculateDistance(userLat, userLon, hospitalLat, hospitalLon);
     }
 
-    private double calculateDistance(double userLat, double userLon, double hospitalLat, double hospitalLon) {
+    public double calculateDistance(double userLat, double userLon, double hospitalLat, double hospitalLon) {
         final int R = 6371;
         double latDistance = Math.toRadians(hospitalLat - userLat);
         double lonDistance = Math.toRadians(hospitalLon - userLon);
@@ -72,6 +72,13 @@ public class HospitalService {
 
     public HospitalDTO convertToDto(Hospital hospital) {
         return hospitalDepartmentMapper.convertToDto(hospital);
+    }
+
+    //distance 설정
+    public HospitalDTO convertToDto(Hospital hospital, Double distance) {
+        HospitalDTO dto = convertToDto(hospital);
+        dto.setDistance(distance);
+        return dto;
     }
 
     public List<HospitalDTO> getAllHospitalsWithDepartments() {
@@ -110,9 +117,6 @@ public class HospitalService {
         HospitalDTO hospitalDTO = convertToDto(hospital);
         return hospitalDTO;
     }
-
-
-
 
     public List<Hospital> getHospitalByNameContained(String name){
         List<Hospital> hospitals = hospitalRepository.findByNameContains(name);
