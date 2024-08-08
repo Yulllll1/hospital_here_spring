@@ -1,9 +1,7 @@
 package com.team5.hospital_here.hospital.controller;
 
 import com.team5.hospital_here.hospital.Mapper.DepartmentMapper;
-import com.team5.hospital_here.hospital.dto.DepartmentDTO;
 import com.team5.hospital_here.hospital.dto.HospitalDTO;
-import com.team5.hospital_here.hospital.entity.Department;
 import com.team5.hospital_here.hospital.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,8 +11,6 @@ import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.service.HospitalService;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 
 @RestController
 @RequestMapping("/api")
@@ -47,33 +43,24 @@ public class HospitalController {
             @RequestParam("page") int page,
             @RequestParam("size") int size) {
 
-        // 병원 검색 및 DTO 변환,
-        //검색 결과를 hospitalDTO로 변환 후 hospitaldtomap에 저장
+        // 병원 검색
         Page<Hospital> hospitalPage = hospitalService.searchHospitals(name, address, departmentName, latitude, longitude, page, size);
         List<Hospital> hospitals = hospitalPage.getContent();
-        Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
+        List<HospitalDTO> hospitalDTOs = new ArrayList<>();
 
+        // Hospital을 HospitalDTO로 변환하면서 distance를 설정
         for (Hospital hospital : hospitals) {
-            HospitalDTO dto = hospitalService.convertToDto(hospital);
-            hospitalDTOMap.putIfAbsent(hospital.getId(), dto);
-        }
-
-        // 병원 ID 기반으로 부서 정보 추가
-        //부서 목록을 가져와서 departmentdto로 변환 후 hospitaldto에 저장
-        for (Long hospitalId : hospitalDTOMap.keySet()) {
-            List<Department> departments = departmentService.getDepartmentsByHospitalId(hospitalId);
-            HospitalDTO hospitalDTO = hospitalDTOMap.get(hospitalId);
-            if (hospitalDTO != null) {
-                List<DepartmentDTO> departmentDTOs = departments.stream()
-                        .map(department -> departmentMapper.convertToDto(department))
-                        .collect(Collectors.toList());
-                hospitalDTO.setDepartments(departmentDTOs);
+            Double distance = null;
+            if (latitude != null && longitude != null && hospital.getLatitude() != null && hospital.getLongitude() != null) {
+                distance = hospitalService.calculateDistance(latitude, longitude, hospital.getLatitude(), hospital.getLongitude());
             }
+            HospitalDTO hospitalDTO = hospitalService.convertToDto(hospital, distance);
+            hospitalDTOs.add(hospitalDTO);
         }
 
-        // 응답
+        // 응답 데이터 구성
         Map<String, Object> response = new HashMap<>();
-        response.put("content", new ArrayList<>(hospitalDTOMap.values()));
+        response.put("content", hospitalDTOs);
         response.put("currentPage", hospitalPage.getNumber());
         response.put("totalItems", hospitalPage.getTotalElements());
         response.put("totalPages", hospitalPage.getTotalPages());
