@@ -27,8 +27,10 @@ public class ChatRoomController {
 
     // 채팅방 목록 요청
     @GetMapping
-    public ResponseEntity<List<ChatRoomResponseDTO>> chatRoomList(@RequestParam Long userId) {
-        List<ChatRoomResponseDTO> chatRoomList = chatRoomService.findAllChatRoom(userId);
+    public ResponseEntity<List<ChatRoomResponseDTO>> chatRoomList(
+        @AuthenticationPrincipal CustomUser customUser) {
+        List<ChatRoomResponseDTO> chatRoomList = chatRoomService.findAllChatRoom(
+            customUser.getUser().getId());
 
         return ResponseEntity.ok().body(chatRoomList);
     }
