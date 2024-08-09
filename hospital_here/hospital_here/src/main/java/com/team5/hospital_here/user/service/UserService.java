@@ -368,4 +368,15 @@ public class UserService {
 
         return new DoctorProfileResponseDTO(doctorProfileRepository.save(doctorProfile));
     }
+
+    /**
+     * 회원의 프로필 이미지를 업로드 합니다
+     * @param imageUrl 업로드할 이미지
+     */
+    public void updateProfileImage(CustomUser customUser, String imageUrl)
+    {
+        User user = customUser.getUser();
+        user.setImg(imageUrl);
+        userRepository.save(user);
+    }
 }
