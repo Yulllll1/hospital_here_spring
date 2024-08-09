@@ -36,7 +36,7 @@ public class JwtUtil {
 
     private String generateToken(String email, String secretKey, long expireTime) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + expiration);
+        Date expiryDate = new Date(now.getTime() + expireTime);
 
         return Jwts.builder()
                 .setSubject(email)
