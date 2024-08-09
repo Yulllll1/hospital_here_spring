@@ -40,7 +40,13 @@ public class ChatRoomService {
             throw new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST);
         }
 
-        return list.stream().map(ChatRoomMapper.INSTANCE::toDto).toList();
+        List<ChatRoomResponseDTO> chatRoomList = list.stream()
+            .map(ChatRoomMapper.INSTANCE::toDto)
+            .toList();
+
+        setLastMessageAndDoctorProfile(chatRoomList, list);
+
+        return chatRoomList;
     }
 
     // 모든 채팅방 조회
