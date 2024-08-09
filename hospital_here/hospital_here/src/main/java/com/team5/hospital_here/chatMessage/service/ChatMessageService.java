@@ -53,6 +53,29 @@ public class ChatMessageService {
         return list;
     }
 
+    public ChatMessageResponseDTO addChatMessage(Long chatRoomId,
+        ChatMessageRequestDTO chatMessageRequestDTO) {
+        ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId)
+            .orElseThrow(() -> new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));
+
+        User foundUser = userRepository.findById(chatMessageRequestDTO.getUserId()).orElseThrow(() ->
+            new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        ChatMessage newChatMessage = ChatMessage.builder()
+            .content(chatMessageRequestDTO.getContent())
+            .user(foundUser).build();
+        newChatMessage.updateChatRoom(foundChatRoom);
+
+        ChatMessage createdChatMessage = chatMessageRepository.save(newChatMessage);
+
+        List<ChatMessageResponseDTO> list = List.of(
+            ChatMessageMapper.INSTANCE.toDTO(createdChatMessage));
+
+        setDoctorProfile(list);
+
+        return list.get(0);
+    }
+
     // ChatMessageResponseDTO의 doctorProfile 채우기
     private void setDoctorProfile(List<ChatMessageResponseDTO> list) {
         for (int i = 0; i < list.size(); i++) {
@@ -69,24 +92,6 @@ public class ChatMessageService {
                     new DoctorProfileResponseDTO(foundDoctorProfile));
             }
         }
-    }
-
-    public ChatMessageResponseDTO addChatMessage(Long chatRoomId,
-        ChatMessageRequestDTO chatMessageRequestDTO) {
-        ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId)
-            .orElseThrow(() -> new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));
-
-        User foundUser = userRepository.findById(chatMessageRequestDTO.getUserId()).orElseThrow(() ->
-            new CustomException(ErrorCode.USER_NOT_FOUND));
-
-        ChatMessage newChatMessage = ChatMessage.builder()
-            .content(chatMessageRequestDTO.getContent())
-            .user(foundUser).build();
-        newChatMessage.updateChatRoom(foundChatRoom);
-
-        ChatMessage createdChatMessage = chatMessageRepository.save(newChatMessage);
-
-        return ChatMessageMapper.INSTANCE.toDTO(createdChatMessage);
     }
 
     public ChatMessageResponseDTO modifyChatMessage(Long chatMessageId, Long userId, String content) {
