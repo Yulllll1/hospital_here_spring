@@ -15,11 +15,10 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOriginPatterns(
-            List.of("http://34.64.103.17", "http://localhost:3000"));
+            List.of("https://34.64.103.17", "https://kdt-cloud-3-team05-final.elicecoding.com", "http://localhost:3000"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
-        //config.setExposedHeaders(List.of("*"));
-        config.setExposedHeaders(List.of("Authorization")); //*대신 Authorization 해줘야 정상 동작함
+        config.setExposedHeaders(List.of("*"));
         config.setMaxAge(3600L);
         config.setAllowCredentials(true);
 
