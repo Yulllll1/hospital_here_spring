@@ -10,6 +10,7 @@ import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.JwtUtil;
 import com.team5.hospital_here.common.jwt.entity.RefreshToken;
 import com.team5.hospital_here.common.jwt.repository.RefreshTokenRepository;
+import com.team5.hospital_here.email.EmailService;
 import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.login.Login;
 import com.team5.hospital_here.user.entity.login.LoginDTO;
@@ -27,10 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -43,11 +41,13 @@ public class LoginService {
     private final PasswordEncoder passwordEncoder;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
+    private final EmailService emailService;
 
     private final String LOGIN_SUCCESS = "로그인 인증되었습니다.";
     private final String TOKEN_REFRESH_SUCCESS = "토큰이 재발급 되었습니다.";
 
     private final String LOGOUT_SUCCESS = "로그아웃 되었습니다.";
+    private final UserRepository userRepository;
 
 
     /**
@@ -179,6 +179,62 @@ public class LoginService {
         createToken(dbToken, email, response);
 
         return TOKEN_REFRESH_SUCCESS;
+    }
+
+    public void resetPassword(String verified)
+    {
+        Login login = loginRepository.findByVerified(verified);
+        User user = userService.findUserByEmail(login.getEmail());
+
+        String newPassword = generateRandomPassword(11);
+
+        user.getLogin().setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        emailService.sendEmail(login.getEmail(), "비밀번호 재설정",
+                "새 비밀번호: " + newPassword + "\n로그인 후 비밀번호를 변경하세요.");
+
+        login.setVerified(null);
+        loginRepository.save(login);
+
+    }
+
+    public void verified(String email)
+    {
+        try {
+            Login login = loginRepository.findByEmail(email).get();
+            String code = generateRandomPassword(5);
+            login.setVerified(code);
+            emailService.sendEmail(email, "이메일 인증", "인증 코드:" + code + "\n위의 코드를 입력해주세요");
+            loginRepository.save(login);
+        } catch (Exception e)
+        {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+
+    }
+
+    private String generateRandomPassword(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
+        StringBuilder password = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int index = (int) (Math.random() * characters.length());
+            password.append(characters.charAt(index));
+        }
+        return password.toString();
+    }
+
+    public String emailFind(String userName, String phoneNumber)
+    {
+        User user = userRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new CustomException(ErrorCode.INVALID_PHONE_NUMBER));
+
+        String name = user.getName();
+        if (name.equals(userName)) {
+            return user.getLogin().getEmail();
+        } else {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
     }
 
 

@@ -29,6 +29,7 @@ public enum ErrorCode {
 
     INVALID_SOCIAL_TOKEN(401, "INVALID_SOCIAL_TOKEN", "토큰 정보가 일치하지 않습니다."),
     SOCIAL_USER(400, "SOCIAL_USER", "소셜 가입 유저입니다."),
+    INVALID_PHONE_NUMBER(401, "INVALID_PHONE_NUMBER", "핸드폰 번호가 일치하지 않습니다."),
 
     BOARD_NOT_FOUND(404, "BOARD_NOT_FOUND", "게시판을 찾을 수 없습니다."),
     POST_NOT_FOUND(404, "POST_NOT_FOUND", "게시글을 찾을 수 없습니다."),
