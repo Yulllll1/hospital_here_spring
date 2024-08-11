@@ -40,6 +40,12 @@ public class Post extends BaseEntity {
     private String content;
 
     @Builder.Default
+    private Long viewCount = 0L;
+
+    @Builder.Default
+    private Long likeCount = 0L;
+
+    @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
@@ -66,6 +72,18 @@ public class Post extends BaseEntity {
         }
     }
 
+    public void incrementViewCount() {
+        this.viewCount++;
+    }
+
+    public void incrementLikeCount() {
+        this.likeCount++;
+    }
+
+    public void decrementLikeCount() {
+        this.likeCount--;
+    }
+
     public void addPostImg(PostImg postImg) {
         if (this.postImgs == null) {
             this.postImgs = new ArrayList<>();
@@ -82,10 +100,13 @@ public class Post extends BaseEntity {
                 .userName(this.user.getName())
                 .title(this.title)
                 .content(this.content)
+                .viewCount(this.viewCount)
+                .likeCount(this.likeCount)
                 .imageUrls(this.postImgs.stream()
                         .map(PostImg::toResponseDto)
                         .toList())
                 .createdAt(this.getCreatedAt())
+                .updatedAt(this.getUpdatedAt())
                 .build();
     }
 }

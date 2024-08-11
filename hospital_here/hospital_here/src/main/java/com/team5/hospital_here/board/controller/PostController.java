@@ -60,6 +60,26 @@ public class PostController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    @PostMapping("/{id}/like")
+    public ResponseEntity<Void> likePost(
+            @PathVariable Long id,
+            @AuthenticationPrincipal CustomUser customUser) {
+        postService.likePost(id, customUser.getUser().getId());
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}/like")
+    public ResponseEntity<Void> unlikePost(
+            @PathVariable Long id,
+            @AuthenticationPrincipal CustomUser customUser) {
+        postService.unlikePost(id, customUser.getUser().getId());
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/{id}/view")
+    public ResponseEntity<Void> incrementViewCount(@PathVariable Long id) {
+        postService.incrementViewCount(id);
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/board/{boardId}")
     public ResponseEntity<Page<PostResponseDto>> getPostsByBoardId(@PathVariable Long boardId,

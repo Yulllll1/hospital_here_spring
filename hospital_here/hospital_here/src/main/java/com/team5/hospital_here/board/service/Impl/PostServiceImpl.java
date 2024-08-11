@@ -3,11 +3,13 @@ package com.team5.hospital_here.board.service.Impl;
 import com.team5.hospital_here.board.domain.Board;
 import com.team5.hospital_here.board.domain.Post;
 import com.team5.hospital_here.board.domain.PostImg;
+import com.team5.hospital_here.board.domain.PostLike;
 import com.team5.hospital_here.board.dto.post.PostRequestDto;
 import com.team5.hospital_here.board.dto.post.PostResponseDto;
 import com.team5.hospital_here.board.dto.post.PostUpdateDto;
 import com.team5.hospital_here.board.repository.BoardRepository;
 import com.team5.hospital_here.board.repository.PostImgRepository;
+import com.team5.hospital_here.board.repository.PostLikeRepository;
 import com.team5.hospital_here.board.repository.PostRepository;
 import com.team5.hospital_here.board.service.PostService;
 import com.team5.hospital_here.common.exception.CustomException;
@@ -32,6 +34,7 @@ public class PostServiceImpl implements PostService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final PostImgRepository postImgRepository;
+    private final PostLikeRepository postLikeRepository;
 
     @Transactional
     @Override
@@ -90,30 +93,37 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<PostResponseDto> findAllPosts(Pageable pageable) {
         Page<Post> posts = postRepository.findAll(pageable);
-        return posts.map(Post::toResponseDto);
+        return posts
+                .map(Post::toResponseDto);
     }
 
     @Override
     public List<PostResponseDto> findPostsByUser(User user) {
-        return postRepository.findByUser(user).stream().map(Post::toResponseDto).toList();
+        return postRepository.findByUser(user)
+                .stream()
+                .map(Post::toResponseDto)
+                .toList();
     }
 
     @Override
     public Page<PostResponseDto> findPostsByBoardId(Long boardId, Pageable pageable) {
         Page<Post> posts = postRepository.findByBoardId(boardId, pageable);
-        return posts.map(Post::toResponseDto);
+        return posts
+                .map(Post::toResponseDto);
     }
-
+    @Transactional
     @Override
     public Optional<PostResponseDto> findPostById(Long id) {
         Optional<Post> optionalPost = postRepository.findById(id);
-        return optionalPost.map(Post::toResponseDto);
+        return optionalPost
+                .map(Post::toResponseDto);
     }
 
     @Override
     public Page<PostResponseDto> searchPostsByTitle(String title, Pageable pageable) {
         Page<Post> posts = postRepository.findByTitleContainingIgnoreCase(title, pageable);
-        return posts.map(Post::toResponseDto);
+        return posts
+                .map(Post::toResponseDto);
     }
 
     @Override
@@ -121,7 +131,56 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findByName(userName)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Page<Post> posts = postRepository.findByUser(user, pageable);
-        return posts.map(Post::toResponseDto);
+        return posts
+                .map(Post::toResponseDto);
+    }
+
+    @Transactional
+    @Override
+    public void likePost(Long postId, Long userId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        if (postLikeRepository.existsByUserAndPost(user, post)) {
+            throw new CustomException(ErrorCode.POST_ALREADY_LIKED);
+        }
+
+        PostLike postLike = PostLike.builder()
+                .post(post)
+                .user(user)
+                .build();
+
+        post.incrementLikeCount();
+        postLikeRepository.save(postLike);
+        postRepository.save(post);
+    }
+
+    @Transactional
+    @Override
+    public void unlikePost(Long postId, Long userId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        PostLike postLike = postLikeRepository.findByUserAndPost(user, post)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_LIKE_NOT_FOUND));
+
+        post.decrementLikeCount();
+        postLikeRepository.delete(postLike);
+        postRepository.save(post);
+    }
+
+    @Override
+    public void incrementViewCount(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
+        post.incrementViewCount();
+        postRepository.save(post);
     }
 
 

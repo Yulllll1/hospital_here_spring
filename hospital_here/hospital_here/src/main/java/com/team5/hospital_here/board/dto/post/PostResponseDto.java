@@ -21,5 +21,8 @@ public class PostResponseDto {
     private String content;
     private List<PostImgResponseDto> imageUrls;
     private String userName;
+    private Long viewCount;
+    private Long likeCount;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

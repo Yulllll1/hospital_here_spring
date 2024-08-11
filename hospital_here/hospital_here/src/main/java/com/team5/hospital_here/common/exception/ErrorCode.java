@@ -31,15 +31,18 @@ public enum ErrorCode {
     SOCIAL_USER(400, "SOCIAL_USER", "소셜 가입 유저입니다."),
     INVALID_PHONE_NUMBER(401, "INVALID_PHONE_NUMBER", "핸드폰 번호가 일치하지 않습니다."),
 
-    BOARD_NOT_FOUND(400, "BOARD_NOT_FOUND", "게시판을 찾을 수 없습니다."),
-    POST_NOT_FOUND(400, "POST_NOT_FOUND", "게시글을 찾을 수 없습니다."),
-    COMMENT_NOT_FOUND(400, "COMMENT_NOT_FOUND", "댓글을 찾을 수 없습니다."),
-    NESTED_COMMENT_NOT_FOUND(400, "NESTED_COMMENT_NOT_FOUND", "대댓글을 찾을 수 없습니다."),
+    BOARD_NOT_FOUND(404, "BOARD_NOT_FOUND", "게시판을 찾을 수 없습니다."),
+    POST_NOT_FOUND(404, "POST_NOT_FOUND", "게시글을 찾을 수 없습니다."),
+    COMMENT_NOT_FOUND(404, "COMMENT_NOT_FOUND", "댓글을 찾을 수 없습니다."),
+    NESTED_COMMENT_NOT_FOUND(404, "NESTED_COMMENT_NOT_FOUND", "대댓글을 찾을 수 없습니다."),
     POST_IMG_NOT_FOUND(404, "POST_IMG_NOT_FOUND", "게시글 이미지를 찾을 수 없습니다."),
     POST_UPDATE_DENIED(403, "POST_UPDATE_DENIED", "게시글을 수정할 수 없습니다."),
     POST_DELETE_DENIED(403, "POST_DELETE_DENIED", "게시글을 삭제할 수 없습니다."),
     COMMENT_UPDATE_DENIED(403, "COMMENT_UPDATE_DENIED", "댓글을 수정할 수 없습니다."),
     COMMENT_DELETE_DENIED(403, "COMMENT_DELETE_DENIED", "댓글을 삭제할 수 없습니다."),
+    POST_ALREADY_LIKED(403, "POST_ALREADY_LIKED", "이미 좋아요를 누른 게시글입니다."),
+    POST_LIKE_NOT_FOUND(403, "POST_LIKE_NOT_FOUND", "이미 싫어요를 누른 게시글입니다."),
+
     ;
 
     //NOTE: HttpStatus code
