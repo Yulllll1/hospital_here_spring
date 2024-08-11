@@ -3,3 +3,11 @@
 2024-08-11 22:11:34  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_UPDATE_DENIED, code message: 게시글을 수정할 수 없습니다.
 2024-08-11 22:11:46  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: COMMENT_UPDATE_DENIED, code message: 댓글을 수정할 수 없습니다.
 2024-08-11 22:11:49  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: COMMENT_DELETE_DENIED, code message: 댓글을 삭제할 수 없습니다.
+2024-08-11 22:44:07  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 401, code name: REFRESH_TOKEN_NOT_FOUND, code message: 발급된 리프레시 토큰이 없습니다.
+2024-08-11 22:44:18  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 401, code name: REFRESH_TOKEN_NOT_FOUND, code message: 발급된 리프레시 토큰이 없습니다.
+2024-08-11 22:44:21  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 401, code name: REFRESH_TOKEN_NOT_FOUND, code message: 발급된 리프레시 토큰이 없습니다.
+2024-08-11 22:45:02  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_ALREADY_LIKED, code message: 이미 좋아요를 누른 게시글입니다.
+2024-08-11 22:45:30  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_ALREADY_LIKED, code message: 이미 좋아요를 누른 게시글입니다.
+2024-08-11 22:45:36  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_LIKE_NOT_FOUND, code message: 좋아요를 찾을 수 없습니다.
+2024-08-11 22:48:31  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: COMMENT_DELETE_DENIED, code message: 댓글을 삭제할 수 없습니다.
+2024-08-11 22:48:35  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: COMMENT_UPDATE_DENIED, code message: 댓글을 수정할 수 없습니다.

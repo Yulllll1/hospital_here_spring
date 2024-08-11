@@ -1,0 +1,4 @@
+2024-08-12 00:24:01  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_ALREADY_LIKED, code message: 이미 좋아요를 누른 게시글입니다.
+2024-08-12 00:51:53  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_DELETE_DENIED, code message: 게시글을 삭제할 수 없습니다.
+2024-08-12 00:52:03  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_ALREADY_LIKED, code message: 이미 좋아요를 누른 게시글입니다.
+2024-08-12 00:52:05  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_LIKE_NOT_FOUND, code message: 이미 싫어요를 누른 게시글입니다.

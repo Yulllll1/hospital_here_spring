@@ -21,5 +21,7 @@ public interface PostService {
     Optional<PostResponseDto> findPostById(Long id);
     Page<PostResponseDto> searchPostsByTitle(String title, Pageable pageable);
     Page<PostResponseDto> findPostsByUserName(String userName, Pageable pageable);
-
+    void likePost(Long postId, Long userId);
+    void unlikePost(Long postId, Long userId);
+    void incrementViewCount(Long postId);
 }
