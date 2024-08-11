@@ -106,6 +106,7 @@ public class Post extends BaseEntity {
                         .map(PostImg::toResponseDto)
                         .toList())
                 .createdAt(this.getCreatedAt())
+                .updatedAt(this.getUpdatedAt())
                 .build();
     }
 }

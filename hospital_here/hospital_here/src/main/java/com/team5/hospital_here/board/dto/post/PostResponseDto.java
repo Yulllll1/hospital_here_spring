@@ -24,4 +24,5 @@ public class PostResponseDto {
     private Long viewCount;
     private Long likeCount;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
