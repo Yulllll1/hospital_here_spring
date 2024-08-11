@@ -18,7 +18,6 @@ public class GeminiController {
 
     @PostMapping
     public ResponseDTO prompt(@RequestBody RequestDTO requestDTO) {
-        GeminiRequestDTO geminiRequestDTO = new GeminiRequestDTO(requestDTO.getMessage());
-        return geminiService.prompt(geminiRequestDTO);
+        return geminiService.prompt(requestDTO.getMessage());
     }
 }
