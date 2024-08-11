@@ -1,0 +1,5 @@
+2024-08-11 22:08:12  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_DELETE_DENIED, code message: 게시글을 삭제할 수 없습니다.
+2024-08-11 22:11:29  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_DELETE_DENIED, code message: 게시글을 삭제할 수 없습니다.
+2024-08-11 22:11:34  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_UPDATE_DENIED, code message: 게시글을 수정할 수 없습니다.
+2024-08-11 22:11:46  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: COMMENT_UPDATE_DENIED, code message: 댓글을 수정할 수 없습니다.
+2024-08-11 22:11:49  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: COMMENT_DELETE_DENIED, code message: 댓글을 삭제할 수 없습니다.
