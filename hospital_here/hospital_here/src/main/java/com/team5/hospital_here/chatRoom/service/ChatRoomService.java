@@ -3,6 +3,7 @@ package com.team5.hospital_here.chatRoom.service;
 import com.team5.hospital_here.chatMessage.entity.ChatMessage;
 import com.team5.hospital_here.chatMessage.mapper.ChatMessageMapper;
 import com.team5.hospital_here.chatMessage.repository.ChatMessageRepository;
+import com.team5.hospital_here.chatMessage.service.ChatMessageStatusService;
 import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
 import com.team5.hospital_here.chatRoom.enums.ChatRoomStatus;
@@ -30,6 +31,7 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final ChatMessageStatusService chatMessageStatusService;
     private final UserRepository userRepository;
     private final DoctorProfileRepository doctorProfileRepository;
 
@@ -61,6 +63,7 @@ public class ChatRoomService {
 
         List<ChatRoomResponseDTO> chatRoomResponseList = foundChatRoomList.stream()
             .map(ChatRoomMapper.INSTANCE::toDto)
+            .peek(e -> e.setNewMessageCount(chatMessageStatusService.getCountNotRead(userId)))
             .toList();
 
         setLastMessageAndDoctorProfile(chatRoomResponseList, foundChatRoomList);
