@@ -12,6 +12,7 @@ import com.team5.hospital_here.chatRoom.enums.ChatRoomType;
 import com.team5.hospital_here.chatRoom.repository.ChatRoomRepository;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
+import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
@@ -33,13 +34,15 @@ public class ChatMessageService {
     private final UserRepository userRepository;
     private final DoctorProfileRepository doctorProfileRepository;
 
-    public List<ChatMessageResponseDTO> findAllChatMessage(Long chatRoomId, Long userId) {
+    public List<ChatMessageResponseDTO> findAllChatMessage(Long chatRoomId, User user) {
         ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId)
             .orElseThrow(() -> new CustomException(ErrorCode.CHAT_ROOM_NOT_FOUND));
 
         if (foundChatRoom.getStatus() == ChatRoomStatus.ACTIVE && !foundChatRoom.isChatRoomMember(
-            userId)) {
-            throw new CustomException(ErrorCode.CHAT_ROOM_ACCESS_FAILED);
+            user.getId())) {
+            if (user.getRole() != Role.ADMIN) {
+                throw new CustomException(ErrorCode.CHAT_ROOM_ACCESS_FAILED);
+            }
         }
 
         List<ChatMessage> chatMessageList = chatMessageRepository.findByChatRoomIdOrderByCreatedAt(

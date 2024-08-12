@@ -26,10 +26,9 @@ public class ChatMessageController {
 
     @GetMapping
     public ResponseEntity<List<ChatMessageResponseDTO>> chatMessageList(
-        @RequestParam Long chatRoomId, @AuthenticationPrincipal
-    CustomUser customUser) {
+        @RequestParam Long chatRoomId, @AuthenticationPrincipal CustomUser customUser) {
         List<ChatMessageResponseDTO> chatMessageList = chatMessageService.findAllChatMessage(
-            chatRoomId, customUser.getUser().getId());
+            chatRoomId, customUser.getUser());
 
         return ResponseEntity.ok().body(chatMessageList);
     }
