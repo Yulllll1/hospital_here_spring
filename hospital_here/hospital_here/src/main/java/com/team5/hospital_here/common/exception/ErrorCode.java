@@ -43,6 +43,7 @@ public enum ErrorCode {
     POST_ALREADY_LIKED(403, "POST_ALREADY_LIKED", "이미 좋아요를 누른 게시글입니다."),
     POST_LIKE_NOT_FOUND(403, "POST_LIKE_NOT_FOUND", "이미 싫어요를 누른 게시글입니다."),
 
+    CHAT_MESSAGE_STATUS_NOT_FOUND(404, "CHAT_MESSAGE_STATUS_NOT_FOUND", "채팅 메시지 상태 데이터가 존재하지 않습니다"),
     ;
 
     //NOTE: HttpStatus code

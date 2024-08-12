@@ -3,6 +3,7 @@ package com.team5.hospital_here.chatRoom.service;
 import com.team5.hospital_here.chatMessage.entity.ChatMessage;
 import com.team5.hospital_here.chatMessage.mapper.ChatMessageMapper;
 import com.team5.hospital_here.chatMessage.repository.ChatMessageRepository;
+import com.team5.hospital_here.chatMessage.service.ChatMessageStatusService;
 import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
 import com.team5.hospital_here.chatRoom.enums.ChatRoomStatus;
@@ -30,6 +31,7 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final ChatMessageStatusService chatMessageStatusService;
     private final UserRepository userRepository;
     private final DoctorProfileRepository doctorProfileRepository;
 
@@ -59,7 +61,9 @@ public class ChatRoomService {
             throw new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST);
         }
 
-        List<ChatRoomResponseDTO> chatRoomResponseList = foundChatRoomList.stream().map(ChatRoomMapper.INSTANCE::toDto)
+        List<ChatRoomResponseDTO> chatRoomResponseList = foundChatRoomList.stream()
+            .map(ChatRoomMapper.INSTANCE::toDto)
+            .peek(e -> e.setNewMessageCount(chatMessageStatusService.getCountNotRead(userId)))
             .toList();
 
         setLastMessageAndDoctorProfile(chatRoomResponseList, foundChatRoomList);
@@ -97,7 +101,8 @@ public class ChatRoomService {
     }
 
     // ChatRoomResponseDTO의 lastMessage, doctorProfile 채우기
-    private void setLastMessageAndDoctorProfile(List<ChatRoomResponseDTO> list, List<ChatRoom> chatRooms) {
+    private void setLastMessageAndDoctorProfile(List<ChatRoomResponseDTO> list,
+        List<ChatRoom> chatRooms) {
         for (int i = 0; i < list.size(); i++) {
             ChatRoomResponseDTO chatRoomElement = list.get(i);
             try {
@@ -108,7 +113,7 @@ public class ChatRoomService {
                 chatRoomElement.setLastMessage(null);
             }
 
-            if(chatRoomElement.getType() == ChatRoomType.DOCTOR) {
+            if (chatRoomElement.getType() == ChatRoomType.DOCTOR) {
                 if (chatRoomElement.getStatus() != ChatRoomStatus.WAITING) {
                     DoctorProfile foundDoctorProfile = doctorProfileRepository.findByUser(
                             chatRooms.get(i).getUser2())

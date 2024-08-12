@@ -57,7 +57,7 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.POST, "/users").permitAll()
 
             .requestMatchers("/users/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
-            .requestMatchers("/chatrooms/**", "/chatmessages/**").authenticated()
+            .requestMatchers("/chatrooms/**", "/chat-messages/**").authenticated()
             .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
             .requestMatchers("/boards/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
             .requestMatchers("/posts/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
