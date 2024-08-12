@@ -59,7 +59,8 @@ public class ChatRoomService {
             throw new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST);
         }
 
-        List<ChatRoomResponseDTO> chatRoomResponseList = foundChatRoomList.stream().map(ChatRoomMapper.INSTANCE::toDto)
+        List<ChatRoomResponseDTO> chatRoomResponseList = foundChatRoomList.stream()
+            .map(ChatRoomMapper.INSTANCE::toDto)
             .toList();
 
         setLastMessageAndDoctorProfile(chatRoomResponseList, foundChatRoomList);
@@ -97,7 +98,8 @@ public class ChatRoomService {
     }
 
     // ChatRoomResponseDTO의 lastMessage, doctorProfile 채우기
-    private void setLastMessageAndDoctorProfile(List<ChatRoomResponseDTO> list, List<ChatRoom> chatRooms) {
+    private void setLastMessageAndDoctorProfile(List<ChatRoomResponseDTO> list,
+        List<ChatRoom> chatRooms) {
         for (int i = 0; i < list.size(); i++) {
             ChatRoomResponseDTO chatRoomElement = list.get(i);
             try {
@@ -108,7 +110,7 @@ public class ChatRoomService {
                 chatRoomElement.setLastMessage(null);
             }
 
-            if(chatRoomElement.getType() == ChatRoomType.DOCTOR) {
+            if (chatRoomElement.getType() == ChatRoomType.DOCTOR) {
                 if (chatRoomElement.getStatus() != ChatRoomStatus.WAITING) {
                     DoctorProfile foundDoctorProfile = doctorProfileRepository.findByUser(
                             chatRooms.get(i).getUser2())
