@@ -55,6 +55,9 @@ dependencies {
 	implementation ("com.google.oauth-client:google-oauth-client:1.32.1")
 	implementation ("com.google.http-client:google-http-client-jackson2:1.40.1")
 
+	/* 스크래핑을 위한 코드 */
+	implementation ("org.jsoup:jsoup:1.15.3")
+
 }
 
 tasks.withType<Test> {
