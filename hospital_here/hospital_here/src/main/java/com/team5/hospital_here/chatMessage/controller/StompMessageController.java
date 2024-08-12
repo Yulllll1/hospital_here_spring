@@ -3,7 +3,7 @@ package com.team5.hospital_here.chatMessage.controller;
 import com.team5.hospital_here.chatMessage.dto.ChatMessageRequestDTO;
 import com.team5.hospital_here.chatMessage.dto.ChatMessageResponseDTO;
 import com.team5.hospital_here.chatMessage.service.ChatMessageService;
-import com.team5.hospital_here.common.jwt.CustomUser;
+import com.team5.hospital_here.chatMessage.service.ChatMessageStatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -18,6 +18,7 @@ public class StompMessageController {
 
     private final SimpMessageSendingOperations operations;
     private final ChatMessageService chatMessageService;
+    private final ChatMessageStatusService chatMessageStatusService;
 
     @MessageMapping("/chat/{chatRoomId}")
     public ResponseEntity<Void> messageHandler(@DestinationVariable Long chatRoomId, @RequestBody
@@ -30,7 +31,7 @@ public class StompMessageController {
         // 채팅 수락 요청
         if (chatMessageRequestDTO.getIsAccepted()) {
             chatMessage.setIsAccepted(true);
-          // 채팅방 종료(나가기)
+            // 채팅방 종료(나가기)
         } else if (chatMessageRequestDTO.getIsTerminated()) {
             chatMessage.setIsTerminated(true);
         } else {
@@ -38,6 +39,8 @@ public class StompMessageController {
             if (chatMessageRequestDTO.getId() == null) {
                 chatMessage = chatMessageService.addChatMessage(chatRoomId,
                     chatMessageRequestDTO);
+                chatMessageStatusService.saveStatusToFalse(chatMessageRequestDTO.getUserId(),
+                    chatMessage.getId());
             } else {
                 // content가 null이면 메시지 삭제
                 if (chatMessageRequestDTO.getContent() == null) {

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,17 +37,18 @@ public class ChatRoomController {
     // 수락 대기 중인 채팅방 조회
     @GetMapping("/wait")
     public ResponseEntity<List<ChatRoomResponseDTO>> waitingChatRoomList(
-        @RequestParam Long userId) {
+        @AuthenticationPrincipal CustomUser customUser) {
         List<ChatRoomResponseDTO> waitingChatRoomList = chatRoomService.findAllWaitingChatRoom(
-            userId);
+            customUser.getUser().getId());
 
         return ResponseEntity.ok().body(waitingChatRoomList);
     }
 
     // 채팅방 생성
     @PostMapping
-    public ResponseEntity<ChatRoomResponseDTO> chatRoomAdd(@AuthenticationPrincipal CustomUser customUser,
-                                                            @RequestBody ChatRoomRequestDTO chatRoomRequestDTO) {
+    public ResponseEntity<ChatRoomResponseDTO> chatRoomAdd(
+        @AuthenticationPrincipal CustomUser customUser,
+        @RequestBody ChatRoomRequestDTO chatRoomRequestDTO) {
         ChatRoomResponseDTO newChatRoom = chatRoomService.saveChatRoom(customUser,
             chatRoomRequestDTO.getChatRoomType());
 
@@ -68,8 +68,9 @@ public class ChatRoomController {
     // 채팅방 나가기(삭제)
     @DeleteMapping("/{chatRoomId}/users/{userId}")
     public ResponseEntity<ChatRoomResponseDTO> chatRoomLeave(@PathVariable Long chatRoomId,
-        @PathVariable Long userId) {
-        ChatRoomResponseDTO updatedChatRoom = chatRoomService.leaveChatRoom(userId, chatRoomId);
+        @AuthenticationPrincipal CustomUser customUser) {
+        ChatRoomResponseDTO updatedChatRoom = chatRoomService.leaveChatRoom(
+            customUser.getUser().getId(), chatRoomId);
 
         if (updatedChatRoom == null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -4,6 +4,7 @@ package com.team5.hospital_here.user.service;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.CustomUser;
+import com.team5.hospital_here.email.EmailService;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.service.HospitalService;
 import com.team5.hospital_here.user.entity.user.address.AddressDTO;
@@ -36,6 +37,7 @@ public class UserService {
     private final HospitalService hospitalService;
     private final PasswordEncoder passwordEncoder;
     private final DoctorProfileRepository doctorProfileRepository;
+    private final EmailService emailService;
 
     private final String USER_PASSWORD_ALTER_SUCCESS = "비밀번호 변경을 완료했습니다.";
     private final String USER_DELETED_SUCCESS = "회원 탈퇴를 완료했습니다.";
@@ -168,6 +170,10 @@ public class UserService {
         String encodedPassword = encodePassword(userDTO.getPassword());
         user.getLogin().setPassword(encodedPassword);
         userDTO = UserMapper.toUserDTO(userRepository.save(user));
+
+        emailService.sendEmail(user.getLogin().getEmail(),
+                "가입 축하 메일",
+                "사이트 가입을 축하합니다!\n메인 화면에서 다양한 서비스를 이용해보세요.");
 
         return userDTO;
     }

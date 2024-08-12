@@ -19,26 +19,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/chatmessages")
+@RequestMapping("/chat-messages")
 public class ChatMessageController {
 
     private final ChatMessageService chatMessageService;
 
     @GetMapping
     public ResponseEntity<List<ChatMessageResponseDTO>> chatMessageList(
-        @RequestParam Long chatRoomId, @AuthenticationPrincipal
-    CustomUser customUser) {
+        @RequestParam Long chatRoomId, @AuthenticationPrincipal CustomUser customUser) {
         List<ChatMessageResponseDTO> chatMessageList = chatMessageService.findAllChatMessage(
-            chatRoomId, customUser.getUser().getId());
+            chatRoomId, customUser.getUser());
 
         return ResponseEntity.ok().body(chatMessageList);
     }
 
     @PatchMapping("/{chatMessageId}")
-    public ResponseEntity<ChatMessageResponseDTO> chatMessageModify(@PathVariable Long chatMessageId,
-        @RequestBody ChatMessageModifyRequestDTO chatMessageModifyRequestDTO) {
+    public ResponseEntity<ChatMessageResponseDTO> chatMessageModify(
+        @PathVariable Long chatMessageId,
+        @RequestBody ChatMessageModifyRequestDTO chatMessageModifyRequestDTO,
+        @AuthenticationPrincipal CustomUser customUser) {
         ChatMessageResponseDTO chatMessage = chatMessageService.modifyChatMessage(chatMessageId,
-            chatMessageModifyRequestDTO.getUserId(),
+            customUser.getUser().getId(),
             chatMessageModifyRequestDTO.getContent());
 
         return ResponseEntity.ok().body(chatMessage);

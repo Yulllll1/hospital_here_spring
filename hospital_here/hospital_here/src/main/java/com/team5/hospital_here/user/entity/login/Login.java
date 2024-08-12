@@ -33,6 +33,9 @@ public class Login {
     @Column(name = "provider_id")
     private String providerId;
 
+    @Column(name = "verified")
+    private String verified;
+
 
 
 }
