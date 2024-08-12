@@ -34,10 +34,12 @@ public class ChatMessageController {
     }
 
     @PatchMapping("/{chatMessageId}")
-    public ResponseEntity<ChatMessageResponseDTO> chatMessageModify(@PathVariable Long chatMessageId,
-        @RequestBody ChatMessageModifyRequestDTO chatMessageModifyRequestDTO) {
+    public ResponseEntity<ChatMessageResponseDTO> chatMessageModify(
+        @PathVariable Long chatMessageId,
+        @RequestBody ChatMessageModifyRequestDTO chatMessageModifyRequestDTO,
+        @AuthenticationPrincipal CustomUser customUser) {
         ChatMessageResponseDTO chatMessage = chatMessageService.modifyChatMessage(chatMessageId,
-            chatMessageModifyRequestDTO.getUserId(),
+            customUser.getUser().getId(),
             chatMessageModifyRequestDTO.getContent());
 
         return ResponseEntity.ok().body(chatMessage);
