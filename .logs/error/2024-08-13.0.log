@@ -1181,3 +1181,10 @@ java.lang.NullPointerException: Cannot invoke "java.util.List.iterator()" becaus
 2024-08-13 17:12:36  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_LIKE_NOT_FOUND, code message: 이미 싫어요를 누른 게시글입니다.
 2024-08-13 17:13:24  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_ALREADY_LIKED, code message: 이미 좋아요를 누른 게시글입니다.
 2024-08-13 17:13:26  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_LIKE_NOT_FOUND, code message: 이미 싫어요를 누른 게시글입니다.
+2024-08-13 18:05:07  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_ALREADY_LIKED, code message: 이미 좋아요를 누른 게시글입니다.
+2024-08-13 18:05:10  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_LIKE_NOT_FOUND, code message: 이미 싫어요를 누른 게시글입니다.
+2024-08-13 19:00:04  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_ALREADY_LIKED, code message: 이미 좋아요를 누른 게시글입니다.
+2024-08-13 19:00:06  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_ALREADY_LIKED, code message: 이미 좋아요를 누른 게시글입니다.
+2024-08-13 19:00:12  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_ALREADY_LIKED, code message: 이미 좋아요를 누른 게시글입니다.
+2024-08-13 19:00:16  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_ALREADY_LIKED, code message: 이미 좋아요를 누른 게시글입니다.
+2024-08-13 19:02:52  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: POST_ALREADY_LIKED, code message: 이미 좋아요를 누른 게시글입니다.
