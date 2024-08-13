@@ -18,7 +18,7 @@ spring_build:
     expire_in: 10m
   after_script:
     - echo 'build success..'
-    - sudo cp hospital_here/hospital_here/build/libs/hospital_here-0.0.1.jar ~elice/hospital/backend/
+    # - sudo cp hospital_here/hospital_here/build/libs/hospital_here-0.0.1.jar ~elice/hospital/backend/
 
 # spring_deploy:
 #   stage: 
