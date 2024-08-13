@@ -135,6 +135,18 @@ public class PostServiceImpl implements PostService {
                 .map(Post::toResponseDto);
     }
 
+    @Transactional(readOnly = true)
+    public Page<PostResponseDto> findPostsByBoardIdSortedByViewCount(Long boardId, Pageable pageable) {
+        return postRepository.findByBoardIdOrderByViewCountDesc(boardId, pageable)
+                .map(Post::toResponseDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostResponseDto> findPostsByBoardIdSortedByLikeCount(Long boardId, Pageable pageable) {
+        return postRepository.findByBoardIdOrderByLikeCountDesc(boardId, pageable)
+                .map(Post::toResponseDto);
+    }
+
     @Transactional
     @Override
     public void likePost(Long postId, Long userId) {
@@ -233,6 +245,7 @@ public class PostServiceImpl implements PostService {
                         .map(PostImg::toResponseDto)
                         .toList())
                 .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
                 .build();
     }
 }

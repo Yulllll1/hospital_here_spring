@@ -53,6 +53,10 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostImg> postImgs = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<PostLike> postLikes = new ArrayList<>();
+
     public void update(PostUpdateDto postUpdateDto) {
         this.title = postUpdateDto.getTitle();
         this.content = postUpdateDto.getContent();
