@@ -2,6 +2,7 @@ package com.team5.hospital_here.review.controller;
 
 
 import com.team5.hospital_here.common.jwt.CustomUser;
+import com.team5.hospital_here.review.entity.AvgReviewDTO;
 import com.team5.hospital_here.review.entity.ReviewDTO;
 import com.team5.hospital_here.review.repository.ReviewRepository;
 import com.team5.hospital_here.review.service.ReviewService;
@@ -73,6 +74,13 @@ public class ReviewController {
     @GetMapping("/findUser/{userId}")
     public ResponseEntity<String> findUserById(@PathVariable Long userId){
         return ResponseEntity.ok(reviewService.findUserNameById(userId));
+    }
+
+    @GetMapping("/avg/{hospitalId}")
+    public ResponseEntity<AvgReviewDTO> getAvgReview(@PathVariable Long hospitalId)
+    {
+        return ResponseEntity.ok(reviewService.avgRating(hospitalId));
+
     }
 
 

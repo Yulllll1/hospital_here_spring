@@ -29,7 +29,7 @@ public class ReservationController {
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
         @RequestParam LocalTime timeSlot) {
 
-        boolean isAvailable = !reservationService.isConflict(department, date, timeSlot);
+        boolean isAvailable = !reservationService.isConflict(date, timeSlot);
         return ResponseEntity.ok(isAvailable);
     }
 
@@ -43,11 +43,11 @@ public class ReservationController {
             return ResponseEntity.badRequest().body("사용자 정보가 유효하지 않습니다.");
         }
 
-        if (reservationService.isConflict(reservationDTO.getDepartment(), reservationDTO.getDate(), reservationDTO.getTimeSlot())) {
+        if (reservationService.isConflict(reservationDTO.getDate(), reservationDTO.getTimeSlot())) {
             return ResponseEntity.badRequest().body("해당 시간대에는 선택된 진료과의 예약이 불가능합니다.");
         }
 
-        reservationService.createAndSaveReservation(reservationDTO.getDepartment(), reservationDTO.getDate(), reservationDTO.getTimeSlot(), user, reservationDTO.getHospitalid());
+        reservationService.createAndSaveReservation(reservationDTO.getDate(), reservationDTO.getTimeSlot(), user, reservationDTO.getHospitalid());
 
         return ResponseEntity.ok("예약이 완료되었습니다.");
     }
