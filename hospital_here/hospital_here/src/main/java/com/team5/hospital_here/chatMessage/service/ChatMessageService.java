@@ -64,6 +64,10 @@ public class ChatMessageService {
         User foundUser = userRepository.findById(chatMessageRequestDTO.getUserId()).orElseThrow(() ->
             new CustomException(ErrorCode.USER_NOT_FOUND));
 
+        if (!foundChatRoom.isChatRoomMember(foundUser.getId())) {
+            throw new CustomException(ErrorCode.CHAT_ROOM_NOT_BELONG);
+        }
+
         ChatMessage newChatMessage = ChatMessage.builder()
             .content(chatMessageRequestDTO.getContent())
             .user(foundUser).build();

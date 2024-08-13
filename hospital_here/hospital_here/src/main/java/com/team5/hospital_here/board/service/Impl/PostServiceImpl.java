@@ -20,7 +20,9 @@ import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,8 +95,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<PostResponseDto> findAllPosts(Pageable pageable) {
         Page<Post> posts = postRepository.findAll(pageable);
-        return posts
-                .map(Post::toResponseDto);
+        return posts.map(Post::toResponseDto);
     }
 
     @Override
@@ -107,9 +108,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Page<PostResponseDto> findPostsByBoardId(Long boardId, Pageable pageable) {
-        Page<Post> posts = postRepository.findByBoardId(boardId, pageable);
-        return posts
-                .map(Post::toResponseDto);
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
+        Page<Post> posts = postRepository.findByBoardId(boardId, sortedPageable);
+        return posts.map(Post::toResponseDto);
     }
     @Transactional
     @Override
@@ -132,6 +133,18 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
         Page<Post> posts = postRepository.findByUser(user, pageable);
         return posts
+                .map(Post::toResponseDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostResponseDto> findPostsByBoardIdSortedByViewCount(Long boardId, Pageable pageable) {
+        return postRepository.findByBoardIdOrderByViewCountDesc(boardId, pageable)
+                .map(Post::toResponseDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostResponseDto> findPostsByBoardIdSortedByLikeCount(Long boardId, Pageable pageable) {
+        return postRepository.findByBoardIdOrderByLikeCountDesc(boardId, pageable)
                 .map(Post::toResponseDto);
     }
 
@@ -233,6 +246,7 @@ public class PostServiceImpl implements PostService {
                         .map(PostImg::toResponseDto)
                         .toList())
                 .createdAt(post.getCreatedAt())
+                .updatedAt(post.getUpdatedAt())
                 .build();
     }
 }
