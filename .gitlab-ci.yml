@@ -20,14 +20,14 @@ spring_build:
     - echo 'build success..'
     - sudo cp hospital_here/hospital_here/build/libs/hospital_here-0.0.1.jar ~elice/hospital/backend/
 
-spring_deploy:
-  stage: 
-    deploy
-  only:
-    - dev
-  # before_script:
-    # - ~/builds/kill_spring.sh
-  script:
-    - sudo systemctl restart hospital-spring
-  after_script:
-    - echo 'deploy success..'
+# spring_deploy:
+#   stage: 
+#     deploy
+#   only:
+#     - dev
+#   # before_script:
+#     # - ~/builds/kill_spring.sh
+#   script:
+#     - sudo systemctl restart hospital-spring
+#   after_script:
+#     - echo 'deploy success..'
