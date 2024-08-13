@@ -56,6 +56,7 @@ public class Comment extends BaseEntity {
                 .parentId(this.parent != null ? this.parent.getId() : null)
                 .userName(this.user.getName())
                 .createdAt(this.getCreatedAt())
+                .updatedAt(this.getUpdatedAt())
                 .build();
     }
 }
