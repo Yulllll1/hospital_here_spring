@@ -9,8 +9,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReservationRequestDto {
+    private Long id;
     private String department;
     private LocalDate date;
     private LocalTime timeSlot;
+    private Long userId;
+    private String userName;
+    private Long hospitalid;
 
 }
