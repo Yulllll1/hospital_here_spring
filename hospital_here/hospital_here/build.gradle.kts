@@ -60,6 +60,9 @@ dependencies {
 	implementation ("org.springframework.boot:spring-boot-starter-mail")
 
 
+	/* 스크래핑을 위한 코드 */
+	implementation ("org.jsoup:jsoup:1.15.3")
+
 }
 
 tasks.withType<Test> {
