@@ -5,6 +5,7 @@ import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.repository.HospitalRepository;
+import com.team5.hospital_here.review.entity.AvgReviewDTO;
 import com.team5.hospital_here.review.entity.ReviewDTO;
 import com.team5.hospital_here.review.entity.ReviewEntity;
 import com.team5.hospital_here.review.entity.ReviewMapper;
@@ -18,10 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -112,6 +110,18 @@ public class ReviewService {
     public Page<ReviewDTO> findByHospitalIdPage(Long hospitalId, Pageable pageable) {
         Page<ReviewEntity> reviewEntities = reviewRepository.findByHospitalId(hospitalId, pageable);
         return reviewEntities.map(ReviewMapper::toReviewDTO);
+    }
+    public AvgReviewDTO avgRating(Long hospitalId) {
+
+        Optional<Double> avgOptional = reviewRepository.findAverageRating(hospitalId);
+        double avg = avgOptional.orElse(0.0);
+        int count = reviewRepository.findByHospitalId(hospitalId).size();
+        double roundedAvg = Math.round(avg * 10) / 10.0;
+        AvgReviewDTO avgReviewDTO = new AvgReviewDTO();
+        avgReviewDTO.setAvgRating(roundedAvg);
+        avgReviewDTO.setReviewCount(count);
+        return avgReviewDTO;
+
     }
 
 

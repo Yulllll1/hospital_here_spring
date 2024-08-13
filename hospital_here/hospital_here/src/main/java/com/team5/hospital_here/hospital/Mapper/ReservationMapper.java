@@ -11,7 +11,6 @@ public class ReservationMapper {
         ReservationRequestDto reservationRequestDto = new ReservationRequestDto();
         reservationRequestDto.setId(reservation.getId());
         reservationRequestDto.setDate(reservation.getDate());
-        reservationRequestDto.setDepartment(reservation.getDepartment());
         reservationRequestDto.setTimeSlot(reservation.getTimeSlot());
         reservationRequestDto.setUserId(reservation.getUser().getId());
         reservationRequestDto.setUserName(reservation.getUser().getName());

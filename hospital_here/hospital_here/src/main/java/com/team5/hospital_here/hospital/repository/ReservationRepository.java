@@ -8,6 +8,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
-    boolean existsByDepartmentAndDateAndTimeSlot(String department, LocalDate date, LocalTime timeSlot);
+    boolean existsByDateAndTimeSlot(LocalDate date, LocalTime timeSlot);
     List<Reservation> findByUserId(Long id);
 }

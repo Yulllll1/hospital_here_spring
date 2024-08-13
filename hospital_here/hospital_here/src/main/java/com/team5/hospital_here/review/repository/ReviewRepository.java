@@ -5,6 +5,7 @@ import com.team5.hospital_here.review.entity.ReviewEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +19,7 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
 
     Page<ReviewEntity> findByUserId(Long userId, Pageable pageable);
     Page<ReviewEntity> findByHospitalId(Long hospitalId, Pageable pageable);
+
+    @Query(value = "SELECT AVG(rating) FROM hospital_review WHERE hospital_id = :hospitalId", nativeQuery = true)
+    Optional<Double> findAverageRating(Long hospitalId);
 }

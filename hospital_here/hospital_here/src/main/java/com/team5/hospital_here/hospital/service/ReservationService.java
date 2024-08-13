@@ -27,14 +27,13 @@ public class ReservationService {
     @Autowired
     private HospitalRepository hospitalRepository;
 
-    public boolean isConflict(String department, LocalDate date, LocalTime timeSlot) {
-        return reservationRepository.existsByDepartmentAndDateAndTimeSlot(department, date, timeSlot);
+    public boolean isConflict(LocalDate date, LocalTime timeSlot) {
+        return reservationRepository.existsByDateAndTimeSlot(date, timeSlot);
     }
 
-    public void createAndSaveReservation(String department, LocalDate date, LocalTime timeSlot, User user, Long hospitalId) {
+    public void createAndSaveReservation(LocalDate date, LocalTime timeSlot, User user, Long hospitalId) {
         Hospital hospital = hospitalRepository.findById(hospitalId).get();
         Reservation reservation = Reservation.builder()
-            .department(department)
             .date(date)
             .timeSlot(timeSlot)
             .user(user)
