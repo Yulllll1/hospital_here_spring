@@ -20,12 +20,36 @@ public class AddressResponseDto {
         @JsonProperty("juso")
         private List<Juso> juso;
 
+        @JsonProperty("common")
+        private Common common;
+
         public List<Juso> getJuso() {
             return juso;
         }
 
         public void setJuso(List<Juso> juso) {
             this.juso = juso;
+        }
+
+        public Common getCommon() {
+            return common;
+        }
+
+        public void setCommon(Common common) {
+            this.common = common;
+        }
+    }
+
+    public static class Common {
+        @JsonProperty("totalCount")
+        private String totalCount;
+
+        public String getTotalCount() {
+            return totalCount;
+        }
+
+        public void setTotalCount(String totalCount) {
+            this.totalCount = totalCount;
         }
     }
 
@@ -53,4 +77,3 @@ public class AddressResponseDto {
         }
     }
 }
-

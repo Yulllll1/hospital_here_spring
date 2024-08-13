@@ -58,12 +58,12 @@ public class GeocodingService {
             });
     }
 
-    public Mono<AddressResponseDto> searchAddress(String address) {
+    public Mono<AddressResponseDto> searchAddress(String address, int currentPage) {
         return WebClient.create("https://www.juso.go.kr/addrlink/addrLinkApi.do")
             .get()
             .uri(uriBuilder -> uriBuilder
                 .queryParam("confmKey", jusoApiKey)
-                .queryParam("currentPage", 1)
+                .queryParam("currentPage", currentPage)
                 .queryParam("countPerPage", 10)
                 .queryParam("keyword", address)
                 .queryParam("resultType", "json")

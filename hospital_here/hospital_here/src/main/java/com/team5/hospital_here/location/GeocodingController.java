@@ -17,8 +17,11 @@ public class GeocodingController {
         this.geocodingService = geocodingService;
     }
     // 도로명 주소 검색
-    public Mono<ResponseEntity<AddressResponseDto>> searchAddress(@RequestParam String address) {
-        return geocodingService.searchAddress(address)
+    @GetMapping("/search-address")
+    public Mono<ResponseEntity<AddressResponseDto>> searchAddress(
+        @RequestParam String address,
+        @RequestParam(defaultValue = "1") int currentPage) {
+        return geocodingService.searchAddress(address, currentPage)
             .map(response -> ResponseEntity.ok(response))
             .defaultIfEmpty(ResponseEntity.notFound().build());
     }
