@@ -14,6 +14,9 @@ public class GeocodingService {
     @Value("${naver.client.secret}")
     private String clientSecret;
 
+    @Value("${juso.api.key}")
+    private String jusoApiKey;
+    //비동기식 처리
     private final WebClient webClient;
 
     public GeocodingService(WebClient.Builder webClientBuilder) {
@@ -49,6 +52,24 @@ public class GeocodingService {
             .header("X-NCP-APIGW-API-KEY", clientSecret)
             .retrieve()
             .bodyToMono(ReverseGeocodeResponseDto.class)
+            .onErrorResume(e -> {
+                e.printStackTrace();
+                return Mono.empty();
+            });
+    }
+
+    public Mono<AddressResponseDto> searchAddress(String address) {
+        return WebClient.create("https://www.juso.go.kr/addrlink/addrLinkApi.do")
+            .get()
+            .uri(uriBuilder -> uriBuilder
+                .queryParam("confmKey", jusoApiKey)
+                .queryParam("currentPage", 1)
+                .queryParam("countPerPage", 10)
+                .queryParam("keyword", address)
+                .queryParam("resultType", "json")
+                .build())
+            .retrieve()
+            .bodyToMono(AddressResponseDto.class)
             .onErrorResume(e -> {
                 e.printStackTrace();
                 return Mono.empty();
