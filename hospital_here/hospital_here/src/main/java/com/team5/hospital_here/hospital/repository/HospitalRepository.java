@@ -14,11 +14,13 @@ public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     @Query("SELECT h FROM Hospital h LEFT JOIN h.hospitalDepartments hd LEFT JOIN hd.department d WHERE "
             + "(:name IS NULL OR h.name LIKE %:name%) AND "
             + "(:address IS NULL OR h.address LIKE %:address%) AND "
-            + "(:departmentName IS NULL OR :departmentName = '' OR d.name LIKE %:departmentName%)")
+            + "(:departmentName IS NULL OR :departmentName = '' OR d.name LIKE %:departmentName%) AND "
+            + "(:departmentNames IS NULL OR d.name IN :departmentNames)")
     List<Hospital> searchHospitals(
             @Param("name") String name,
             @Param("address") String address,
-            @Param("departmentName") String departmentName);
+            @Param("departmentName") String departmentName,
+            @Param("departmentNames") List<String> departmentNames);
 
     List<Hospital> findByNameContains(String name);
 }
