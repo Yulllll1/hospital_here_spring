@@ -19,8 +19,8 @@ public interface PostService {
     List<PostResponseDto> findPostsByUser(User user);
     Page<PostResponseDto> findPostsByBoardId(Long boardId, Pageable pageable);
     Optional<PostResponseDto> findPostById(Long id);
-    Page<PostResponseDto> searchPostsByTitle(String title, Pageable pageable);
-    Page<PostResponseDto> findPostsByUserName(String userName, Pageable pageable);
+    Page<PostResponseDto> searchPostsByBoardIdAndTitle(Long boardId, String title, Pageable pageable);
+    Page<PostResponseDto> searchPostsByBoardIdAndUserName(Long boardId, String userName, Pageable pageable);
     Page<PostResponseDto> findPostsByBoardIdSortedByViewCount(Long boardId, Pageable pageable);
     Page<PostResponseDto> findPostsByBoardIdSortedByLikeCount(Long boardId, Pageable pageable);
     void likePost(Long postId, Long userId);

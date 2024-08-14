@@ -121,20 +121,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostResponseDto> searchPostsByTitle(String title, Pageable pageable) {
-        Page<Post> posts = postRepository.findByTitleContainingIgnoreCase(title, pageable);
-        return posts
-                .map(Post::toResponseDto);
+    public Page<PostResponseDto> searchPostsByBoardIdAndTitle(Long boardId, String title, Pageable pageable) {
+        Page<Post> posts = postRepository.findByBoardIdAndTitleContainingIgnoreCase(boardId, title, pageable);
+        return posts.map(Post::toResponseDto);
     }
 
     @Override
-    public Page<PostResponseDto> findPostsByUserName(String userName, Pageable pageable) {
-        User user = userRepository.findByName(userName)
-                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
-        Page<Post> posts = postRepository.findByUser(user, pageable);
-        return posts
-                .map(Post::toResponseDto);
+    public Page<PostResponseDto> searchPostsByBoardIdAndUserName(Long boardId, String userName, Pageable pageable) {
+        Page<Post> posts = postRepository.findByBoardIdAndUserNameContainingIgnoreCase(boardId, userName, pageable);
+        return posts.map(Post::toResponseDto);
     }
+
 
     @Transactional(readOnly = true)
     public Page<PostResponseDto> findPostsByBoardIdSortedByViewCount(Long boardId, Pageable pageable) {

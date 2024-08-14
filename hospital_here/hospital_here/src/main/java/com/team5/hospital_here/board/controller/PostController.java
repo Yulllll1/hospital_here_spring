@@ -89,22 +89,24 @@ public class PostController {
         Page<PostResponseDto> posts = postService.findPostsByBoardId(boardId, pageable);
         return ResponseEntity.ok(posts);
     }
-    @GetMapping("/searchByTitle")
-    public ResponseEntity<Page<PostResponseDto>> searchPostsByTitle(
-            @RequestParam("title") String title,
+    @GetMapping("/board/{boardId}/search")
+    public ResponseEntity<Page<PostResponseDto>> searchPostsByBoardId(
+            @PathVariable Long boardId,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String userName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<PostResponseDto> posts = postService.searchPostsByTitle(title, pageable);
-        return ResponseEntity.ok(posts);
-    }
-    @GetMapping("/searchByUserName")
-    public ResponseEntity<Page<PostResponseDto>> searchPostsByUserName(
-            @RequestParam("userName") String userName,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "6") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<PostResponseDto> posts = postService.findPostsByUserName(userName, pageable);
+        Page<PostResponseDto> posts;
+
+        if (title != null && !title.isEmpty()) {
+            posts = postService.searchPostsByBoardIdAndTitle(boardId, title, pageable);
+        } else if (userName != null && !userName.isEmpty()) {
+            posts = postService.searchPostsByBoardIdAndUserName(boardId, userName, pageable);
+        } else {
+            posts = postService.findPostsByBoardId(boardId, pageable);
+        }
+
         return ResponseEntity.ok(posts);
     }
 
