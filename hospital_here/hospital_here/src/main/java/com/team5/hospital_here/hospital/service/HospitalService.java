@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class HospitalService {
@@ -28,8 +25,8 @@ public class HospitalService {
     @Autowired
     private HospitalDepartmentMapper hospitalDepartmentMapper;
 
-    public Page<Hospital> searchHospitals(String name, String address, String departmentName, Double latitude, Double longitude, int page, int size) {
-        List<Hospital> filteredHospitals = hospitalRepository.searchHospitals(name, address, departmentName);
+    public Page<Hospital> searchHospitals(String name, String address, String departmentName, List<String> departmentNames, Double latitude, Double longitude, int page, int size) {
+        List<Hospital> filteredHospitals = hospitalRepository.searchHospitals(name, address, departmentName, departmentNames);
 
         if (latitude != null && longitude != null) {
             filteredHospitals.sort((h1, h2) -> {
@@ -129,3 +126,4 @@ public class HospitalService {
         return hospitals;
     }
 }
+
