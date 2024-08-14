@@ -56,13 +56,13 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/users").permitAll()
 
-            .requestMatchers("/users/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+            .requestMatchers("/users/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.DOCTOR.name())
             .requestMatchers("/chatrooms/**", "/chat-messages/**").authenticated()
             .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
-            .requestMatchers("/boards/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
-            .requestMatchers("/posts/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
-            .requestMatchers("/comments/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
-            .requestMatchers("/api/reservations/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name())
+            .requestMatchers("/boards/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name(), Role.DOCTOR.name())
+            .requestMatchers("/posts/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name(), Role.DOCTOR.name())
+            .requestMatchers("/comments/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name(), Role.DOCTOR.name())
+            .requestMatchers("/api/reservations/**").hasAnyRole(Role.ADMIN.name(), Role.USER.name(), Role.DOCTOR.name())
             .anyRequest().permitAll()
         );
         http

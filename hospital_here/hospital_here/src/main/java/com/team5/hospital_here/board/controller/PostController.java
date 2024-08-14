@@ -98,14 +98,15 @@ public class PostController {
         Page<PostResponseDto> posts = postService.searchPostsByTitle(title, pageable);
         return ResponseEntity.ok(posts);
     }
-    @GetMapping("/searchByUserName")
-    public ResponseEntity<Page<PostResponseDto>> searchPostsByUserName(@RequestParam String userName,
+    @GetMapping("/search-my-post")
+    public ResponseEntity<Page<PostResponseDto>> searchPostsByUserName(@AuthenticationPrincipal CustomUser customUser,
                                                                        @RequestParam(defaultValue = "0") int page,
                                                                        @RequestParam(defaultValue = "6") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<PostResponseDto> posts = postService.findPostsByUserName(userName, pageable);
+        Page<PostResponseDto> posts = postService.findPostsByUserName(customUser.getUser().getName(), pageable);
         return ResponseEntity.ok(posts);
     }
+
     @GetMapping("/board/{boardId}/sortedByViewCount")
     public ResponseEntity<Page<PostResponseDto>> getPostsByBoardIdSortedByViewCount(
             @PathVariable Long boardId,
