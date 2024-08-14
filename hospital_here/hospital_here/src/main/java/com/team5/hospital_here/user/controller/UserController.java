@@ -88,5 +88,9 @@ public class UserController {
         userService.updateProfileImage(customUser, imageUrl);
         return ResponseEntity.ok("프로필 이미지 업로드 성공");
     }
+    @GetMapping("/{userId}/img")
+    public ResponseEntity<String> getProfileImage(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.getImg(userId));
+    }
 
 }

@@ -396,4 +396,10 @@ public class UserService {
         user.setImg(imageUrl);
         userRepository.save(user);
     }
+
+    public String getImg(Long userId)
+    {
+        String imgUrl = userRepository.findById(userId).get().getImg();
+        return imgUrl;
+    }
 }
