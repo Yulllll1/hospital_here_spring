@@ -272,8 +272,9 @@ public class UserService {
         User user = findUserById(id);
         Login login = user.getLogin();
         login.setStatus("비활성화");
-        loginRepository.save(login);
-        return deleteUser(user);
+        user.setLogin(login);
+        userRepository.save(user);
+        return USER_DELETED_SUCCESS;
     }
 
     /**
@@ -282,6 +283,9 @@ public class UserService {
      * @return 삭제 성공
      */
     public String deleteUser(User user){
+        Login login = user.getLogin();
+        login.setStatus("비활성화");
+        user.setLogin(login);
         userRepository.save(user);
         return USER_DELETED_SUCCESS;
     }
