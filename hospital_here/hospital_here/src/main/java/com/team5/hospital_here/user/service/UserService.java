@@ -102,7 +102,9 @@ public class UserService {
      * @return 검색된 모든 회원
      */
     public List<UserDTO> findAllToUserDTOList() {
-        return userRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
+        return userRepository.findAllByStatus("활성화").stream()
+                .map(UserDTO::new)
+                .collect(Collectors.toList());
     }
 
     /**
