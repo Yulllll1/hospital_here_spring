@@ -66,7 +66,7 @@ public class GeminiService {
             .collect(Collectors.joining(","));
 
         // 프롬프트 문자열 생성
-        return "'" + message + "'에 대한 소견을 [" + departmentList + "]에서 최대 3개를 포함해서 부탁해. 선택된 3개의 진료과 단어는 오직 느낌표쌍(!!)만을 앞뒤로 감싸서 표시해줘 (ex. !!내과!!)";
+        return "'" + message + "'에 대한 소견을 [" + departmentList + "]에서 최대 3개를 포함해서 밝고 친절한 말투로 부탁해. 선택된 3개의 진료과 단어는 오직 해시쌍(##)만을 앞뒤로 감싸서 표시해줘 (ex. ##내과##)";
     }
 
     private GeminiResponseDTO callGeminiApi(GeminiRequestDTO geminiRequestDTO) {
@@ -96,12 +96,12 @@ public class GeminiService {
     private void parseDepartments(String resultMessage, Set<String> departments) {
         for (int i = 0; i < resultMessage.length(); i++) {
             char c = resultMessage.charAt(i);
-            if (c == '!') {
+            if (c == '#') {
                 i += 2;
 
                 StringBuilder token = new StringBuilder();
                 for (int j = i; j < resultMessage.length(); j++) {
-                    if (resultMessage.charAt(j) == '!') {
+                    if (resultMessage.charAt(j) == '#') {
                         departments.add(token.toString());
                         i = j + 2;
                         break;
