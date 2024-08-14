@@ -1,7 +1,8 @@
-package com.team5.hospital_here.pasing.service;
+package com.team5.hospital_here.parsing.service;
 
-import com.team5.hospital_here.pasing.entity.WebScraping;
-import com.team5.hospital_here.pasing.repository.WebScrapingRepository;
+import com.team5.hospital_here.parsing.dto.WebScrapingDTO;
+import com.team5.hospital_here.parsing.entity.WebScraping;
+import com.team5.hospital_here.parsing.repository.WebScrapingRepository;
 import jakarta.annotation.PostConstruct;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,12 +13,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
-public class  WebScrapingService {
+public class WebScrapingService {
 
     private static final Logger logger = LoggerFactory.getLogger(WebScrapingService.class);
 
@@ -26,8 +29,6 @@ public class  WebScrapingService {
 
     @Scheduled(cron = "* 0 12 * * MON") // 월요일 12시에 스크래핑
     public void scrapeAndSaveData() {
-        logger.info("Starting scheduled web scraping task...");
-
         try {
             // 데이터베이스에서 모든 데이터 삭제
             webScrapingRepository.deleteAll();
@@ -47,42 +48,37 @@ public class  WebScrapingService {
                 String rawDiseaseName = element.text();
                 String cleanedDiseaseName = cleanDiseaseName(rawDiseaseName);
 
-                WebScraping webScraping = new WebScraping(cleanedDiseaseName);
+                WebScraping webScraping = new WebScraping(cleanedDiseaseName, (long) (count + 1));
                 webScrapingRepository.save(webScraping);
                 count++;
             }
 
-            logger.info("Web scraping task completed successfully.");
+            logger.info("Web scraping 성공");
 
         } catch (IOException e) {
-            logger.error("Error during web scraping", e);
+            logger.error("에러가 났습니다.", e);
         }
     }
 
     private String cleanDiseaseName(String rawName) {
-        // "[" 문자의 위치를 찾습니다.
         int bracketIndex = rawName.indexOf("[");
 
-        // "[" 문자가 없다면 원래 문자열을 반환합니다.
         if (bracketIndex == -1) {
             return rawName.trim();
         }
 
-        // "[" 문자 이전의 모든 문자열을 가져옵니다.
-        String cleanedDiseaseName = rawName.substring(0, bracketIndex).trim();
-
-        return cleanedDiseaseName;
+        return rawName.substring(0, bracketIndex).trim();
     }
-
 
     @PostConstruct
     public void init() {
-        // 애플리케이션 시작 시 스크래핑 실행
         scrapeAndSaveData();
     }
 
-    public WebScraping getLatestData() {
-        return webScrapingRepository.findTopByOrderByCreatedAtDesc()
-                .orElseThrow(() -> new RuntimeException("No data found"));
+    public List<WebScrapingDTO> getLatestDiseases() {
+        List<WebScraping> webScrapings = webScrapingRepository.findScrapingData(); // rank 기준으로 정렬
+        return webScrapings.stream()
+                .map(ws -> new WebScrapingDTO(ws.getId(), ws.getDiseaseName(), ws.getCreatedAt(), ws.getRank()))
+                .collect(Collectors.toList());
     }
 }

@@ -1,7 +1,9 @@
-package com.team5.hospital_here.pasing.entity;
+package com.team5.hospital_here.parsing.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+
 
 @Table(name = "webscraping")
 @Entity
@@ -17,13 +19,17 @@ public class WebScraping {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    //데이터 초기화를 위해 생성자 추가
+    @Column(name = "disease_rank")
+    private Long rank;
+
     public WebScraping() {}
 
-    public WebScraping(String diseaseName) {
+    public WebScraping(String diseaseName, Long rank) {
         this.diseaseName = diseaseName;
         this.createdAt = LocalDateTime.now();
+        this.rank = rank;
     }
+
 
     public Long getId() {
         return id;
@@ -49,4 +55,11 @@ public class WebScraping {
         this.createdAt = createdAt;
     }
 
+    public Long getRank() {
+        return rank;
+    }
+
+    public void setRank(Long rank) {
+        this.rank = rank;
+    }
 }
