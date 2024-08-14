@@ -15,6 +15,7 @@ import java.util.List;
 public class PostRequestDto {
     private Long boardId;
     private Long userId;
+    private String userImg;
     private String title;
     private String content;
     private List<String> imageUrls;
