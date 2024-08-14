@@ -79,6 +79,10 @@ public class LoginService {
         {
             throw new CustomException(ErrorCode.SOCIAL_USER);
         }
+        if(!login.getStatus().equals("활성화"))
+        {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
         matchPassword(loginDTO, login);
 
         RefreshToken dbToken = refreshTokenRepository.findByLogin(login).orElse(new RefreshToken());

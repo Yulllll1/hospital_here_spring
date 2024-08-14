@@ -36,6 +36,9 @@ public class Login {
     @Column(name = "verified")
     private String verified;
 
+    @Column(name = "status")
+    private String status;
+
 
 
 }

@@ -169,6 +169,7 @@ public class UserService {
         user.setRole(Role.USER);
         String encodedPassword = encodePassword(userDTO.getPassword());
         user.getLogin().setPassword(encodedPassword);
+        user.getLogin().setStatus("활성화");
         userDTO = UserMapper.toUserDTO(userRepository.save(user));
 
         emailService.sendEmail(user.getLogin().getEmail(),
@@ -268,6 +269,7 @@ public class UserService {
      */
     public String deleteUser(Long id){
         User user = findUserById(id);
+        user.getLogin().setStatus("비활성화");
         return deleteUser(user);
     }
 
@@ -277,7 +279,7 @@ public class UserService {
      * @return 삭제 성공
      */
     public String deleteUser(User user){
-        userRepository.delete(user);
+        userRepository.save(user);
         return USER_DELETED_SUCCESS;
     }
 
