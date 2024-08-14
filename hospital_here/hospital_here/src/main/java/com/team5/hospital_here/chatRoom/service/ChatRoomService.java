@@ -63,7 +63,8 @@ public class ChatRoomService {
 
         List<ChatRoomResponseDTO> chatRoomResponseList = foundChatRoomList.stream()
             .map(ChatRoomMapper.INSTANCE::toDto)
-            .peek(e -> e.setNewMessageCount(chatMessageStatusService.getCountNotRead(userId)))
+            .peek(e -> e.setNewMessageCount(
+                chatMessageStatusService.getCountNotRead(e.getId(), userId)))
             .toList();
 
         setLastMessageAndDoctorProfile(chatRoomResponseList, foundChatRoomList);
