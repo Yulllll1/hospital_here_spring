@@ -89,7 +89,7 @@ public class PostController {
         Page<PostResponseDto> posts = postService.findPostsByBoardId(boardId, pageable);
         return ResponseEntity.ok(posts);
     }
-    @GetMapping("/search")
+    @GetMapping("/searchByTitle")
     public ResponseEntity<Page<PostResponseDto>> searchPostsByTitle(
             @RequestParam("title") String title,
             @RequestParam(defaultValue = "0") int page,
@@ -99,11 +99,12 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
     @GetMapping("/searchByUserName")
-    public ResponseEntity<Page<PostResponseDto>> searchPostsByUserName(@AuthenticationPrincipal CustomUser customUser,
-                                                                       @RequestParam(defaultValue = "0") int page,
-                                                                       @RequestParam(defaultValue = "6") int size) {
+    public ResponseEntity<Page<PostResponseDto>> searchPostsByUserName(
+            @RequestParam("userName") String userName,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<PostResponseDto> posts = postService.findPostsByUserName(customUser.getUser().getName(), pageable);
+        Page<PostResponseDto> posts = postService.findPostsByUserName(userName, pageable);
         return ResponseEntity.ok(posts);
     }
 
