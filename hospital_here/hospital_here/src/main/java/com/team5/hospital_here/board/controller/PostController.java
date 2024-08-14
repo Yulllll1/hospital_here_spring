@@ -98,7 +98,7 @@ public class PostController {
         Page<PostResponseDto> posts = postService.searchPostsByTitle(title, pageable);
         return ResponseEntity.ok(posts);
     }
-    @GetMapping("/search-my-post")
+    @GetMapping("/searchByUserName")
     public ResponseEntity<Page<PostResponseDto>> searchPostsByUserName(@AuthenticationPrincipal CustomUser customUser,
                                                                        @RequestParam(defaultValue = "0") int page,
                                                                        @RequestParam(defaultValue = "6") int size) {
