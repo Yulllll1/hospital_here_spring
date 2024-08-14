@@ -10,7 +10,6 @@ import lombok.Setter;
 @Setter
 public class ReservationRequestDto {
     private Long id;
-    private String department;
     private LocalDate date;
     private LocalTime timeSlot;
     private Long userId;

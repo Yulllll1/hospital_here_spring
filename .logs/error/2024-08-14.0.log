@@ -1,0 +1,4 @@
+2024-08-14 00:35:21  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: COMMENT_DELETE_DENIED, code message: 댓글을 삭제할 수 없습니다.
+2024-08-14 00:35:23  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: COMMENT_UPDATE_DENIED, code message: 댓글을 수정할 수 없습니다.
+2024-08-14 00:36:20  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: COMMENT_UPDATE_DENIED, code message: 댓글을 수정할 수 없습니다.
+2024-08-14 00:36:22  ERROR --- [com.team5.hospital_here.common.exception.GlobalExceptionHandler]: ### ERROR!! code: 403, code name: COMMENT_DELETE_DENIED, code message: 댓글을 삭제할 수 없습니다.

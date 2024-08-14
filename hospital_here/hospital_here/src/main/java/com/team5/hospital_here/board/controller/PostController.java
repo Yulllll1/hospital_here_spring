@@ -99,11 +99,31 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
     @GetMapping("/searchByUserName")
-    public ResponseEntity<Page<PostResponseDto>> searchPostsByUserName(@RequestParam String userName,
+    public ResponseEntity<Page<PostResponseDto>> searchPostsByUserName(@AuthenticationPrincipal CustomUser customUser,
                                                                        @RequestParam(defaultValue = "0") int page,
                                                                        @RequestParam(defaultValue = "6") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<PostResponseDto> posts = postService.findPostsByUserName(userName, pageable);
+        Page<PostResponseDto> posts = postService.findPostsByUserName(customUser.getUser().getName(), pageable);
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/board/{boardId}/sortedByViewCount")
+    public ResponseEntity<Page<PostResponseDto>> getPostsByBoardIdSortedByViewCount(
+            @PathVariable Long boardId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<PostResponseDto> posts = postService.findPostsByBoardIdSortedByViewCount(boardId, pageable);
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/board/{boardId}/sortedByLikeCount")
+    public ResponseEntity<Page<PostResponseDto>> getPostsByBoardIdSortedByLikeCount(
+            @PathVariable Long boardId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<PostResponseDto> posts = postService.findPostsByBoardIdSortedByLikeCount(boardId, pageable);
         return ResponseEntity.ok(posts);
     }
 
