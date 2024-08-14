@@ -10,13 +10,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ChatMessageStatusRepository extends JpaRepository<ChatMessageStatus, Long> {
 
-    Integer countByUserIdAndIsRead(Long chatRoomId, Boolean isRead);
+    @Query("SELECT COUNT(*) FROM ChatMessageStatus cms "
+        + "WHERE cms.isRead = :isRead "
+        + "AND cms.user.id = :userId "
+        + "AND cms.chatMessage.chatRoom.id = :chatRoomId")
+    Integer countByUserIdAndIsRead(Long chatRoomId, Boolean isRead, Long userId);
 
     @Modifying
     @Query("UPDATE ChatMessageStatus cms SET cms.isRead = :isRead "
         + "WHERE cms.user.id = :userId "
+        + "AND cms.chatMessage.chatRoom.id = :chatRoomId "
         + "AND cms.createdAt <= :createdAt")
-    void updateIsReadWithinTime(Boolean isRead,
-        Long userId,
+    void updateIsReadWithinTime(Boolean isRead, Long chatRoomId, Long userId,
         LocalDateTime createdAt);
 }
