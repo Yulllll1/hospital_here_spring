@@ -7,6 +7,7 @@ import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.email.EmailService;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.service.HospitalService;
+import com.team5.hospital_here.user.entity.login.Login;
 import com.team5.hospital_here.user.entity.user.address.AddressDTO;
 import com.team5.hospital_here.user.entity.commonDTO.PasswordDTO;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
@@ -269,7 +270,9 @@ public class UserService {
      */
     public String deleteUser(Long id){
         User user = findUserById(id);
-        user.getLogin().setStatus("비활성화");
+        Login login = user.getLogin();
+        login.setStatus("비활성화");
+        loginRepository.save(login);
         return deleteUser(user);
     }
 
