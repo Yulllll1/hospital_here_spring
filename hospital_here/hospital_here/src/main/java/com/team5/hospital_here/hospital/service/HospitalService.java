@@ -188,28 +188,18 @@ public class HospitalService {
                 break;
         }
 
-        // 디버깅 출력
-        System.out.println("Current time: " + currentTime);
-        System.out.println("Start time: " + startTime);
-        System.out.println("End time: " + endTime);
-
         if (startTime != null && endTime != null) {
-            boolean isOpen = !currentTime.isBefore(startTime) && !currentTime.isAfter(endTime);
-            System.out.println("Is open: " + isOpen);
-            return isOpen;
+            return !currentTime.isBefore(startTime) && !currentTime.isAfter(endTime);
         }
 
-        return false;
+        return false; // 시간 정보가 없으면 영업 중이지 않음으로 처리
     }
 
     private LocalTime parseTime(String timeString) {
-        System.out.println("Parsing time string: " + timeString);
         try {
             return timeString != null ? LocalTime.parse(timeString, TIME_FORMATTER) : null;
         } catch (DateTimeParseException e) {
-            System.err.println("Failed to parse time: " + timeString);
-            // 예외 처리를 위한 로직을 추가하거나 기본값을 설정합니다.
-            return null;
+            return null; // 파싱 실패 시 null 반환
         }
     }
 
