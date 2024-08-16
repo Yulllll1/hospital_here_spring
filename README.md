@@ -2,7 +2,7 @@
 ![logo](https://kdt-gitlab.elice.io/cloud_track/class_03/web_project3/team05/readmeimage/-/raw/master/logo.jpg)
 
 #### 원인 모를 통증과 증상을 통해 의심되는 질병을 알려주고,
-#### 어떤 진료과를 가야하는지와 근처의 해당하는 진료과 병원을 찾아주는 시스템
+#### 어떤 진료과를 가야하는지와 근처에 있는 해당 진료과 병원을 찾아주는 시스템
 
 ## 기술 스택
 
@@ -64,4 +64,3 @@ https://www.figma.com/design/GX6CyJdzJCfZVgUN4t9mZd/elice-project3?node-id=0-1&t
 - 유저는 관리자와 1:1 채팅을 통해 문의 가능
 - 의사는 진단 신청 대기중인 채팅방 확인 및 채팅 수락
 - 관리자는 문의 대기중인 채팅방 확인 및 채팅 수락
-- 
