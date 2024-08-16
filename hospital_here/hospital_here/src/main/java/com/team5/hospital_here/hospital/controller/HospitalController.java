@@ -30,10 +30,12 @@ public class HospitalController {
     @Autowired
     private DepartmentMapper departmentMapper;
 
+
     //hospital + department 정보
     @GetMapping("/hospitals/all")
     public ResponseEntity<List<HospitalDTO>> getAllHospitalsWithoutPagination() {
-        List<HospitalDTO> hospitalDTOs = hospitalService.getAllHospitalsWithDepartments();
+        // 병원 목록과 현재 영업 상태를 포함한 DTO 리스트 가져오기
+        List<HospitalDTO> hospitalDTOs = hospitalService.getAllHospitalsWithDepartmentsAndOpenStatus();
         return ResponseEntity.ok(hospitalDTOs);
     }
 
@@ -57,7 +59,7 @@ public class HospitalController {
             if (latitude != null && longitude != null && hospital.getLatitude() != null && hospital.getLongitude() != null) {
                 distance = hospitalService.calculateDistance(latitude, longitude, hospital.getLatitude(), hospital.getLongitude());
             }
-            HospitalDTO dto = hospitalService.convertToDto(hospital, distance);
+            HospitalDTO dto = hospitalService.convertToDtoWithOpenStatus(hospital, distance);
             hospitalDTOMap.putIfAbsent(hospital.getId(), dto);
         }
 
