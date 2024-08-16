@@ -33,9 +33,11 @@ public class HospitalController {
 
     //hospital + department 정보
     @GetMapping("/hospitals/all")
-    public ResponseEntity<List<HospitalDTO>> getAllHospitalsWithoutPagination() {
-        // 병원 목록과 현재 영업 상태를 포함한 DTO 리스트 가져오기
-        List<HospitalDTO> hospitalDTOs = hospitalService.getAllHospitalsWithDepartmentsAndOpenStatus();
+    public ResponseEntity<List<HospitalDTO>> getAllHospitalsWithoutPagination(
+            @RequestParam Double latitude,
+            @RequestParam Double longitude) {
+        // 사용자 위치를 기반으로 병원 목록과 현재 영업 상태를 포함한 DTO 리스트 가져오기
+        List<HospitalDTO> hospitalDTOs = hospitalService.getAllHospitalsWithDepartmentsAndOpenStatus(latitude, longitude);
         return ResponseEntity.ok(hospitalDTOs);
     }
 

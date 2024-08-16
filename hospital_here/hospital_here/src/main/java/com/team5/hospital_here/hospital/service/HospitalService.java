@@ -91,7 +91,7 @@ public class HospitalService {
         return dto;
     }
 
-    public List<HospitalDTO> getAllHospitalsWithDepartmentsAndOpenStatus() {
+    public List<HospitalDTO> getAllHospitalsWithDepartmentsAndOpenStatus(Double userLatitude, Double userLongitude) {
         List<Hospital> hospitals = hospitalRepository.findAll();
         List<HospitalDepartmentDTO> departments = hospitalDepartmentRepository.findAll()
                 .stream()
@@ -101,9 +101,13 @@ public class HospitalService {
         Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
 
         for (Hospital hospital : hospitals) {
-            HospitalDTO dto = convertToDto(hospital);
-            dto.setDepartments(new ArrayList<>());
-            hospitalDTOMap.put(hospital.getId(), dto);
+            // 거리 계산 및 필터링
+            Double distance = calculateDistanceOrNull(userLatitude, userLongitude, hospital.getLatitude(), hospital.getLongitude());
+            if (distance != null && distance <= 5.0) {  // 5km 이내
+                HospitalDTO dto = convertToDto(hospital, distance);
+                dto.setDepartments(new ArrayList<>());
+                hospitalDTOMap.put(hospital.getId(), dto);
+            }
         }
 
         for (HospitalDepartmentDTO department : departments) {
