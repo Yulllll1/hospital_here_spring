@@ -4,6 +4,10 @@ import com.team5.hospital_here.chatMessage.dto.ChatMessageRequestDTO;
 import com.team5.hospital_here.chatMessage.dto.ChatMessageResponseDTO;
 import com.team5.hospital_here.chatMessage.service.ChatMessageService;
 import com.team5.hospital_here.chatMessage.service.ChatMessageStatusService;
+import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
+import com.team5.hospital_here.chatRoom.enums.ChatRoomType;
+import com.team5.hospital_here.chatRoom.service.ChatRoomService;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class StompMessageController {
 
     private final SimpMessageSendingOperations operations;
+    private final ChatRoomService chatRoomService;
     private final ChatMessageService chatMessageService;
     private final ChatMessageStatusService chatMessageStatusService;
 
@@ -41,6 +46,27 @@ public class StompMessageController {
                     chatMessageRequestDTO);
                 chatMessageStatusService.saveStatusToFalse(chatMessageRequestDTO.getUserId(),
                     chatMessage.getId());
+
+                ChatRoomResponseDTO updatedChatRoom = chatRoomService.findChatRoom(chatRoomId,
+                    chatMessageRequestDTO.getUserId());
+
+                if (updatedChatRoom.getUser2() != null) {
+                    Long targetUserId =
+                        Objects.equals(updatedChatRoom.getUser1().getId(),
+                            chatMessageRequestDTO.getUserId())
+                            ? updatedChatRoom.getUser2().getId()
+                            : updatedChatRoom.getUser1().getId();
+
+                    operations.convertAndSend("/queue/list/" + targetUserId, updatedChatRoom);
+                } else {
+                    if (updatedChatRoom.getType() == ChatRoomType.DOCTOR) {
+                        operations.convertAndSend("/queue/list/" + ChatRoomType.DOCTOR.name(),
+                            updatedChatRoom);
+                    } else if (updatedChatRoom.getType() == ChatRoomType.SERVICE) {
+                        operations.convertAndSend("/queue/list/ADMIN",
+                            updatedChatRoom);
+                    }
+                }
             } else {
                 // content가 null이면 메시지 삭제
                 if (chatMessageRequestDTO.getContent() == null) {
@@ -59,4 +85,7 @@ public class StompMessageController {
 
         return ResponseEntity.ok().build();
     }
+
+//    @MessageMapping("/status/{chatRoomId}")/*
+//    public ResponseEntity<Void> statusHandler(@DestinationVariable Long chatRoomId)*/
 }

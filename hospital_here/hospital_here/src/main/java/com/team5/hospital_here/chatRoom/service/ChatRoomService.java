@@ -21,6 +21,7 @@ import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileRespon
 import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +52,27 @@ public class ChatRoomService {
         setLastMessageAndDoctorProfile(chatRoomList, list);
 
         return chatRoomList;
+    }
+
+    public ChatRoomResponseDTO findChatRoom(Long chatRoomId, Long userId) {
+        ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() ->
+            new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST));
+
+        ChatRoomResponseDTO response = ChatRoomMapper.INSTANCE.toDto(foundChatRoom);
+
+        if (foundChatRoom.getStatus() == ChatRoomStatus.ACTIVE) {
+            Long targetUserId =
+                Objects.equals(foundChatRoom.getUser1().getId(), userId) ? foundChatRoom.getUser2()
+                    .getId() :
+                    foundChatRoom.getUser1().getId();
+
+            response.setNewMessageCount(
+                chatMessageStatusService.getCountNotRead(chatRoomId, targetUserId));
+        }
+
+        setLastMessageAndDoctorProfile(List.of(response), List.of(foundChatRoom));
+
+        return response;
     }
 
     // 모든 채팅방 조회
