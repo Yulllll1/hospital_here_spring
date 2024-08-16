@@ -2,7 +2,10 @@ package com.team5.hospital_here.hospital.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +43,29 @@ public class HospitalDTO {
 
     public String getOpenStatusMessage() {
         return isOpenNow ? "영업 중" : "영업 종료";
+    }
+
+    public String getFormattedOpenHours() {
+        return "일요일: " + formatTime(sunStartTime, sunEndTime) + "\n" +
+                "월요일: " + formatTime(monStartTime, monEndTime) + "\n" +
+                "화요일: " + formatTime(tueStartTime, tueEndTime) + "\n" +
+                "수요일: " + formatTime(wedStartTime, wedEndTime) + "\n" +
+                "목요일: " + formatTime(thuStartTime, thuEndTime) + "\n" +
+                "금요일: " + formatTime(friStartTime, friEndTime) + "\n" +
+                "토요일: " + formatTime(satStartTime, satEndTime);
+    }
+
+    private String formatTime(String startTime, String endTime) {
+        if (startTime == null || endTime == null) {
+            return "시간 정보가 없습니다";
+        }
+        try {
+            LocalTime start = LocalTime.parse(startTime, TIME_FORMATTER);
+            LocalTime end = LocalTime.parse(endTime, TIME_FORMATTER);
+            return start + " - " + end;
+        } catch (DateTimeParseException e) {
+            return "시간 정보가 없습니다";
+        }
     }
 
     public HospitalDTO(Long id, String name, Double latitude, Double longitude, String address, String district, String subDistrict, String telephoneNumber, List<DepartmentDTO> departments,
