@@ -10,6 +10,8 @@ import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.JwtUtil;
 import com.team5.hospital_here.common.jwt.entity.RefreshToken;
 import com.team5.hospital_here.common.jwt.repository.RefreshTokenRepository;
+import com.team5.hospital_here.email.EmailEntity;
+import com.team5.hospital_here.email.EmailRepository;
 import com.team5.hospital_here.email.EmailService;
 import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.login.Login;
@@ -48,6 +50,7 @@ public class LoginService {
 
     private final String LOGOUT_SUCCESS = "로그아웃 되었습니다.";
     private final UserRepository userRepository;
+    private final EmailRepository emailRepository;
 
 
     /**
@@ -203,6 +206,19 @@ public class LoginService {
 
     }
 
+    public String searchCode(String verified, String email)
+    {
+        EmailEntity emailEntity = emailRepository.findByEmailAndVerification(email, verified);
+        if(emailEntity == null)
+        {
+            throw new CustomException(ErrorCode.NO_PERMISSION);
+        }
+        else
+        {
+            return "인증확인";
+        }
+    }
+
     public void verified(String email)
     {
         try {
@@ -216,6 +232,22 @@ public class LoginService {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);
         }
 
+    }
+
+    public void registerEmail(String email)
+    {
+        try {
+            EmailEntity emailEntity = new EmailEntity();
+            String code = generateRandomPassword(5);
+            emailEntity.setEmail(email);
+            emailEntity.setVerification(code);
+            emailRepository.save(emailEntity);
+            emailService.sendEmail(email, "이메일 인증", "인증 코드:" + code + "\n회원가입을 위해 위의 코드를 입력해주세요");
+
+        } catch (Exception e)
+        {
+            throw new CustomException(ErrorCode.USER_ALREADY_EXISTS);
+        }
     }
 
     private String generateRandomPassword(int length) {

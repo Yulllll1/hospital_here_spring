@@ -47,6 +47,22 @@ public class LoginController {
         return ResponseEntity.ok("인증번호 발송 성공");
     }
 
+    @PostMapping("/register/email")
+    public ResponseEntity<String> registerEmail(@RequestBody Map<String, String> request){
+        String email = request.get("email");
+        loginService.registerEmail(email);
+        return ResponseEntity.ok("인증번호 발송 성공");
+    }
+
+    @PostMapping("/register/email/success")
+    public ResponseEntity<String> registerEmailSuccess(@RequestBody Map<String, String> request){
+        String email = request.get("email");
+        String verified = request.get("verified");
+
+        return ResponseEntity.ok(loginService.searchCode(verified, email));
+
+    }
+
     @PostMapping("/password-reset")
     public ResponseEntity<String> passwordReset(@RequestBody Map<String, String> request)
     {
