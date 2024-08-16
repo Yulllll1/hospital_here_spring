@@ -37,6 +37,7 @@ public class Post extends BaseEntity {
     private String title;
 
     @NotEmpty(message = "필수 입력값 입니다.")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @Builder.Default
