@@ -36,9 +36,13 @@ public class StompMessageController {
         // 채팅 수락 요청
         if (chatMessageRequestDTO.getIsAccepted()) {
             chatMessage.setIsAccepted(true);
+            sendChatRoom(chatMessageRequestDTO.getUserId(),
+                chatRoomService.findChatRoom(chatRoomId, chatMessageRequestDTO.getUserId()));
             // 채팅방 종료(나가기)
         } else if (chatMessageRequestDTO.getIsTerminated()) {
             chatMessage.setIsTerminated(true);
+            sendChatRoom(chatMessageRequestDTO.getUserId(),
+                chatRoomService.findChatRoom(chatRoomId, chatMessageRequestDTO.getUserId()));
         } else {
             // id가 없다면 새로운 메시지
             if (chatMessageRequestDTO.getId() == null) {
@@ -51,13 +55,7 @@ public class StompMessageController {
                     chatMessageRequestDTO.getUserId());
 
                 if (updatedChatRoom.getUser2() != null) {
-                    Long targetUserId =
-                        Objects.equals(updatedChatRoom.getUser1().getId(),
-                            chatMessageRequestDTO.getUserId())
-                            ? updatedChatRoom.getUser2().getId()
-                            : updatedChatRoom.getUser1().getId();
-
-                    operations.convertAndSend("/queue/list/" + targetUserId, updatedChatRoom);
+                    sendChatRoom(chatMessageRequestDTO.getUserId(), updatedChatRoom);
                 } else {
                     if (updatedChatRoom.getType() == ChatRoomType.DOCTOR) {
                         operations.convertAndSend("/queue/list/" + ChatRoomType.DOCTOR.name(),
@@ -86,6 +84,13 @@ public class StompMessageController {
         return ResponseEntity.ok().build();
     }
 
-//    @MessageMapping("/status/{chatRoomId}")/*
-//    public ResponseEntity<Void> statusHandler(@DestinationVariable Long chatRoomId)*/
+    private void sendChatRoom(Long userId, ChatRoomResponseDTO updatedChatRoom) {
+        Long targetUserId =
+            Objects.equals(updatedChatRoom.getUser1().getId(),
+                userId)
+                ? updatedChatRoom.getUser2().getId()
+                : updatedChatRoom.getUser1().getId();
+
+        operations.convertAndSend("/queue/list/" + targetUserId, updatedChatRoom);
+    }
 }
