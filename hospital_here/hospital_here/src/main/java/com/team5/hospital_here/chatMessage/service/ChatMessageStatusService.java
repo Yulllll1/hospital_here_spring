@@ -5,7 +5,6 @@ import com.team5.hospital_here.chatMessage.entity.ChatMessageStatus;
 import com.team5.hospital_here.chatMessage.repository.ChatMessageRepository;
 import com.team5.hospital_here.chatMessage.repository.ChatMessageStatusRepository;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
-import com.team5.hospital_here.chatRoom.enums.ChatRoomStatus;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.user.entity.user.User;
@@ -35,11 +34,6 @@ public class ChatMessageStatusService {
         ChatMessage foundChatMessage = chatMessageRepository.findById(chatMessageId)
             .orElseThrow(() -> new CustomException(ErrorCode.CHAT_MESSAGE_NOT_FOUND));
 
-        // 채팅방이 진행 중이지 않다면 무시
-        if (foundChatMessage.getChatRoom().getStatus() != ChatRoomStatus.ACTIVE) {
-            return;
-        }
-
         userRepository.findById(userId)
             .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
@@ -53,11 +47,6 @@ public class ChatMessageStatusService {
             .orElseThrow(() -> new CustomException(ErrorCode.CHAT_MESSAGE_NOT_FOUND));
 
         ChatRoom foundChatRoom = foundChatMessage.getChatRoom();
-
-        // 채팅방이 진행 중이지 않다면 무시
-        if (foundChatRoom.getStatus() != ChatRoomStatus.ACTIVE) {
-            return;
-        }
 
         userRepository.findById(userId)
             .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
