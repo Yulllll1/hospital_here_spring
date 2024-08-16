@@ -5,8 +5,8 @@ import com.team5.hospital_here.chatRoom.enums.ChatRoomStatus;
 import java.util.List;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,4 +20,8 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
     List<ChatRoom> findAllWithUserId(Long id);
 
     List<ChatRoom> findByStatus(ChatRoomStatus status);
+
+    @Modifying
+    @Query("DELETE FROM ChatRoom cr WHERE cr.id = :id")
+    void deleteById(Long id);
 }

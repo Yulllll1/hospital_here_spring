@@ -38,7 +38,23 @@ public class HospitalDepartmentMapper {
                 hospital.getDistrict(),
                 hospital.getSubDistrict(),
                 hospital.getTelephoneNumber(),
-                new ArrayList<>()
+                new ArrayList<>(),
+
+                hospital.getSunStartTime(),
+                hospital.getSunEndTime(),
+                hospital.getMonStartTime(),
+                hospital.getMonEndTime(),
+                hospital.getTueStartTime(),
+                hospital.getTueEndTime(),
+                hospital.getWedStartTime(),
+                hospital.getWedEndTime(),
+                hospital.getThuStartTime(),
+                hospital.getThuEndTime(),
+                hospital.getFriStartTime(),
+                hospital.getFriEndTime(),
+                hospital.getSatStartTime(),
+                hospital.getSatEndTime()
         );
     }
+
 }
