@@ -3,6 +3,7 @@ package com.team5.hospital_here.chatRoom.service;
 import com.team5.hospital_here.chatMessage.entity.ChatMessage;
 import com.team5.hospital_here.chatMessage.mapper.ChatMessageMapper;
 import com.team5.hospital_here.chatMessage.repository.ChatMessageRepository;
+import com.team5.hospital_here.chatMessage.repository.ChatMessageStatusRepository;
 import com.team5.hospital_here.chatMessage.service.ChatMessageStatusService;
 import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
@@ -31,6 +32,7 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final ChatMessageStatusRepository chatMessageStatusRepository;
     private final ChatMessageStatusService chatMessageStatusService;
     private final UserRepository userRepository;
     private final DoctorProfileRepository doctorProfileRepository;
@@ -188,7 +190,9 @@ public class ChatRoomService {
 
         ChatRoomStatus status = foundChatRoom.getStatus();
         if (status != ChatRoomStatus.ACTIVE) {
-            chatRoomRepository.delete(foundChatRoom);
+            chatMessageStatusRepository.deleteAll(chatRoomId);
+            chatMessageRepository.deleteByChatRoomId(chatRoomId);
+            chatRoomRepository.deleteById(foundChatRoom.getId());
             return null;
         }
 

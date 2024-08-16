@@ -23,4 +23,8 @@ public interface ChatMessageStatusRepository extends JpaRepository<ChatMessageSt
         + "AND cms.createdAt <= :createdAt")
     void updateIsReadWithinTime(Boolean isRead, Long chatRoomId, Long userId,
         LocalDateTime createdAt);
+
+    @Modifying
+    @Query("DELETE FROM ChatMessageStatus cms WHERE cms.chatMessage.chatRoom.id = :chatRoomId")
+    void deleteAll(Long chatRoomId);
 }
