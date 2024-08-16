@@ -23,6 +23,7 @@ public class PostResponseDto {
     private String userName;
     private Long viewCount;
     private Long likeCount;
+    private String userImg;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

@@ -102,6 +102,7 @@ public class Post extends BaseEntity {
                 .boardId(this.board.getId())
                 .userId(this.user.getId())
                 .userName(this.user.getName())
+                .userImg(this.user.getImg())
                 .title(this.title)
                 .content(this.content)
                 .viewCount(this.viewCount)

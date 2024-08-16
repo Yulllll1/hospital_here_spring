@@ -3,6 +3,7 @@ package com.team5.hospital_here.chatRoom.service;
 import com.team5.hospital_here.chatMessage.entity.ChatMessage;
 import com.team5.hospital_here.chatMessage.mapper.ChatMessageMapper;
 import com.team5.hospital_here.chatMessage.repository.ChatMessageRepository;
+import com.team5.hospital_here.chatMessage.repository.ChatMessageStatusRepository;
 import com.team5.hospital_here.chatMessage.service.ChatMessageStatusService;
 import com.team5.hospital_here.chatRoom.dto.ChatRoomResponseDTO;
 import com.team5.hospital_here.chatRoom.entity.ChatRoom;
@@ -20,6 +21,7 @@ import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfileRespon
 import com.team5.hospital_here.user.repository.DoctorProfileRepository;
 import com.team5.hospital_here.user.repository.UserRepository;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,7 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final ChatMessageStatusRepository chatMessageStatusRepository;
     private final ChatMessageStatusService chatMessageStatusService;
     private final UserRepository userRepository;
     private final DoctorProfileRepository doctorProfileRepository;
@@ -49,6 +52,27 @@ public class ChatRoomService {
         setLastMessageAndDoctorProfile(chatRoomList, list);
 
         return chatRoomList;
+    }
+
+    public ChatRoomResponseDTO findChatRoom(Long chatRoomId, Long userId) {
+        ChatRoom foundChatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() ->
+            new CustomException(ErrorCode.CHAT_ROOM_NOT_EXIST));
+
+        ChatRoomResponseDTO response = ChatRoomMapper.INSTANCE.toDto(foundChatRoom);
+
+        if (foundChatRoom.getStatus() == ChatRoomStatus.ACTIVE) {
+            Long targetUserId =
+                Objects.equals(foundChatRoom.getUser1().getId(), userId) ? foundChatRoom.getUser2()
+                    .getId() :
+                    foundChatRoom.getUser1().getId();
+
+            response.setNewMessageCount(
+                chatMessageStatusService.getCountNotRead(chatRoomId, targetUserId));
+        }
+
+        setLastMessageAndDoctorProfile(List.of(response), List.of(foundChatRoom));
+
+        return response;
     }
 
     // 모든 채팅방 조회
@@ -188,7 +212,9 @@ public class ChatRoomService {
 
         ChatRoomStatus status = foundChatRoom.getStatus();
         if (status != ChatRoomStatus.ACTIVE) {
-            chatRoomRepository.delete(foundChatRoom);
+            chatMessageStatusRepository.deleteAll(chatRoomId);
+            chatMessageRepository.deleteByChatRoomId(chatRoomId);
+            chatRoomRepository.deleteById(foundChatRoom.getId());
             return null;
         }
 

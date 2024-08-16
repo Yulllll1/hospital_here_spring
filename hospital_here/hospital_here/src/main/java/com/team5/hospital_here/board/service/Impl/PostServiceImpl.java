@@ -19,6 +19,7 @@ import com.team5.hospital_here.user.entity.Role;
 import com.team5.hospital_here.user.entity.user.User;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
@@ -46,6 +48,8 @@ public class PostServiceImpl implements PostService {
 
         User user = userRepository.findById(customUser.getUser().getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        log.info(customUser.getUser().getImg());
+        user.setImg(customUser.getUser().getImg());
 
         Post post = postRequestDto.toEntity(board, user);
         Post createdPost = postRepository.save(post);
@@ -232,10 +236,12 @@ public class PostServiceImpl implements PostService {
     }
 
     private PostResponseDto createPostResponseDto(Post post, User user) {
+        log.info("유저 이미지 : {}",user.getImg());
         return PostResponseDto.builder()
                 .id(post.getId())
                 .boardId(post.getBoard().getId())
                 .userId(user.getId())
+                .userImg(user.getImg())
                 .userName(user.getName())
                 .title(post.getTitle())
                 .content(post.getContent())
