@@ -9,7 +9,7 @@
 ### 백엔드
 - SpringBoot
 - Spring Data JPA
-- SPring Security
+- Spring Security
 - MySQL
 - JWT
 - Gemini API
