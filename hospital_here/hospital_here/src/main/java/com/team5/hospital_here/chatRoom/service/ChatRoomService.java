@@ -140,13 +140,10 @@ public class ChatRoomService {
 
             if (chatRoomElement.getType() == ChatRoomType.DOCTOR) {
                 if (chatRoomElement.getStatus() != ChatRoomStatus.WAITING) {
-                    DoctorProfile foundDoctorProfile = doctorProfileRepository.findByUser(
+                    doctorProfileRepository.findByUser(
                             chatRooms.get(i).getUser2())
-                        .orElseThrow(() ->
-                            new CustomException(ErrorCode.DOCTOR_PROFILE_NOT_FOUND));
-
-                    chatRoomElement.setDoctorProfile(
-                        new DoctorProfileResponseDTO(foundDoctorProfile));
+                        .ifPresent(foundDoctorProfile -> chatRoomElement.setDoctorProfile(
+                            new DoctorProfileResponseDTO(foundDoctorProfile)));
                 }
             }
         }
