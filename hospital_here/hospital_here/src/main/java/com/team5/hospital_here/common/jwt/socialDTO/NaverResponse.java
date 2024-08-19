@@ -9,6 +9,7 @@ public class NaverResponse implements OAuth2Response{
 
     private final Map<String, Object> attributes;
 
+    @SuppressWarnings("unchecked")
     public NaverResponse(Map<String, Object> attributes) {
         this.attributes = (Map<String, Object>) attributes.get("response");
     }

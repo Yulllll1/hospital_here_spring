@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 
 @Service
 public class HospitalService {
@@ -28,8 +30,10 @@ public class HospitalService {
     @Autowired
     private HospitalDepartmentMapper hospitalDepartmentMapper;
 
-    public Page<Hospital> searchHospitals(String name, String address, String departmentName, Double latitude, Double longitude, int page, int size) {
-        List<Hospital> filteredHospitals = hospitalRepository.searchHospitals(name, address, departmentName);
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+    public Page<Hospital> searchHospitals(String name, String address, String departmentName, List<String> departmentNames, Double latitude, Double longitude, int page, int size) {
+        List<Hospital> filteredHospitals = hospitalRepository.searchHospitals(name, address, departmentName, departmentNames);
 
         if (latitude != null && longitude != null) {
             filteredHospitals.sort((h1, h2) -> {
@@ -52,6 +56,12 @@ public class HospitalService {
         return new PageImpl<>(paginatedHospitals, PageRequest.of(page, size, Sort.by("id").ascending()), filteredHospitals.size());
     }
 
+    public HospitalDTO convertToDtoWithOpenStatus(Hospital hospital, Double distance) {
+        HospitalDTO dto = convertToDto(hospital, distance);
+        dto.setOpenNow(isOpenNow(dto));
+        return dto;
+    }
+
     private Double calculateDistanceOrNull(Double userLat, Double userLon, Double hospitalLat, Double hospitalLon) {
         if (hospitalLat == null || hospitalLon == null) {
             return null;
@@ -59,7 +69,7 @@ public class HospitalService {
         return calculateDistance(userLat, userLon, hospitalLat, hospitalLon);
     }
 
-    private double calculateDistance(double userLat, double userLon, double hospitalLat, double hospitalLon) {
+    public double calculateDistance(double userLat, double userLon, double hospitalLat, double hospitalLon) {
         final int R = 6371;
         double latDistance = Math.toRadians(hospitalLat - userLat);
         double lonDistance = Math.toRadians(hospitalLon - userLon);
@@ -74,7 +84,14 @@ public class HospitalService {
         return hospitalDepartmentMapper.convertToDto(hospital);
     }
 
-    public List<HospitalDTO> getAllHospitalsWithDepartments() {
+    //distance 설정
+    public HospitalDTO convertToDto(Hospital hospital, Double distance) {
+        HospitalDTO dto = convertToDto(hospital);
+        dto.setDistance(distance);
+        return dto;
+    }
+
+    public List<HospitalDTO> getAllHospitalsWithDepartmentsAndOpenStatus(Double userLatitude, Double userLongitude) {
         List<Hospital> hospitals = hospitalRepository.findAll();
         List<HospitalDepartmentDTO> departments = hospitalDepartmentRepository.findAll()
                 .stream()
@@ -84,9 +101,13 @@ public class HospitalService {
         Map<Long, HospitalDTO> hospitalDTOMap = new HashMap<>();
 
         for (Hospital hospital : hospitals) {
-            HospitalDTO dto = convertToDto(hospital);
-            dto.setDepartments(new ArrayList<>());
-            hospitalDTOMap.put(hospital.getId(), dto);
+            // 거리 계산 및 필터링
+            Double distance = calculateDistanceOrNull(userLatitude, userLongitude, hospital.getLatitude(), hospital.getLongitude());
+            if (distance != null && distance <= 5.0) {  // 5km 이내
+                HospitalDTO dto = convertToDto(hospital, distance);
+                dto.setDepartments(new ArrayList<>());
+                hospitalDTOMap.put(hospital.getId(), dto);
+            }
         }
 
         for (HospitalDepartmentDTO department : departments) {
@@ -94,6 +115,11 @@ public class HospitalService {
             if (hospitalDTO != null) {
                 hospitalDTO.getDepartments().add(department.getDepartment());
             }
+        }
+
+        // 모든 DTO에 대해 isOpenNow 속성 설정
+        for (HospitalDTO dto : hospitalDTOMap.values()) {
+            dto.setOpenNow(isOpenNow(dto));
         }
 
         return new ArrayList<>(hospitalDTOMap.values());
@@ -111,9 +137,6 @@ public class HospitalService {
         return hospitalDTO;
     }
 
-
-
-
     public List<Hospital> getHospitalByNameContained(String name){
         List<Hospital> hospitals = hospitalRepository.findByNameContains(name);
         for(Hospital hospital : hospitals){
@@ -124,4 +147,60 @@ public class HospitalService {
 
         return hospitals;
     }
+
+    public boolean isOpenNow(HospitalDTO hospitalDTO) {
+        LocalDateTime now = LocalDateTime.now();
+        DayOfWeek currentDay = now.getDayOfWeek();
+        LocalTime currentTime = now.toLocalTime();
+
+        LocalTime startTime = null;
+        LocalTime endTime = null;
+
+        // 현재 요일에 맞는 영업 시작 및 종료 시간 파싱
+        switch (currentDay) {
+            case MONDAY:
+                startTime = parseTime(hospitalDTO.getMonStartTime());
+                endTime = parseTime(hospitalDTO.getMonEndTime());
+                break;
+            case TUESDAY:
+                startTime = parseTime(hospitalDTO.getTueStartTime());
+                endTime = parseTime(hospitalDTO.getTueEndTime());
+                break;
+            case WEDNESDAY:
+                startTime = parseTime(hospitalDTO.getWedStartTime());
+                endTime = parseTime(hospitalDTO.getWedEndTime());
+                break;
+            case THURSDAY:
+                startTime = parseTime(hospitalDTO.getThuStartTime());
+                endTime = parseTime(hospitalDTO.getThuEndTime());
+                break;
+            case FRIDAY:
+                startTime = parseTime(hospitalDTO.getFriStartTime());
+                endTime = parseTime(hospitalDTO.getFriEndTime());
+                break;
+            case SATURDAY:
+                startTime = parseTime(hospitalDTO.getSatStartTime());
+                endTime = parseTime(hospitalDTO.getSatEndTime());
+                break;
+            case SUNDAY:
+                startTime = parseTime(hospitalDTO.getSunStartTime());
+                endTime = parseTime(hospitalDTO.getSunEndTime());
+                break;
+        }
+
+        if (startTime != null && endTime != null) {
+            return !currentTime.isBefore(startTime) && !currentTime.isAfter(endTime);
+        }
+
+        return false; // 시간 정보가 없으면 영업 중이지 않음으로 처리
+    }
+
+    private LocalTime parseTime(String timeString) {
+        try {
+            return timeString != null ? LocalTime.parse(timeString, TIME_FORMATTER) : null;
+        } catch (DateTimeParseException e) {
+            return null; // 파싱 실패 시 null 반환
+        }
+    }
+
 }

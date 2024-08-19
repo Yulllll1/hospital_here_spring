@@ -4,8 +4,10 @@ package com.team5.hospital_here.user.service;
 import com.team5.hospital_here.common.exception.CustomException;
 import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.CustomUser;
+import com.team5.hospital_here.email.EmailService;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.service.HospitalService;
+import com.team5.hospital_here.user.entity.login.Login;
 import com.team5.hospital_here.user.entity.user.address.AddressDTO;
 import com.team5.hospital_here.user.entity.commonDTO.PasswordDTO;
 import com.team5.hospital_here.user.entity.user.doctorEntity.DoctorProfile;
@@ -36,6 +38,7 @@ public class UserService {
     private final HospitalService hospitalService;
     private final PasswordEncoder passwordEncoder;
     private final DoctorProfileRepository doctorProfileRepository;
+    private final EmailService emailService;
 
     private final String USER_PASSWORD_ALTER_SUCCESS = "비밀번호 변경을 완료했습니다.";
     private final String USER_DELETED_SUCCESS = "회원 탈퇴를 완료했습니다.";
@@ -99,7 +102,9 @@ public class UserService {
      * @return 검색된 모든 회원
      */
     public List<UserDTO> findAllToUserDTOList() {
-        return userRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
+        return userRepository.findAllByLoginStatus("활성화").stream()
+                .map(UserDTO::new)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -167,7 +172,12 @@ public class UserService {
         user.setRole(Role.USER);
         String encodedPassword = encodePassword(userDTO.getPassword());
         user.getLogin().setPassword(encodedPassword);
+        user.getLogin().setStatus("활성화");
         userDTO = UserMapper.toUserDTO(userRepository.save(user));
+
+        emailService.sendEmail(user.getLogin().getEmail(),
+                "가입 축하 메일",
+                "사이트 가입을 축하합니다!\n메인 화면에서 다양한 서비스를 이용해보세요.");
 
         return userDTO;
     }
@@ -262,7 +272,11 @@ public class UserService {
      */
     public String deleteUser(Long id){
         User user = findUserById(id);
-        return deleteUser(user);
+        Login login = user.getLogin();
+        login.setStatus("비활성화");
+        user.setLogin(login);
+        userRepository.save(user);
+        return USER_DELETED_SUCCESS;
     }
 
     /**
@@ -271,7 +285,10 @@ public class UserService {
      * @return 삭제 성공
      */
     public String deleteUser(User user){
-        userRepository.delete(user);
+        Login login = user.getLogin();
+        login.setStatus("비활성화");
+        user.setLogin(login);
+        userRepository.save(user);
         return USER_DELETED_SUCCESS;
     }
 
@@ -367,5 +384,22 @@ public class UserService {
         doctorProfile.setMajor(doctorProfileDTO.getMajor());
 
         return new DoctorProfileResponseDTO(doctorProfileRepository.save(doctorProfile));
+    }
+
+    /**
+     * 회원의 프로필 이미지를 업로드 합니다
+     * @param imageUrl 업로드할 이미지
+     */
+    public void updateProfileImage(CustomUser customUser, String imageUrl)
+    {
+        User user = customUser.getUser();
+        user.setImg(imageUrl);
+        userRepository.save(user);
+    }
+
+    public String getImg(Long userId)
+    {
+        String imgUrl = userRepository.findById(userId).get().getImg();
+        return imgUrl;
     }
 }

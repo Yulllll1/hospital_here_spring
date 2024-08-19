@@ -14,9 +14,9 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration();
 
-        //TODO: 배포시 Origins 추가 필요
-        config.setAllowedOriginPatterns(List.of("http://34.64.103.17"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH"));
+        config.setAllowedOriginPatterns(
+            List.of("https://34.64.103.17", "https://kdt-cloud-3-team05-final.elicecoding.com", "http://localhost:3000", "https://localhost"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("Authorization"));
         config.setMaxAge(3600L);

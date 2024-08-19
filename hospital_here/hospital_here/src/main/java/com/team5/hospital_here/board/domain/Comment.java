@@ -39,6 +39,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
+    @Builder.Default
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
 
@@ -53,6 +54,9 @@ public class Comment extends BaseEntity {
                 .userId(this.user != null ? this.user.getId() : null)
                 .content(this.content)
                 .parentId(this.parent != null ? this.parent.getId() : null)
+                .userName(this.user.getName())
+                .createdAt(this.getCreatedAt())
+                .updatedAt(this.getUpdatedAt())
                 .build();
     }
 }

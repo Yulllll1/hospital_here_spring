@@ -21,6 +21,7 @@ public class ReviewMapper {
         reviewDTO.setContent(reviewEntity.getContent());
         reviewDTO.setRating(reviewEntity.getRating());
         reviewDTO.setHospitalId(reviewEntity.getHospital().getId());
+        reviewDTO.setCreated_At(reviewEntity.getCreatedAt());
         return reviewDTO;
     }
 }

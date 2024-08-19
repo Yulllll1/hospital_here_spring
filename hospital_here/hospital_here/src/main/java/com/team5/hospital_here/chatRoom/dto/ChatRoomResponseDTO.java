@@ -21,4 +21,5 @@ public class ChatRoomResponseDTO {
     private String createdAt;
     private String updatedAt;
     private DoctorProfileResponseDTO doctorProfile;
+    private Integer newMessageCount;
 }

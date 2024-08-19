@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+
 @RestController
 @RequiredArgsConstructor
 public class LoginController {
@@ -37,5 +38,45 @@ public class LoginController {
     @GetMapping("/refresh-token")
     public ResponseEntity<String> refreshToken(@CookieValue String refreshToken, HttpServletResponse response){
         return ResponseEntity.ok(loginService.createNewAccessToken(refreshToken, response));
+    }
+
+    @PostMapping("/email-verified")
+    public ResponseEntity<String> emailVerified(@RequestBody Map<String, String> request){
+        String email = request.get("email");
+        loginService.verified(email);
+        return ResponseEntity.ok("인증번호 발송 성공");
+    }
+
+    @PostMapping("/register/email")
+    public ResponseEntity<String> registerEmail(@RequestBody Map<String, String> request){
+        String email = request.get("email");
+        loginService.registerEmail(email);
+        return ResponseEntity.ok("인증번호 발송 성공");
+    }
+
+    @PostMapping("/register/email/success")
+    public ResponseEntity<String> registerEmailSuccess(@RequestBody Map<String, String> request){
+        String email = request.get("email");
+        String verified = request.get("verified");
+
+        return ResponseEntity.ok(loginService.searchCode(verified, email));
+
+    }
+
+    @PostMapping("/password-reset")
+    public ResponseEntity<String> passwordReset(@RequestBody Map<String, String> request)
+    {
+        String verified = request.get("verified");
+        loginService.resetPassword(verified);
+        return ResponseEntity.ok("비밀번호 리셋 성공");
+    }
+
+    @PostMapping("/email-search")
+    public ResponseEntity<String> emailSearch(@RequestBody Map<String, String> request)
+    {
+        String userName = request.get("userName");
+        String phoneNumber = request.get("phoneNumber");
+
+        return ResponseEntity.ok(loginService.emailFind(userName, phoneNumber));
     }
 }

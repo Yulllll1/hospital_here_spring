@@ -61,7 +61,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 //        response.addCookie(cookie);
 
 
-        response.sendRedirect("http://localhost:3000/social-login-success?token=" + token + "&userId=" + userId + "&role=" + role);
+        response.sendRedirect("https://kdt-cloud-3-team05-final.elicecoding.com/social-login-success?token=" + token + "&userId=" + userId + "&role=" + role);
         //response.sendRedirect("http://localhost:3000/social-login-success?token=" + token);
 
     }

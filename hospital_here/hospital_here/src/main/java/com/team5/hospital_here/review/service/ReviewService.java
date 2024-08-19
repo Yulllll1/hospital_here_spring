@@ -5,19 +5,21 @@ import com.team5.hospital_here.common.exception.ErrorCode;
 import com.team5.hospital_here.common.jwt.CustomUser;
 import com.team5.hospital_here.hospital.entity.Hospital;
 import com.team5.hospital_here.hospital.repository.HospitalRepository;
+import com.team5.hospital_here.review.entity.AvgReviewDTO;
 import com.team5.hospital_here.review.entity.ReviewDTO;
 import com.team5.hospital_here.review.entity.ReviewEntity;
 import com.team5.hospital_here.review.entity.ReviewMapper;
 import com.team5.hospital_here.review.repository.ReviewRepository;
+import com.team5.hospital_here.user.entity.UserMapper;
 import com.team5.hospital_here.user.entity.user.User;
+import com.team5.hospital_here.user.entity.user.UserDTO;
 import com.team5.hospital_here.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,6 +44,9 @@ public class ReviewService {
         return reviewEntities.stream()
                 .map(ReviewMapper::toReviewDTO)
                 .toList();
+    }
+    public String findUserNameById(Long id){
+        return userRepository.findById(id).get().getName();
     }
 
     public void createReview(Long hospitalId, ReviewDTO reviewDTO) {
@@ -95,6 +100,28 @@ public class ReviewService {
         return reviewEntities.stream()
                 .map(ReviewMapper::toReviewDTO)
                 .toList();
+    }
+
+    public Page<ReviewDTO> findByUserPage(Long userId, Pageable pageable) {
+        Page<ReviewEntity> reviewEntities = reviewRepository.findByUserId(userId, pageable);
+        return reviewEntities.map(ReviewMapper::toReviewDTO);
+    }
+
+    public Page<ReviewDTO> findByHospitalIdPage(Long hospitalId, Pageable pageable) {
+        Page<ReviewEntity> reviewEntities = reviewRepository.findByHospitalId(hospitalId, pageable);
+        return reviewEntities.map(ReviewMapper::toReviewDTO);
+    }
+    public AvgReviewDTO avgRating(Long hospitalId) {
+
+        Optional<Double> avgOptional = reviewRepository.findAverageRating(hospitalId);
+        double avg = avgOptional.orElse(0.0);
+        int count = reviewRepository.findByHospitalId(hospitalId).size();
+        double roundedAvg = Math.round(avg * 10) / 10.0;
+        AvgReviewDTO avgReviewDTO = new AvgReviewDTO();
+        avgReviewDTO.setAvgRating(roundedAvg);
+        avgReviewDTO.setReviewCount(count);
+        return avgReviewDTO;
+
     }
 
 
